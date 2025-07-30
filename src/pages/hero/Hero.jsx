@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../utils/AuthContext";
 import { motion } from "framer-motion";
 import logo from "../../assets/images/logo.png";
-import preview from "../../assets/images/preview.png";
+import heroimg from "../../assets/images/heroimg.png";
 import HowItWorks from "./HowItWorks";
 import Stats from "./Stats";
 import About from "./About";
@@ -195,6 +195,7 @@ const Hero = () => {
                     )}
                   </div>
                 </div>
+
               </div>
               <div className="flex items-center justify-center mt-16 space-x-6 lg:justify-start sm:space-x-8">
                 <div className="flex items-center">
@@ -205,6 +206,72 @@ const Hero = () => {
                     Memories
                     <br /> Delivered
                   </p>
+
+                                <div className="hidden sm:block">
+                                    <svg
+                                        className="text-gray-400 dark:text-gray-600"
+                                        width="16"
+                                        height="39"
+                                        viewBox="0 0 16 39"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <line
+                                            x1="0.72265"
+                                            y1="10.584"
+                                            x2="15.7226"
+                                            y2="0.583975"
+                                        ></line>
+                                        <line
+                                            x1="0.72265"
+                                            y1="17.584"
+                                            x2="15.7226"
+                                            y2="7.58398"
+                                        ></line>
+                                        <line
+                                            x1="0.72265"
+                                            y1="24.584"
+                                            x2="15.7226"
+                                            y2="14.584"
+                                        ></line>
+                                        <line
+                                            x1="0.72265"
+                                            y1="31.584"
+                                            x2="15.7226"
+                                            y2="21.584"
+                                        ></line>
+                                        <line
+                                            x1="0.72265"
+                                            y1="38.584"
+                                            x2="15.7226"
+                                            y2="28.584"
+                                        ></line>
+                                    </svg>
+                                </div>
+
+                                <div className="flex items-center">
+                                    <p className="text-3xl font-medium text-gray-900 dark:text-gray-100 sm:text-4xl font-pj">
+                                        120+
+                                    </p>
+                                    <p className="ml-3 text-sm text-gray-900 dark:text-gray-100 font-pj">
+                                        Happy
+                                        <br /> Traveller
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <img
+                                className="w-4/4 mx-auto no-drag"
+                                src={heroimg}
+                                alt="Preview of the Travel-Book"
+                                draggable="false"
+                            />
+                        </div>
+                    </div>
+
                 </div>
                 <div className="hidden sm:block">
                   <svg

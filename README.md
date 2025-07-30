@@ -1,5 +1,6 @@
 # [Travel-Book](https://travelbook.sahilfolio.live/)
-![preview img](src/assets/images/github.png)
+<img width="1920" height="1029" alt="Screenshot 2025-07-28 024338" src="https://github.com/user-attachments/assets/5236f6d7-0379-490c-b825-f8f618d0fd3c" />
+
 
 ### To check the status of the servers (Frontend server and Backend server) - [Click here](https://stats.uptimerobot.com/4klrGTjcP6)
 
