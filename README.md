@@ -53,6 +53,91 @@ Perfect for UI/UX improvements, component development, and feature testing!
 
 Travel Book is a modern web application designed to help users document, organize, and share their travel experiences. It serves as a digital travel journal where users can record memories, photos, and details about places they've visited. The platform provides a user-friendly interface for travelers to create a personal collection of travel stories, organize them by location and date, and optionally share them with others.
 
+## Project Structure
+
+```bash
+Travel-Book/
+├── .github/
+├── Travel-Book/            
+├── public/                    
+│       ├── assets/images/
+│       │     ├── bg-image.png
+│       │     ├── logo.png
+│       │     └── sign-up.png
+│       ├── avatar-.png/
+│       ├── avatar-default.png
+│       ├── logo.png    
+│       └── vite.svg                   
+├── src/
+│       ├── assets/images/
+│       ├── components/
+│       │     ├── Auth/
+│       │     ├── Cards/
+│       │     ├── Footer/
+│       │     ├── Input/
+│       │     ├── Modals/
+│       │     ├── Navbar/
+│       │     ├── Onboarding/
+│       │     ├── ThemeToggle/
+│       │     ├── BackToTopButton.jsx
+│       │     ├── EnvDebug.jsx
+│       │     ├── MockDataBadge.jsx
+│       │     ├── MockModeNotification.jsx
+│       │     ├── Navbar.jsx
+│       │     └── Toaster.jsx
+│       ├── pages/
+│       │     ├── Auth/
+│       │     ├── Contributors/
+│       │     ├── admin/
+│       │     ├── hero/
+│       │     ├── home/
+│       │     ├── legal/
+│       │     ├── profile/
+│       │     └── mistake.jsx
+│       ├── utils/
+│       │     ├── AuthContext.jsx
+│       │     ├── ProtectedRoute.jsx
+│       │     ├── authErrorHandler.js
+│       │     ├── authErrorHandler.jsx
+│       │     ├── axiosInstance.js
+│       │     ├── constants.js
+│       │     ├── firebase.js
+│       │     ├── helper.js
+│       │     ├── mockApiService.js
+│       │     ├── mockData.js
+│       │     ├── mockFirebase.js
+│       │     └── uploadImage.js
+│       ├── App.jsx
+│       ├── index.css
+│       ├── main.jsx
+│       └── scrollbar.css             
+├── .env.example              
+├── .gitignore               
+├── README.MD                   
+├── CODE_OF_CONDUCT.md                        
+├── CONTRIBUTING.md   
+├── CONTRIBUTORS_RECOGNITION_GUIDE.md            
+├── LICENSE                
+├── MOCK_SYSTEM.md              
+├── PROJECT_STRUCTURE.md                            
+├── QUICKSTART.md
+├── README.md 
+├── SECURITY.md    
+├── Travel-Book-Overview.mp4    
+├── article-logo.png    
+├── eslint.config.js
+├── index.html    
+├── package-lock.json  
+├── package.json    
+├── postcss.config.js  
+├── setup.js  
+├── tailwind.config.js   
+├── vercel.json                       
+└── vite.config.js             
+          
+
+```
+
 ## Purpose & Vision
 
 The primary purpose of Travel Book is to give travelers a dedicated space to preserve their travel memories in a structured and visually appealing way. Rather than having travel photos scattered across different devices or social media platforms, Travel Book centralizes these experiences into a cohesive travel journal that can be accessed from anywhere.
