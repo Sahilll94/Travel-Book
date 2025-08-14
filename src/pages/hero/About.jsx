@@ -1,326 +1,117 @@
+import {
+  BookOpen,
+  FunctionSquare,
+  FileSignature,
+  TextSearchIcon,
+  SquaresExcludeIcon,
+  FileChartColumn,
+} from "lucide-react";
 const About = () => {
+  const features = [
+    {
+      icon: BookOpen,
+      title: "Overview",
+      description:
+        "Travel-Book is an online platform designed to simplify the process of preserving your core travel memories and share it with your loved ones, with a user-friendly interface and a wide range of options.",
+      gradient: "from-purple-500 to-blue-500",
+    },
+    {
+      icon: FunctionSquare,
+      title: "Future",
+      description:
+        "The platform will evolve with added features such as user reviews, personalized recommendations, and integration with popular travel APIs for better service",
+      gradient: "from-blue-500 to-cyan-500",
+    },
+    {
+      icon: FileSignature,
+      title: "Features",
+      description:
+        'The app lets users store travel memories as a diary, including a title, start date, image, detailed description, and visited locations. Users can update and share their memories by clicking "Update this story" and copying the link to their clipboard or sharing it on their Instagram story.',
+      gradient: "from-cyan-500 to-green-500",
+    },
+    {
+      icon: TextSearchIcon,
+      title: "Technology",
+      description:
+        "Built with React, Node.js, and MongoDB, the platform ensures a fast and reliable experience for users to browse and book trips effortlessly.",
+      gradient: "from-green-500 to-yellow-500",
+    },
+    {
+      icon: SquaresExcludeIcon,
+      title: "Security",
+      description:
+        "User data is securely handled with encryption protocols, ensuring personal information and payment details are kept private and safe from unauthorized access.",
+      gradient: "from-yellow-500 to-orange-500",
+    },
+    {
+      icon: FileChartColumn,
+      title: "Design",
+      description:
+        "The website uses modern, responsive design principles to ensure a seamless experience on desktops, tablets, and smartphones, with easy navigation.",
+      gradient: "from-orange-500 to-red-500",
+    },
+  ];
   return (
     <>
-      <section className="py-12 bg-white dark:bg-gray-900 sm:py-16 lg:py-20">
-      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        {/* header */}
-        <div className="text-center">
-          <h2 className="text-3xl font-bold leading-tight text-gray-900 dark:text-gray-100 sm:text-4xl xl:text-5xl font-pj">
-            About Travel-Book
-          </h2>
-          <p className="mt-4 text-base leading-7 text-gray-600 dark:text-gray-300 sm:mt-8 font-pj max-w-2xl mx-auto">
-            Travel-Book is your digital companion for preserving, sharing, and revisiting your travel experiences.
-            Whether it's a weekend getaway or an international adventure, our platform helps you capture the essence
-            of your journeys in an engaging, interactive format.
-          </p>
-        </div>
-        {/* feature cards */}
-        <div className="grid grid-cols-1 mt-10 text-center sm:mt-16 sm:grid-cols-2 sm:gap-x-12 gap-y-12 md:grid-cols-3 md:gap-0 xl:mt-24">
-          <div className="md:p-8 border border-gray-200 dark:border-gray-700 lg:p-14 transition transform hover:scale-105 hover:shadow-xl rounded-xl bg-gray-50 dark:bg-gray-800 hover:bg-white dark:hover:bg-gray-700 duration-300">
-            <svg
-              className="mx-auto"
-              width="46"
-              height="46"
-              viewBox="0 0 46 46"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M45 29V23C45 10.85 35.15 1 23 1C10.85 1 1 10.85 1 23V29"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M13 29H1V41C1 43.209 2.791 45 5 45H13V29Z"
-                fill="#D4D4D8"
-                className="dark:fill-gray-600"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M45 29H33V45H41C43.209 45 45 43.209 45 41V29Z"
-                fill="#D4D4D8"
-                className="dark:fill-gray-600"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <h3 className="mt-12 text-xl font-bold text-gray-900 dark:text-gray-100 font-pj">
-              Overview
-            </h3>
-            <p className="mt-5 text-base text-gray-600 dark:text-gray-300 font-pj">
-              Travel-Book is an online platform designed to simplify the process
-              of preserving your core travel memories and share it with your
-              loved ones, with a user-friendly interface and a wide range of
-              options.
-            </p>
-          </div>
-          <div className="md:p-8 lg:p-14 border border-gray-200 dark:border-gray-700 transition transform hover:scale-105 hover:shadow-xl rounded-xl bg-gray-50 dark:bg-gray-800 hover:bg-white dark:hover:bg-gray-700 duration-300">
-            <svg
-              className="mx-auto"
-              width="46"
-              height="46"
-              viewBox="0 0 46 46"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M27 27H19V45H27V27Z"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M9 37H1V45H9V37Z"
-                fill="#D4D4D8"
-                className="dark:fill-gray-600"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M45 17H37V45H45V17Z"
-                fill="#D4D4D8"
-                className="dark:fill-gray-600"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M5 17L15 7L23 15L37 1"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M28 1H37V10"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <h3 className="mt-12 text-xl font-bold text-gray-900 dark:text-gray-100 font-pj">
-              Future
-            </h3>
-            <p className="mt-5 text-base text-gray-600 dark:text-gray-300 font-pj">
-              The platform will evolve with added features such as user reviews,
-              personalized recommendations, and integration with popular travel
-              APIs for better service.
+      <section id="features" className="py-20 sm:py-24 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Section Header */}
+          <div className="text-center mb-16 sm:mb-20">
+            <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-6">
+              <span className="bg-gradient-to-r from-black to-gray-600 dark:from-gray-100 dark:to-gray-400 bg-clip-text text-transparent">
+                About Travel-Book
+              </span>
+            </h2>
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+              Travel-Book is your digital companion for preserving, sharing, and
+              revisiting your travel experiences. Whether it's a weekend getaway
+              or an international adventure, our platform helps you capture the
+              essence of your journeys in an engaging, interactive format.
             </p>
           </div>
 
-          <div className="md:p-8 lg:p-14 border border-gray-200 dark:border-gray-700 transition transform hover:scale-105 hover:shadow-xl rounded-xl bg-gray-50 dark:bg-gray-800 hover:bg-white dark:hover:bg-gray-700 duration-300">
-            <svg
-              className="mx-auto"
-              width="42"
-              height="42"
-              viewBox="0 0 42 42"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M41 1H1V41H41V1Z"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M18 7H7V20H18V7Z"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M18 26H7V35H18V26Z"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M35 7H24V35H35V7Z"
-                fill="#D4D4D8"
-                className="dark:fill-gray-600"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <h3 className="mt-12 text-xl font-bold text-gray-900 dark:text-gray-100 font-pj">
-              Features
-            </h3>
-            <p className="mt-5 text-base text-gray-600 dark:text-gray-300 font-pj">
-              The app lets users store travel memories as a diary, including a
-              title, start date, image, detailed description, and visited
-              locations. Users can update and share their memories by clicking
-              "Update this story" and copying the link to their clipboard or
-              sharing it on their Instagram story.
-            </p>
+          {/* Features Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {features.map((feature, index) => (
+              <div
+                key={index}
+                className="group relative bg-gray-200  dark:bg-black/50 backdrop-blur-sm border border-black/50 dark:border-white/10 rounded-2xl p-6 sm:p-8 hover:border-blue-400 dark:hover:border-purple-500/30 transition-all duration-500 hover:scale-105"
+              >
+                {/* Background Glow */}
+                <div
+                  className={`absolute inset-0 bg-gradient-to-r ${feature.gradient} opacity-0 group-hover:opacity-5 rounded-2xl transition-opacity duration-500`}
+                ></div>
+
+                {/* Icon */}
+                <div
+                  className={`w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-r ${feature.gradient} rounded-xl flex items-center justify-center mb-5`}
+                >
+                  <feature.icon className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
+                </div>
+
+                {/* Content */}
+                <h3 className="text-xl sm:text-2xl font-bold text-black dark:text-white mb-3 sm:mb-4 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:from-blue-700 group-hover:to-pink-500 dark:group-hover:from-purple-400 dark:group-hover:to-blue-400 transition-all duration-300">
+                  {feature.title}
+                </h3>
+                <p className="dark:text-gray-400 text-gray-700 text-sm sm:text-base mb-5 leading-relaxed">
+                  {feature.description}
+                </p>
+
+                {/* Hover Effect Glow */}
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-fuchsia-600 to-blue-600 rounded-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur"></div>
+              </div>
+            ))}
           </div>
 
-          <div className="md:p-8 lg:p-14 border border-gray-200 dark:border-gray-700 transition transform hover:scale-105 hover:shadow-xl rounded-xl bg-gray-50 dark:bg-gray-800 hover:bg-white dark:hover:bg-gray-700 duration-300">
-            <svg
-              className="mx-auto"
-              width="42"
-              height="42"
-              viewBox="0 0 42 42"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M9.66667 25H6C3.23858 25 1 27.2386 1 30V37C1 39.7614 3.23858 42 6 42H36C38.7614 42 41 39.7614 41 37V30C41 27.2386 38.7614 25 36 25H31.8333C30.2685 25 29 26.2685 29 27.8333C29 29.3981 27.7315 30.6667 26.1667 30.6667H15.3333C13.7685 30.6667 12.5 29.3981 12.5 27.8333C12.5 26.2685 11.2315 25 9.66667 25Z"
-                fill="#D4D4D8"
-                className="dark:fill-gray-600"
-              />
-              <path
-                d="M9 9H33"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M9 17H33"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M1 25H13V31H29V25H41"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M37 1H5C2.79086 1 1 2.79086 1 5V37C1 39.2091 2.79086 41 5 41H37C39.2091 41 41 39.2091 41 37V5C41 2.79086 39.2091 1 37 1Z"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <h3 className="mt-12 text-xl font-bold text-gray-900 dark:text-gray-100 font-pj">
-              Technology
-            </h3>
-            <p className="mt-5 text-base text-gray-600 dark:text-gray-300 font-pj">
-              Built with React, Node.js, and MongoDB, the platform ensures a
-              fast and reliable experience for users to browse and book trips
-              effortlessly.
-            </p>
-          </div>
-
-          <div className="md:p-8 lg:p-14 border border-gray-200 dark:border-gray-700 transition transform hover:scale-105 hover:shadow-xl rounded-xl bg-gray-50 dark:bg-gray-800 hover:bg-white dark:hover:bg-gray-700 duration-300">
-            <svg
-              className="mx-auto"
-              width="46"
-              height="42"
-              viewBox="0 0 46 42"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M30.562 18.4609C30.0511 17.9392 29.4292 17.5392 28.7426 17.2907C28.0559 17.0422 27.3221 16.9516 26.5956 17.0256C25.8692 17.0996 25.1687 17.3362 24.5462 17.718C23.9237 18.0998 23.3952 18.6169 23 19.2309C22.6049 18.6167 22.0764 18.0995 21.4539 17.7176C20.8315 17.3357 20.1309 17.099 19.4044 17.025C18.6779 16.951 17.944 17.0417 17.2573 17.2903C16.5706 17.5389 15.9488 17.939 15.438 18.4609C14.5163 19.4035 14.0002 20.6695 14.0002 21.9879C14.0002 23.3063 14.5163 24.5722 15.438 25.5149L23 33.1999L30.564 25.5159C31.485 24.5726 32.0004 23.3064 32 21.988C31.9997 20.6696 31.4835 19.4037 30.562 18.4609Z"
-                fill="#D4D4D8"
-                className="dark:fill-gray-600"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M41 41H5C3.93913 41 2.92172 40.5786 2.17157 39.8284C1.42143 39.0783 1 38.0609 1 37V1H17L22 9H45V37C45 38.0609 44.5786 39.0783 43.8284 39.8284C43.0783 40.5786 42.0609 41 41 41Z"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <h3 className="mt-12 text-xl font-bold text-gray-900 dark:text-gray-100 font-pj">
-              Security
-            </h3>
-            <p className="mt-5 text-base text-gray-600 dark:text-gray-300 font-pj">
-              User data is securely handled with encryption protocols, ensuring
-              personal information and payment details are kept private and safe
-              from unauthorized access.
-            </p>
-          </div>
-
-          <div className="md:p-8 lg:p-14 border border-gray-200 dark:border-gray-700 transition transform hover:scale-105 hover:shadow-xl rounded-xl bg-gray-50 dark:bg-gray-800 hover:bg-white dark:hover:bg-gray-700 duration-300">
-            <svg
-              className="mx-auto"
-              width="44"
-              height="44"
-              viewBox="0 0 44 44"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M25 7C34.941 7 43 15.059 43 25C43 34.941 34.941 43 25 43C15.059 43 7 34.941 7 25"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M19 1C9.059 1 1 9.059 1 19H19V1Z"
-                fill="#D4D4D8"
-                className="dark:fill-gray-600"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <h3 className="mt-12 text-xl font-bold text-gray-900 dark:text-gray-100 font-pj">
-              Design
-            </h3>
-            <p className="mt-5 text-base text-gray-600 dark:text-gray-300 font-pj">
-              The website uses modern, responsive design principles to ensure a
-              seamless experience on desktops, tablets, and smartphones, with
-              easy navigation.
-            </p>
+          {/* Bottom CTA */}
+          <div className="text-center mt-14 sm:mt-16">
+            <button className="text-sm sm:text-base bg-gradient-to-r from-fuchsia-600 to-blue-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold hover:shadow-2xl hover:shadow-purple-500/25 transition-all duration-300 transform hover:scale-105">
+              <a href="/signup">Create Your Story</a>
+            </button>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
     </>
-
   );
 };
 export default About;
