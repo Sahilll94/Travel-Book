@@ -10,29 +10,24 @@
 
 **New to contributing?** We've made it super easy to get started with mock data!
 
-
-
-
-
-
 1. **Fork the project:** 
 
    Fork this repo on GitHub
 
+   <div align="center">
+   <img src="src/assets/images/fork eg.jpeg" alt="Fork Button" width="800">
+   </div>
 
-   <img src="src/assets/images/fork eg.jpeg" alt="Fork Button" width="400">
-   
+2. **Copy fork's link:**
 
-2. **Cpoy fork's link:**
-
-   Copy your fork’s link, e.g.:  
-   For example: (https://github.com/*your-github-id*/Travel-Book.git)  
-
-   <img src="src/assets/images/clone link.jpeg" alt="Fork Button" width="400">
+   Copy your fork’s link, For example: `https://github.com/YOUR_GITHUB_ID/Travel-Book.git`  
+   <div align="center">
+   <img src="src/assets/images/clone link.jpeg" alt="Fork Button" width="800">
+   </div>
 
 3. **Clone and install:**
    ```bash
-   git clone git clone https://github.com/<your-github-id>/Travel-Book.git # Copied link
+   git clone git clone https://github.com/YOUR_GITHUB_ID/Travel-Book.git # Copied link
    cd Travel-Book
    npm install
    ```
