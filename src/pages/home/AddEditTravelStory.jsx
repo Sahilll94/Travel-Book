@@ -65,7 +65,10 @@ const AddEditTravelStory = ({
         setShowMobileNav(!showMobileNav);
     };
 
+
+    const autoAdvanceEnabled = false;
     useEffect(() => {
+        if (!autoAdvanceEnabled) return;
         const isMobile = window.innerWidth < 768;
         
         // Only auto-advance for new stories (type === "add"), not when editing
