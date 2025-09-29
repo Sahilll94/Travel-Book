@@ -24,8 +24,10 @@ const Hero = () => {
 
     return (
         <div className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
-            <header className="py-4 md:py-6">
-                <div className="container px-4 mx-auto sm:px-6 lg:px-8">
+            <header className="hero">
+                <nav className="py-4">
+                    <div className="container">
+                <div className="container  px-4 mx-auto sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between">
                         <div className="flex-shrink-0">
                             <Link
@@ -84,6 +86,7 @@ const Hero = () => {
                                 Contributors
                             </a>
                         </div>
+                    
 
                         <div className="flex items-center">
                             <ThemeToggle /> {/* Added ThemeToggle component */}
@@ -133,7 +136,6 @@ const Hero = () => {
                             <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 text-xs font-medium text-gray-700 dark:text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                             Blog
                             </div>
-
                             </div>
 
                           {/* GitHub Icon with Tooltip */}
@@ -155,10 +157,11 @@ const Hero = () => {
                         </div>
                     </div>
                 </div>
+                </div>
+                </nav>
             </header>
-
-            <section id="hero" className="pt-12 pb-12 sm:pb-16 lg:pt-8">
-                <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <section id="hero" className="pt-12 pb-12 sm:pb-16 lg:pt-8 ">
+                <div className="mt-20 px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="grid max-w-lg grid-cols-1 mx-auto lg:max-w-full lg:items-center lg:grid-cols-2 gap-y-12 lg:gap-x-16">
                         <div>
                             <div className="text-center lg:text-left">
