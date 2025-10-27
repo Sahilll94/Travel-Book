@@ -133,7 +133,7 @@ const ChatBot = () => {
 
       {/* Chatbot Window */}
       {isOpen && (
-          <div className="fixed bottom-6 left-6 w-96 h-[900px] bg-white dark:bg-gray-900 rounded-2xl shadow-lg flex flex-col overflow-hidden z-50 animate-in slide-in-from-bottom-4 duration-300 border border-gray-200 dark:border-gray-700">
+          <div className="fixed inset-0 md:inset-auto md:bottom-6 md:left-6 w-full md:w-96 h-full md:h-[800px] bg-white dark:bg-gray-900 rounded-none md:rounded-2xl shadow-lg flex flex-col overflow-hidden z-50 animate-in slide-in-from-bottom-4 duration-300 border-0 md:border border-gray-200 dark:border-gray-700">
             {/* Header - Minimalist */}
             <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3 flex items-center justify-between">
               <h3 className="font-semibold text-gray-900 dark:text-white text-sm">Travel Bot</h3>
@@ -170,7 +170,7 @@ const ChatBot = () => {
                     className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'} animate-fadeIn`}
                   >
                     <div
-                      className={`max-w-xs px-3 py-2 rounded-lg text-sm ${
+                      className={`max-w-xs sm:max-w-sm px-3 py-2 rounded-lg text-sm ${
                         msg.sender === 'user'
                           ? 'bg-blue-500 text-white rounded-br-none'
                           : 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded-bl-none'
