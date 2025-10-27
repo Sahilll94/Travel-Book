@@ -105,7 +105,7 @@ const ChatBot = () => {
   return (
     <>
       {/* Chatbot Floating Button */}
-      <div className="fixed bottom-6 right-6 z-40">
+      <div className="fixed bottom-6 left-6 z-40">
         {!isOpen ? (
           <button
             onClick={() => setIsOpen(true)}
@@ -119,7 +119,7 @@ const ChatBot = () => {
 
             {/* Welcome message bubble - shows when closed */}
             {!isOpen && (
-              <div className="absolute bottom-20 right-0 max-w-xs mb-2 animate-in fade-in slide-in-from-bottom-2 duration-500">
+              <div className="absolute bottom-20 left-0 max-w-xs mb-2 animate-in fade-in slide-in-from-bottom-2 duration-500">
                 {/* Compact Welcome Bubble */}
                 <div className="bg-gray-800 dark:bg-gray-700 text-white rounded-lg shadow-lg px-3 py-2 text-xs">
                   <p className="font-semibold">What's up Traveller? 👋</p>
@@ -133,7 +133,7 @@ const ChatBot = () => {
 
       {/* Chatbot Window */}
       {isOpen && (
-          <div className="fixed bottom-6 right-6 w-96 h-[900px] bg-white dark:bg-gray-900 rounded-2xl shadow-lg flex flex-col overflow-hidden z-50 animate-in slide-in-from-bottom-4 duration-300 border border-gray-200 dark:border-gray-700">
+          <div className="fixed bottom-6 left-6 w-96 h-[900px] bg-white dark:bg-gray-900 rounded-2xl shadow-lg flex flex-col overflow-hidden z-50 animate-in slide-in-from-bottom-4 duration-300 border border-gray-200 dark:border-gray-700">
             {/* Header - Minimalist */}
             <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3 flex items-center justify-between">
               <h3 className="font-semibold text-gray-900 dark:text-white text-sm">Travel Bot</h3>
