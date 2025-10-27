@@ -8,6 +8,8 @@ import ProtectedRoute from './utils/ProtectedRoute';
 import MockModeNotification from './components/MockModeNotification';
 import MockDataBadge from './components/MockDataBadge';
 import BackToTopButton from './components/BackToTopButton';
+import ChatBot from './components/ChatBot/ChatBot';
+import './components/ChatBot/chatbot.css';
 
 // Lazy loaded components
 const Login = lazy(() => import('./pages/Auth/login.jsx'));
@@ -66,6 +68,9 @@ const App = () => {
 
                 {/* Back to Top Button */}
                 <BackToTopButton />
+
+                {/* ChatBot Widget */}
+                <ChatBot />
               </div>
             </Suspense>
           </AuthProvider>

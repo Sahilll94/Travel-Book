@@ -27,7 +27,7 @@
 
 3. **Clone and install:**
    ```bash
-   git clone https://github.com/sahilll94/Travel-Book.git # Copied link
+   git clone https://github.com/YOUR_GITHUB_ID/Travel-Book.git
    cd Travel-Book
    npm install
    ```
