@@ -1,70 +1,74 @@
 # [Travel-Book](https://travelbook.sahilfolio.live/)
 <img width="1920" height="1029" alt="Screenshot 2025-07-28 024338" src="https://github.com/user-attachments/assets/5236f6d7-0379-490c-b825-f8f618d0fd3c" />
 
-
 ### To check the status of the servers (Frontend server and Backend server) - [Click here](https://stats.uptimerobot.com/4klrGTjcP6)
 
-> Here is the Backend GitHub Repository : [Travel-Book Backend Repository](https://github.com/Sahilll94/Travel-Book-Backend-Repository)
+## Repositories
+
+- **Backend API**: [Travel-Book Backend Repository](https://github.com/Sahilll94/Travel-Book-Backend)
+- **Frontend**: [Travel-Book Frontend Repository](https://github.com/Sahilll94/Travel-Book)
 
 # Travel Book - Your Digital Travel Journal
 
 ## Quick Start for Contributors
 
-**New to contributing?** We've made it super easy to get started with mock data!
+### Prerequisites
 
-1. **Fork the project:** 
+Before you begin, ensure you have the following installed:
+- Node.js (v16 or higher)
+- npm or yarn package manager
+- Git for version control
+- MongoDB (for backend setup, or use MongoDB Atlas)
 
-   Fork this repo on GitHub
+### Setup Instructions
 
-   <div align="center">
-   <img src="src/assets/images/fork eg.jpeg" alt="Fork Button" width="800">
-   </div>
+1. **Fork both repositories**
 
-2. **Copy fork's link:**
+   Fork the [Frontend](https://github.com/Sahilll94/Travel-Book) and [Backend](https://github.com/Sahilll94/Travel-Book-Backend) repositories to your GitHub account.
 
-   Copy your fork’s link, For example: `https://github.com/YOUR_GITHUB_ID/Travel-Book.git`  
-   <div align="center">
-   <img src="src/assets/images/clone link.jpeg" alt="Fork Button" width="800">
-   </div>
+2. **Clone the repositories**
 
-3. **Clone and install:**
    ```bash
+   # Clone Frontend
    git clone https://github.com/YOUR_GITHUB_ID/Travel-Book.git
    cd Travel-Book
+   
+   # Clone Backend in a separate directory
+   cd ..
+   git clone https://github.com/YOUR_GITHUB_ID/Travel-Book-Backend.git
+   ```
+
+3. **Set up the Backend**
+
+   ```bash
+   cd Travel-Book-Backend
    npm install
-   ```
-
-4. **Set up environment:**
-   ```bash
    cp .env.example .env
-   # The default settings in .env.example enable mock mode
-   ```
-
-5. **Start developing:**
-   ```bash
+   # Update .env with your configuration (MongoDB, Firebase, Cloudinary, etc.)
    npm run dev
    ```
 
-6. **Login with any credentials:**
-   - Email: Any valid email format
-   - Password: Any password
-   - **That's it!** All features work with realistic mock data.
+   The backend will be running on `http://localhost:5000` by default.
+
+4. **Set up the Frontend**
+
+   In a new terminal window:
+
+   ```bash
+   cd Travel-Book
+   npm install
+   cp .env.example .env
+   # Configure VITE_BACKEND_URL=http://localhost:5000
+   npm run dev
+   ```
+
+   The frontend will be running on `http://localhost:5173`.
+
+5. **Access the application**
+
+   Open your browser and navigate to `http://localhost:5173`
 
 **[Read the full contributor guide →](CONTRIBUTING.md)**
-
-## Mock Data for Development
-
-Travel Book includes a comprehensive mock data system so contributors can test all features without needing backend access:
-
-- **Authentication**: Login/signup with any credentials
-- **Travel Stories**: Pre-loaded sample stories with realistic content
-- **Profile Management**: Complete user profile functionality
-- **Image Upload**: Mock image uploads with beautiful placeholders
-- **Search & Filters**: Full search functionality
-- **Analytics**: Sample travel statistics and charts
-- **Social Login**: Mock Google, GitHub, and Twitter authentication
-
-Perfect for UI/UX improvements, component development, and feature testing!
 
 ## Project Overview
 
@@ -75,21 +79,16 @@ Travel Book is a modern web application designed to help users document, organiz
 ```bash
 Travel-Book/
 ├── .github/
-├── Travel-Book/            
 ├── public/                    
 │       ├── assets/images/
-│       │     ├── bg-image.png
-│       │     ├── logo.png
-│       │     └── sign-up.png
-│       ├── avatar-.png/
-│       ├── avatar-default.png
-│       ├── logo.png    
-│       └── vite.svg                   
+│       ├── robots.txt
+│       └── sitemap.xml
 ├── src/
 │       ├── assets/images/
 │       ├── components/
 │       │     ├── Auth/
 │       │     ├── Cards/
+│       │     ├── ChatBot/
 │       │     ├── Footer/
 │       │     ├── Input/
 │       │     ├── Modals/
@@ -97,9 +96,6 @@ Travel-Book/
 │       │     ├── Onboarding/
 │       │     ├── ThemeToggle/
 │       │     ├── BackToTopButton.jsx
-│       │     ├── EnvDebug.jsx
-│       │     ├── MockDataBadge.jsx
-│       │     ├── MockModeNotification.jsx
 │       │     ├── Navbar.jsx
 │       │     └── Toaster.jsx
 │       ├── pages/
@@ -115,14 +111,10 @@ Travel-Book/
 │       │     ├── AuthContext.jsx
 │       │     ├── ProtectedRoute.jsx
 │       │     ├── authErrorHandler.js
-│       │     ├── authErrorHandler.jsx
 │       │     ├── axiosInstance.js
 │       │     ├── constants.js
 │       │     ├── firebase.js
 │       │     ├── helper.js
-│       │     ├── mockApiService.js
-│       │     ├── mockData.js
-│       │     ├── mockFirebase.js
 │       │     └── uploadImage.js
 │       ├── App.jsx
 │       ├── index.css
@@ -130,29 +122,20 @@ Travel-Book/
 │       └── scrollbar.css             
 ├── .env.example              
 ├── .gitignore               
-├── README.MD                   
 ├── CODE_OF_CONDUCT.md                        
 ├── CONTRIBUTING.md   
 ├── CONTRIBUTORS_RECOGNITION_GUIDE.md            
 ├── LICENSE                
-├── MOCK_SYSTEM.md              
 ├── PROJECT_STRUCTURE.md                            
 ├── QUICKSTART.md
-├── README.md 
 ├── SECURITY.md    
-├── Travel-Book-Overview.mp4    
-├── article-logo.png    
 ├── eslint.config.js
 ├── index.html    
-├── package-lock.json  
 ├── package.json    
 ├── postcss.config.js  
-├── setup.js  
 ├── tailwind.config.js   
 ├── vercel.json                       
 └── vite.config.js             
-          
-
 ```
 
 ## Purpose & Vision
@@ -176,19 +159,22 @@ Key goals of the platform include:
 - **Routing**: React Router
 - **UI Components**: Custom components with responsive design
 - **Offline Support**: PWA (Progressive Web App) capabilities with service workers
-- **Data Visualization**: Custom analytics with dynamic charts
+- **Data Visualization**: Chart.js and custom analytics
 
 ### Backend
 - **Runtime**: Node.js
 - **Framework**: Express.js
-- **Database**: MongoDB
-- **Authentication**: JWT (JSON Web Tokens)
-- **File Storage**: Local storage with Multer (could be extended to cloud storage)
+- **Database**: MongoDB with Mongoose ODM
+- **Authentication**: JWT (JSON Web Tokens) and Firebase
+- **File Upload**: Multer with Cloudinary storage
 - **API**: RESTful API design
+- **Email**: Nodemailer for notifications
+- **AI Integration**: Google Generative AI for chatbot
 
 ### Development & Deployment
 - **Build Tool**: Vite
-- **Deployment**: Vercel
+- **Frontend Deployment**: Vercel
+- **Backend Deployment**: AWS EC2 with Nginx and PM2
 - **Version Control**: Git
 - **Package Management**: npm
 
@@ -198,20 +184,21 @@ Key goals of the platform include:
 - Email/password registration and login
 - OTP verification for secure access
 - Password reset functionality
-- JWT-based authentication
+- Firebase social authentication
+- JWT-based session management
 
 ### Travel Story Management
 - Create, read, update, and delete travel stories
 - Rich text editing for story content
-- Image upload and management
+- Image upload and management with Cloudinary
 - Location tagging with map integration
 - Date tracking for visits
 - Favorite marking for important memories
 
 ### Organization & Discovery
 - Search functionality by title, content, or location
-- Filter stories by date range
-- Sort stories by various criteria (newest, oldest, A-Z, etc.)
+- Advanced filtering by date range and location
+- Sort stories by various criteria
 - Categorize stories as favorites
 - View recent trips at a glance
 
@@ -222,23 +209,21 @@ Key goals of the platform include:
 - Swipe gestures on mobile devices
 - Drag and drop interface for image uploads
 
-### Offline Capabilities
-- Progressive Web App (PWA) implementation
-- Offline access to previously viewed stories
-- IndexedDB storage for offline data
-- Background sync for changes made offline
-- Installable on mobile home screens
-
 ### Analytics & Insights
 - Visual representation of travel statistics
 - Location frequency analysis
 - Travel timeline visualization
 - Monthly/yearly travel patterns
 
-### Sharing
+### Social Features
 - Direct link sharing for stories
-- Social media integration (Facebook, Twitter, WhatsApp, etc.)
+- Social media integration (Facebook, Twitter, WhatsApp)
 - Customizable sharing messages
+- Contributor recognition system
+
+### AI Features
+- Chatbot powered by Google Generative AI
+- Smart story suggestions and insights
 
 ## User Flow
 
@@ -249,24 +234,18 @@ Key goals of the platform include:
 
 2. **Core Experience**:
    - Users can view their collection of travel stories on the home page
-   - Adding a new story walks users through a step-by-step process:
-     - Title and basic information
-     - Date selection
-     - Image upload
-     - Story content entry
-     - Location tagging
+   - Adding a new story walks users through a step-by-step process
    - Existing stories can be viewed, edited, or deleted
    - Stories can be marked as favorites for quick access
 
 3. **Discovery & Organization**:
-   - Users can search for specific stories using the search functionality
-   - Advanced filtering lets users narrow down stories by date or location
-   - The calendar view provides a temporal perspective on travels
+   - Users can search for specific stories
+   - Advanced filtering by date or location
    - Analytics section offers insights into travel patterns
 
-4. **Sharing & Exporting**:
-   - Stories can be shared via multiple social platforms or direct links
-   - (Future feature) Export functionality for backup or printing options
+4. **Sharing & Community**:
+   - Stories can be shared via multiple platforms
+   - Contributor recognition for active community members
 
 ## Mobile-First Approach
 
@@ -281,12 +260,12 @@ Travel Book is designed with a mobile-first approach, recognizing that many user
 
 ## Unique Selling Points
 
-1. **Focused Purpose**: Unlike general social media, Travel Book is specifically designed for travel documentation
-2. **Privacy Control**: Users have full control over their content, with no public sharing by default
-3. **Structured Organization**: Purpose-built organization system for travel memories
+1. **Focused Purpose**: Specifically designed for travel documentation
+2. **Privacy Control**: Users have full control over their content
+3. **Structured Organization**: Purpose-built system for travel memories
 4. **Visual Analytics**: Unique insights into personal travel patterns
-5. **Offline First**: Robust offline capabilities understanding travelers' connectivity challenges
-6. **Cross-Device Experience**: Seamless experience from desktop planning to mobile documentation
+5. **Offline First**: Robust offline capabilities
+6. **Cross-Device Experience**: Seamless experience across devices
 
 ## Accessibility Features
 
@@ -316,55 +295,41 @@ Once you've made meaningful contributions to the project, you can apply to be fe
 - **Review Process**: Our team reviews applications within 3-5 business days
 - **Featured Display**: Approved contributors are showcased on the main contributors page
 
-### Quick Contribution Steps:
-1. Fork the repository
-2. Set up the project with mock data (see [CONTRIBUTING.md](CONTRIBUTING.md))
-3. Make your changes
-4. Test thoroughly with the mock system
-5. Submit a pull request
-6. **New**: Apply for contributor recognition once your PR is merged
+### Types of Contributions Recognized
+
+We recognize various types of contributions including:
+- Code contributions (features, bug fixes, performance improvements)
+- Documentation improvements
+- Design and UX enhancements
+- Community support and engagement
 
 ## Frontend Development Roadmap
 
 *Perfect opportunities for contributors to make meaningful impact!*
 
 ### UI/UX Enhancements
-- **Enhanced Animations**: Smooth page transitions, micro-interactions, and loading states
-- **Theme Customization**: Multiple color schemes, custom themes, and advanced dark mode
-- **Accessibility Improvements**: Better screen reader support, keyboard navigation, and WCAG compliance
-- **Mobile Experience**: Gesture controls, swipe navigation, and touch optimizations
+- Enhanced animations and transitions
+- Theme customization options
+- Accessibility improvements
+- Mobile experience optimization
 
 ### Component Library
-- **Story Templates**: Pre-designed layouts for different types of travel stories
-- **Interactive Widgets**: Weather displays, travel tips
-- **Advanced Photo Gallery**: Lightbox views, image filters, and slideshow modes
-- **Custom Map Components**: Location pins, route visualization, and travel timeline maps
+- Story templates
+- Interactive widgets
+- Advanced photo gallery
+- Custom map components
 
-### User Experience Features
-- **Smart Search**: Auto-complete, search suggestions, and advanced filtering UI
-- **Bulk Operations**: Multi-select stories, batch editing, and mass export options
-- **Keyboard Shortcuts**: Power user features and accessibility improvements
-- **Drag & Drop Interface**: Intuitive file uploads and story reordering
-
-### Data Visualization
-- **Enhanced Analytics**: Interactive charts, travel heatmaps, and journey visualization
-- **Progress Tracking**: Goal setting UI, travel milestones, and achievement badges
-- **Timeline Views**: Calendar integration, trip planning interface, and memory lane browsing
-- **Export Features**: PDF generation, print layouts, and social media templates
+### Features
+- Smart search with auto-complete
+- Bulk operations
+- Advanced export options
+- Keyboard shortcuts
 
 ### Performance & PWA
-- **Offline Enhancements**: Better caching strategies, offline editing, and sync indicators
-- **Performance Optimization**: Code splitting, lazy loading, and bundle optimization
-- **PWA Features**: Install prompts, push notification UI, and home screen shortcuts
-- **Loading States**: Skeleton screens, progressive loading, and optimistic updates
-
-### Contribution-Friendly Areas
-- **Component Testing**: Unit tests, visual regression tests, and accessibility testing
-- **Responsive Design**: Cross-device compatibility and flexible layouts
-- **Internationalization**: Multi-language support and RTL text support
-- **Error Boundaries**: Better error handling UI and graceful degradation
-
-*All features can be developed and tested using the mock data system - no backend required!*
+- Offline enhancements
+- Code splitting and lazy loading
+- PWA feature improvements
+- Loading state optimizations
 
 ## License
 
