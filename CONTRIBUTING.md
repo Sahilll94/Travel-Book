@@ -220,9 +220,6 @@ VITE_FIREBASE_APP_ID=your_firebase_app_id
 
 # Google Maps API (optional)
 VITE_GOOGLE_MAPS_API_KEY=your_google_maps_key
-
-# Clerk Authentication (optional)
-VITE_CLERK_PUBLISHABLE_KEY=your_clerk_key
 ```
 
 ### Backend .env.example

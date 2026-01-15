@@ -5,7 +5,7 @@
 
 ## Repositories
 
-- **Backend API**: [Travel-Book Backend Repository](https://github.com/Sahilll94/Travel-Book-Backend)
+- **Backend**: [Travel-Book Backend Repository](https://github.com/Sahilll94/Travel-Book-Backend)
 - **Frontend**: [Travel-Book Frontend Repository](https://github.com/Sahilll94/Travel-Book)
 
 # Travel Book - Your Digital Travel Journal
@@ -48,7 +48,7 @@ Before you begin, ensure you have the following installed:
    npm run dev
    ```
 
-   The backend will be running on `http://localhost:5000` by default.
+   The backend will be running on `http://localhost:3000` by default (or check your backend logs for the actual port).
 
 4. **Set up the Frontend**
 
@@ -58,7 +58,7 @@ Before you begin, ensure you have the following installed:
    cd Travel-Book
    npm install
    cp .env.example .env
-   # Configure VITE_BACKEND_URL=http://localhost:5000
+   # Update the .env with your configuration (Google Maps API key, Firebase Config, etc.)
    npm run dev
    ```
 

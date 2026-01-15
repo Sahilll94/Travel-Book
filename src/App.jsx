@@ -5,8 +5,6 @@ import { HelmetProvider } from 'react-helmet-async';
 import 'sonner/dist/styles.css';
 import { AuthProvider } from './utils/AuthContext';
 import ProtectedRoute from './utils/ProtectedRoute';
-import MockModeNotification from './components/MockModeNotification';
-import MockDataBadge from './components/MockDataBadge';
 import BackToTopButton from './components/BackToTopButton';
 import ChatBot from './components/ChatBot/ChatBot';
 import './components/ChatBot/chatbot.css';
@@ -40,8 +38,6 @@ const App = () => {
   return (
     <div>
       <Toaster />
-      <MockModeNotification />
-      <MockDataBadge />
       <HelmetProvider>
         <Router>
           <AuthProvider>

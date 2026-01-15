@@ -71,7 +71,6 @@ function setupEnvironment() {
     } else {
       warning('.env.example not found, creating basic .env file');
       const basicEnv = `# Travel Book Environment Variables
-VITE_USE_MOCK_DATA=true
 VITE_BACKEND_URL=http://localhost:3000/
 `;
       try {
@@ -85,24 +84,6 @@ VITE_BACKEND_URL=http://localhost:3000/
     }
   } else {
     info('.env file already exists');
-    
-    // Check if mock mode is enabled
-    try {
-      const envContent = readFileSync(envPath, 'utf8');
-      if (envContent.includes('VITE_USE_MOCK_DATA=true')) {
-        success('Mock mode is already enabled');
-      } else if (envContent.includes('VITE_USE_MOCK_DATA=false')) {
-        warning('Mock mode is disabled. Enable it by setting VITE_USE_MOCK_DATA=true in .env');
-      } else {
-        info('Adding mock mode configuration to .env');
-        const updatedContent = envContent + '\n# Development Mode (set to true for mock data)\nVITE_USE_MOCK_DATA=true\n';
-        writeFileSync(envPath, updatedContent);
-        success('Added mock mode configuration');
-      }
-    } catch (err) {
-      error('Failed to read .env file');
-      console.error(err);
-    }
   }
   
   return true;
