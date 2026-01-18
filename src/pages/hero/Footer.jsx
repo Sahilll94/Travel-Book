@@ -137,7 +137,7 @@ const Footer = () => {
         {/* Copyright Section */}
         <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
           <p className="text-xs text-center text-gray-500 dark:text-gray-400">
-            © Copyright 2025, All Rights Reserved by Travel-Book
+            © Copyright {new Date().getFullYear()}, All Rights Reserved by Travel-Book
           </p>
         </div>
       </div>
