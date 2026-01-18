@@ -11,12 +11,14 @@ import ContributorsNavbar from '../../components/Navbar/ContributorsNavbar';
 const Contributors = () => {
   const [contributors, setContributors] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState('all');
+  const [filter, setFilter] = useState('All');
+  const [prsCount, setPrsCount] = useState('8+');
   const navigate = useNavigate();
   const { currentUser: userInfo, isAuthenticated } = useAuth();
 
   useEffect(() => {
     fetchContributors();
+    fetchPrsCount();
   }, []);
 
   const fetchContributors = async () => {
@@ -30,9 +32,26 @@ const Contributors = () => {
     }
   };
 
+  const fetchPrsCount = async () => {
+    try {
+      const response = await fetch('https://api.github.com/search/issues?q=repo:Sahilll94/Travel-Book+type:pr');
+      const data = await response.json();
+      if (data && data.total_count !== undefined) {
+        setPrsCount(data.total_count.toString());
+      }
+    } catch (error) {
+      console.error('Error fetching GitHub PRs:', error);
+    }
+  };
+
   const filteredContributors = contributors.filter(contributor => {
-    if (filter === 'all') return true;
-    return contributor.contributionType?.toLowerCase().includes(filter);
+    if (filter === 'All') return true;
+    // Normalize both filter and contribution type for comparison
+    const normalizedFilter = filter.toLowerCase().replace(/\s+/g, '');
+    const normalizedContributionType = contributor.contributionType?.toLowerCase().replace(/\s+/g, '') || '';
+    return normalizedContributionType.includes(normalizedFilter) ||
+           normalizedContributionType === normalizedFilter ||
+           contributor.contributionType?.toLowerCase() === filter.toLowerCase();
   });
 
   const contributionTypes = ['All', 'Feature', 'Bug Fix', 'UI', 'Documentation'];
@@ -216,7 +235,7 @@ const Contributors = () => {
               </div>
               <div className="ml-4">
                 <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                  {contributors.reduce((acc, c) => acc + (c.prLinks?.length || 0), 0)}
+                  {prsCount}
                 </p>
                 <p className="text-gray-600 dark:text-gray-400">Total PRs</p>
               </div>
