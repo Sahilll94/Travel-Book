@@ -3,11 +3,48 @@ import { motion } from 'framer-motion';
 import { FaGithub, FaLinkedin, FaTwitter, FaHeart, FaCode, FaUsers, FaBook, FaEnvelope } from 'react-icons/fa';
 import { BiCopyright, BiLink } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import axiosInstance from '../../utils/axiosInstance';
 import logo from '../../assets/images/logo.png';
 
 const ContributorsFooter = ({ contributorsCount = 0 }) => {
   const navigate = useNavigate();
   const currentYear = new Date().getFullYear();
+  const [commitsCount, setCommitsCount] = useState('400+');
+  const [storiesCount, setStoriesCount] = useState('200+');
+
+  useEffect(() => {
+    // Fetch commits count from GitHub
+    const fetchCommitsCount = async () => {
+      try {
+        const response = await fetch('https://api.github.com/repos/Sahilll94/Travel-Book/commits?per_page=1');
+        const linkHeader = response.headers.get('link');
+        if (linkHeader) {
+          const matches = linkHeader.match(/&page=(\d+)>; rel="last"/);
+          if (matches && matches[1]) {
+            setCommitsCount(matches[1] + '+');
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching GitHub commits:', error);
+      }
+    };
+
+    // Fetch stories count from database
+    const fetchStoriesCount = async () => {
+      try {
+        const response = await axiosInstance.get('/total-stories');
+        if (response.data && response.data.totalStories) {
+          setStoriesCount(response.data.totalStories + '+');
+        }
+      } catch (error) {
+        console.error('Error fetching stories count:', error);
+      }
+    };
+
+    fetchCommitsCount();
+    fetchStoriesCount();
+  }, []);
 
   const footerLinks = {
     project: [
@@ -41,8 +78,8 @@ const ContributorsFooter = ({ contributorsCount = 0 }) => {
 
   const stats = [
     { icon: FaUsers, label: 'Contributors', value: contributorsCount.toString() },
-    { icon: FaCode, label: 'Commits', value: '400+' },
-    { icon: FaBook, label: 'Stories', value: '200+' }
+    { icon: FaCode, label: 'Commits', value: commitsCount },
+    { icon: FaBook, label: 'Stories', value: storiesCount }
   ];
 
   return (
