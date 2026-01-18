@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-scroll";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../utils/AuthContext";
@@ -13,15 +13,36 @@ import { AiOutlineCloudServer } from "react-icons/ai";
 import { FiArrowRight } from "react-icons/fi";
 import { MdGroup } from "react-icons/md";
 import ThemeToggle from "../../components/ThemeToggle/ThemeToggle";
+import axiosInstance from "../../utils/axiosInstance";
 
 const Hero = () => {
     const { isAuthenticated, loading } = useAuth();
     const navigate = useNavigate();
 
+    // State for real-time memories count
+    const [memoriesCount, setMemoriesCount] = useState('100');
+
     // Function to handle navigation to dashboard
     const goToDashboard = () => {
         navigate("/dashboard");
     };
+
+    // Fetch real-time memories count
+    useEffect(() => {
+        const fetchMemoriesCount = async () => {
+            try {
+                const response = await axiosInstance.get('/total-stories');
+                if (response.data && response.data.totalStories) {
+                    setMemoriesCount(response.data.totalStories.toString());
+                }
+            } catch (error) {
+                console.error('Error fetching memories count:', error);
+                // Keep default value if fetch fails
+            }
+        };
+
+        fetchMemoriesCount();
+    }, []);
 
     return (
         <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
@@ -261,7 +282,7 @@ const Hero = () => {
                             <div className="flex items-center justify-center mt-16 space-x-6 lg:justify-start sm:space-x-8">
                                 <div className="flex items-center">
                                     <p className="text-3xl font-medium text-gray-900 dark:text-gray-100 sm:text-4xl font-pj">
-                                        100
+                                        {memoriesCount}
                                     </p>
                                     <p className="ml-3 text-sm text-gray-900 dark:text-gray-100 font-pj">
                                         Memories

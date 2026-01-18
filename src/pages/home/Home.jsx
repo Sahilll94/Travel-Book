@@ -1467,7 +1467,7 @@ const Home = () => {
             left: 'auto',
             right: 'auto',
             bottom: 'auto',
-            maxWidth: '400px',
+            maxWidth: '420px',
             width: '100%',
             padding: 0,
             border: 'none',
@@ -1478,51 +1478,54 @@ const Home = () => {
         appElement={document.getElementById('root')}
         className="model-box max-w-md mx-auto"
       >
-        <motion.div 
-          className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-xl aspect-square"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.9 }}
-          transition={{ duration: 0.2 }}
+        <motion.div
+          className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-2xl"
+          initial={{ opacity: 0, scale: 0.95, y: 10 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: 10 }}
+          transition={{ duration: 0.15, ease: "easeOut" }}
         >
-          <div className="p-6 flex flex-col h-full justify-between">
-            <div>
-              <div className="flex items-center mb-4">
-                <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center mr-4">
-                  <MdDeleteOutline className="text-2xl text-red-600 dark:text-red-400" />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Delete Travel Story</h3>
+          <div className="p-5">
+            {/* Header */}
+            <div className="flex items-center mb-3">
+              <div className="w-8 h-8 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center mr-3">
+                <MdDeleteOutline className="text-lg text-red-600 dark:text-red-400" />
               </div>
-              
-              <div className="mb-4">
-                <p className="text-gray-600 dark:text-gray-300 mb-4">
-                  Are you sure you want to delete "<span className="font-medium text-gray-800 dark:text-white">{deleteConfirmation.story?.title}</span>"? 
-                </p>
-                <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-md p-3 flex items-start">
-                  <MdWarning className="text-amber-500 mr-2 mt-0.5 flex-shrink-0" />
-                  <p className="text-sm text-amber-700 dark:text-amber-300">
-                    This action cannot be undone. This will permanently delete your travel story.
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Delete Story</h3>
+            </div>
+
+            {/* Content */}
+            <div className="mb-4">
+              <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                Are you sure you want to delete <span className="font-medium text-gray-800 dark:text-white">"{deleteConfirmation.story?.title}"</span>?
+              </p>
+              <div className="mt-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/50 rounded-lg p-3">
+                <div className="flex items-start">
+                  <MdWarning className="text-red-500 mr-2 mt-0.5 flex-shrink-0 text-sm" />
+                  <p className="text-xs text-red-700 dark:text-red-300 leading-relaxed">
+                    This action cannot be undone.
                   </p>
                 </div>
               </div>
             </div>
-            
-            <div className="flex justify-end gap-3 mt-auto">
-              <motion.button 
+
+            {/* Actions */}
+            <div className="flex justify-end gap-2">
+              <motion.button
                 onClick={() => setDeleteConfirmation({ isOpen: false, story: null })}
-                className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg border border-gray-200 dark:border-gray-600"
+                className="px-4 py-2 text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg border border-gray-200 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
                 Cancel
               </motion.button>
-              <motion.button 
+              <motion.button
                 onClick={confirmDelete}
-                className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg flex items-center shadow-sm"
-                whileHover={{ scale: 1.02, backgroundColor: "#ef4444" }}
+                className="px-4 py-2 text-sm bg-red-500 hover:bg-red-600 text-white rounded-lg flex items-center shadow-sm transition-colors"
+                whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <MdDeleteOutline className="mr-1" /> Delete
+                <MdDeleteOutline className="mr-1.5 text-sm" /> Delete
               </motion.button>
             </div>
           </div>
@@ -1547,7 +1550,7 @@ const Home = () => {
             left: 'auto',
             right: 'auto',
             bottom: 'auto',
-            maxWidth: '400px',
+            maxWidth: '420px',
             width: '100%',
             padding: 0,
             border: 'none',
@@ -1558,51 +1561,54 @@ const Home = () => {
         appElement={document.getElementById('root')}
         className="model-box max-w-md mx-auto"
       >
-        <motion.div 
-          className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-xl aspect-square"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.9 }}
-          transition={{ duration: 0.2 }}
+        <motion.div
+          className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-2xl"
+          initial={{ opacity: 0, scale: 0.95, y: 10 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: 10 }}
+          transition={{ duration: 0.15, ease: "easeOut" }}
         >
-          <div className="p-6 flex flex-col h-full justify-between">
-            <div>
-              <div className="flex items-center mb-4">
-                <div className="w-10 h-10 rounded-full bg-cyan-100 dark:bg-cyan-900/30 flex items-center justify-center mr-4">
-                  <MdEdit className="text-2xl text-cyan-600 dark:text-cyan-400" />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Edit Travel Story</h3>
+          <div className="p-5">
+            {/* Header */}
+            <div className="flex items-center mb-3">
+              <div className="w-8 h-8 rounded-full bg-cyan-100 dark:bg-cyan-900/30 flex items-center justify-center mr-3">
+                <MdEdit className="text-lg text-cyan-600 dark:text-cyan-400" />
               </div>
-              
-              <div className="mb-4">
-                <p className="text-gray-600 dark:text-gray-300 mb-4">
-                  You're about to edit "<span className="font-medium text-gray-800 dark:text-white">{editConfirmation.story?.title}</span>"
-                </p>
-                <div className="bg-cyan-50 dark:bg-cyan-900/20 border border-cyan-200 dark:border-cyan-800 rounded-md p-3 flex items-start">
-                  <MdInfo className="text-cyan-500 mr-2 mt-0.5 flex-shrink-0" />
-                  <p className="text-sm text-cyan-700 dark:text-cyan-300">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Edit Story</h3>
+            </div>
+
+            {/* Content */}
+            <div className="mb-4">
+              <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                You're about to edit <span className="font-medium text-gray-800 dark:text-white">"{editConfirmation.story?.title}"</span>
+              </p>
+              <div className="mt-3 bg-cyan-50 dark:bg-cyan-900/20 border border-cyan-200 dark:border-cyan-800/50 rounded-lg p-3">
+                <div className="flex items-start">
+                  <MdInfo className="text-cyan-500 mr-2 mt-0.5 flex-shrink-0 text-sm" />
+                  <p className="text-xs text-cyan-700 dark:text-cyan-300 leading-relaxed">
                     You'll be able to modify all aspects of your travel story.
                   </p>
                 </div>
               </div>
             </div>
-            
-            <div className="flex justify-end gap-3 mt-auto">
-              <motion.button 
+
+            {/* Actions */}
+            <div className="flex justify-end gap-2">
+              <motion.button
                 onClick={() => setEditConfirmation({ isOpen: false, story: null })}
-                className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg border border-gray-200 dark:border-gray-600"
+                className="px-4 py-2 text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg border border-gray-200 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
                 Cancel
               </motion.button>
-              <motion.button 
+              <motion.button
                 onClick={confirmEdit}
-                className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white rounded-lg flex items-center shadow-sm"
+                className="px-4 py-2 text-sm bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white rounded-lg flex items-center shadow-sm transition-colors"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <MdEdit className="mr-1" /> Edit
+                <MdEdit className="mr-1.5 text-sm" /> Edit
               </motion.button>
             </div>
           </div>
