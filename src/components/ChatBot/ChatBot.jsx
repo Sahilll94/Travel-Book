@@ -133,7 +133,7 @@ const ChatBot = () => {
 
       {/* Chatbot Window */}
       {isOpen && (
-          <div className="fixed inset-0 md:inset-auto md:bottom-6 md:left-6 w-full md:w-96 h-full md:h-[800px] bg-white dark:bg-gray-900 rounded-none md:rounded-2xl shadow-lg flex flex-col overflow-hidden z-50 animate-in slide-in-from-bottom-4 duration-300 border-0 md:border border-gray-200 dark:border-gray-700">
+          <div className="fixed inset-0 md:inset-auto md:bottom-6 md:left-6 w-full md:w-96 h-full md:h-[min(800px,90vh)] bg-white dark:bg-gray-900 rounded-none md:rounded-2xl shadow-lg flex flex-col overflow-hidden z-50 animate-in slide-in-from-bottom-4 duration-300 border-0 md:border border-gray-200 dark:border-gray-700">
             {/* Header - Minimalist */}
             <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3 flex items-center justify-between">
               <h3 className="font-semibold text-gray-900 dark:text-white text-sm">Travel Bot</h3>
