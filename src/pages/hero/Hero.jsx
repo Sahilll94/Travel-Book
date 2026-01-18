@@ -24,7 +24,7 @@ const Hero = () => {
     };
 
     return (
-        <div className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
+        <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
             <header className="py-4 md:py-6">
                 <div className="container px-4 mx-auto sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between">
@@ -339,30 +339,30 @@ const Hero = () => {
             <span className="relative flex justify-center">
                 <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-transparent bg-gradient-to-r from-transparent via-gray-500 to-transparent opacity-75"></div>
 
-                <span className="relative z-10 bg-white dark:bg-gray-900 px-6">Hey Travellers!</span>
+                <span className="relative z-10 bg-white dark:bg-gray-900 px-6">Welcome to Your Adventure!</span>
             </span>
 
-            <section id="about">
+            <section id="about" className="bg-white dark:bg-gray-900">
                 <About />
             </section>
 
             <span className="relative flex justify-center">
                 <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-transparent bg-gradient-to-r from-transparent via-gray-500 to-transparent opacity-75"></div>
 
-                <span className="relative z-10 bg-white dark:bg-gray-900 px-6">How is it going?</span>
+                <span className="relative z-10 bg-white dark:bg-gray-900 px-6">Here's How It Works</span>
             </span>
 
-            <section id="how-it-works">
+            <section id="how-it-works" className="bg-white dark:bg-gray-900">
                 <HowItWorks />
             </section>
 
             <span className="relative flex justify-center">
                 <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-transparent bg-gradient-to-r from-transparent via-gray-500 to-transparent opacity-75"></div>
 
-                <span className="relative z-10 bg-white dark:bg-gray-900 px-6">How have you been?</span>
+                <span className="relative z-10 bg-white dark:bg-gray-900 px-6">Why TravelBook?</span>
             </span>
 
-            <section id="services">
+            <section id="services" className="bg-white dark:bg-gray-900">
                 <div className="py-12">
                     <div className="container px-4 mx-auto sm:px-6 lg:px-8">
                         <div className="text-center">
@@ -430,11 +430,11 @@ const Hero = () => {
                 <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-transparent bg-gradient-to-r from-transparent via-gray-500 to-transparent opacity-75"></div>
 
                 <span className="relative z-10 bg-white dark:bg-gray-900 px-6">
-                    Oh, So do you like the design?
+                    See Our Community in Action
                 </span>
             </span>
 
-            <section id="stats">
+            <section id="stats" className="bg-white dark:bg-gray-900">
                 <Stats />
             </section>
 
@@ -442,11 +442,11 @@ const Hero = () => {
                 <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-transparent bg-gradient-to-r from-transparent via-gray-500 to-transparent opacity-75"></div>
 
                 <span className="relative z-10 bg-white dark:bg-gray-900 px-6">
-                    Sign in to save your memories!
+                    Ready to Start Your Journey?
                 </span>
             </span>
 
-            <section id="footer">
+            <section id="footer" className="bg-white dark:bg-gray-900">
                 <Footer />
             </section>
         </div>
