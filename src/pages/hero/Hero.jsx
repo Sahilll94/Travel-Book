@@ -11,6 +11,7 @@ import About from "./About";
 import Footer from "./Footer";
 import { AiOutlineCloudServer } from "react-icons/ai";
 import { FiArrowRight } from "react-icons/fi";
+import { MdGroup } from "react-icons/md";
 import ThemeToggle from "../../components/ThemeToggle/ThemeToggle";
 
 const Hero = () => {
@@ -87,6 +88,15 @@ const Hero = () => {
 
                         <div className="flex items-center">
                             <ThemeToggle /> {/* Added ThemeToggle component */}
+                            
+                            {/* Mobile Contributors Icon */}
+                            <a
+                                href="/contributors"
+                                className="lg:hidden p-2 rounded-lg text-gray-900 dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ml-2"
+                                aria-label="View Contributors"
+                            >
+                                <MdGroup size={24} />
+                            </a>
                            <div className="relative group ml-6">
                         <a
                             href="https://stats.uptimerobot.com/4klrGTjcP6"

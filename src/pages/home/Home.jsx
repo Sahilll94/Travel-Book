@@ -659,29 +659,11 @@ const Home = () => {
   };
 
   // Function to handle showing favorite stories
-  const handleFavoriteFilter = async () => {
+  const handleFavoriteFilter = () => {
     if (activeFilter === 'favorites') {
       setActiveFilter('all');
-      getAllTravelStories();
     } else {
       setActiveFilter('favorites');
-      
-      if (isOnline) {
-        // Online implementation
-        const favoriteStories = allStories.filter(story => story.isFavourite);
-        setAllStories(favoriteStories);
-        setFilterType('favorites');
-      } else {
-        // Offline implementation
-        try {
-          const offlineStories = await getStoriesFromIndexedDB();
-          const favoriteStories = offlineStories.filter(story => story.isFavourite);
-          setAllStories(favoriteStories);
-          setFilterType('favorites');
-        } catch (err) {
-          console.error('Error filtering offline favorites:', err);
-        }
-      }
     }
   };
 
@@ -722,9 +704,16 @@ const Home = () => {
       stories = stories.filter(story => story.isFavourite);
     } else if (activeFilter === 'recent') {
       // Show only recent stories (last 30 days)
-      const thirtyDaysAgo = new Date();
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Start of today
+      const thirtyDaysAgo = new Date(today);
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-      stories = stories.filter(story => new Date(story.visitedDate) >= thirtyDaysAgo);
+      
+      stories = stories.filter(story => {
+        const storyDate = new Date(story.visitedDate);
+        storyDate.setHours(0, 0, 0, 0); // Compare only dates, not times
+        return storyDate >= thirtyDaysAgo;
+      });
     }
     
     // Apply sorting
