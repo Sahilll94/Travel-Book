@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { FaGithub, FaLinkedin, FaGlobe, FaMapMarkerAlt, FaExternalLinkAlt } from 'react-icons/fa';
 import { BiCode, BiUserPlus } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../utils/AuthContext';
 import axiosInstance from '../../utils/axiosInstance';
 import ContributorsFooter from '../../components/Footer/ContributorsFooter';
 import ContributorsNavbar from '../../components/Navbar/ContributorsNavbar';
@@ -12,6 +13,7 @@ const Contributors = () => {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
   const navigate = useNavigate();
+  const { currentUser: userInfo, isAuthenticated } = useAuth();
 
   useEffect(() => {
     fetchContributors();
@@ -68,7 +70,7 @@ const Contributors = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
-      <ContributorsNavbar />
+      <ContributorsNavbar userInfo={userInfo} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Introduction Section */}
@@ -403,7 +405,7 @@ const Contributors = () => {
         )}
       </div>
 
-      <ContributorsFooter />
+      <ContributorsFooter contributorsCount={contributors.length} />
     </div>
   );
 };

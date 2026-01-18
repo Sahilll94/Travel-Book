@@ -119,23 +119,22 @@ const ContributorsNavbar = ({ userInfo, onLogout }) => {
 
           {/* Right Side Actions */}
           <div className="flex items-center space-x-4">
-            {/* GitHub Link */}
+            {/* GitHub Link - Icon Only */}
             <motion.a
               href="https://github.com/Sahilll94/Travel-Book"
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="hidden sm:flex items-center space-x-2 px-3 py-2 bg-gray-900 dark:bg-gray-700 text-white rounded-lg hover:bg-gray-800 dark:hover:bg-gray-600 transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="p-2.5 rounded-lg text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
               title="View on GitHub"
             >
-              <FaGithub className="w-4 h-4" />
-              <span className="text-sm font-medium">GitHub</span>
+              <FaGithub className="w-5 h-5" />
             </motion.a>
 
             <ThemeToggle />
 
-            {/* Profile or Auth */}
+            {/* Profile or Auth - Only show if NOT authenticated */}
             {isToken && userInfo ? (
               <div className="hidden md:block">
                 <ProfileInfo userInfo={userInfo} onLogout={handleLogout} />

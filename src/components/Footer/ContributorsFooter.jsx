@@ -3,9 +3,11 @@ import { motion } from 'framer-motion';
 import { FaGithub, FaLinkedin, FaTwitter, FaHeart, FaCode, FaUsers, FaBook, FaEnvelope } from 'react-icons/fa';
 import { BiCopyright, BiLink } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
+import logo from '../../assets/images/logo.png';
 
-const ContributorsFooter = () => {
+const ContributorsFooter = ({ contributorsCount = 0 }) => {
   const navigate = useNavigate();
+  const currentYear = new Date().getFullYear();
 
   const footerLinks = {
     project: [
@@ -38,7 +40,7 @@ const ContributorsFooter = () => {
   ];
 
   const stats = [
-    { icon: FaUsers, label: 'Contributors', value: '0' },
+    { icon: FaUsers, label: 'Contributors', value: contributorsCount.toString() },
     { icon: FaCode, label: 'Commits', value: '400+' },
     { icon: FaBook, label: 'Stories', value: '200+' }
   ];
@@ -58,9 +60,11 @@ const ContributorsFooter = () => {
                 className="space-y-4"
               >
                 <div className="flex items-center space-x-2">
-                  <div className="w-8 h-8 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center">
-                    <FaBook className="w-4 h-4 text-white" />
-                  </div>
+                  <img 
+                    src={logo} 
+                    alt="Travel Book Logo" 
+                    className="w-8 h-8 object-contain"
+                  />
                   <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">Travel Book</h3>
                 </div>
                 <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
@@ -180,7 +184,7 @@ const ContributorsFooter = () => {
               className="flex items-center text-gray-600 dark:text-gray-400 text-sm"
             >
               <BiCopyright className="w-4 h-4 mr-1" />
-              <span>2024 Travel Book. Open Source Project.</span>
+              <span>{currentYear} Travel Book. Open Source Project.</span>
               <FaHeart className="w-4 h-4 mx-2 text-red-500 animate-pulse" />
               <span>Built with love by the community</span>
             </motion.div>

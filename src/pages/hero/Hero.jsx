@@ -92,12 +92,12 @@ const Hero = () => {
                             {/* Mobile Contributors Icon */}
                             <a
                                 href="/contributors"
-                                className="lg:hidden p-2 rounded-lg text-gray-900 dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ml-2"
+                                className="lg:hidden p-2 rounded-lg text-gray-900 dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ml-3"
                                 aria-label="View Contributors"
                             >
                                 <MdGroup size={24} />
                             </a>
-                           <div className="relative group ml-6">
+                           <div className="relative group ml-3">
                         <a
                             href="https://stats.uptimerobot.com/4klrGTjcP6"
                             target="_blank"
@@ -115,7 +115,7 @@ const Hero = () => {
                         </div>
 
                            {/* API Docs Icon */}
-                            <div className="relative group ml-6">
+                            <div className="relative group ml-3">
                             <a
                                 href="http://docs.travelbook.sahilfolio.live/"
                                 target="_blank"
@@ -131,7 +131,7 @@ const Hero = () => {
                             </div>
 
                             {/* Medium Blog Icon */}
-                            <div className="relative group ml-6">
+                            <div className="relative group ml-3">
                             <a
                                 href="http://medium.travelbook.sahilfolio.live/"
                                 target="_blank"
@@ -147,7 +147,7 @@ const Hero = () => {
                             </div>
 
                           {/* GitHub Icon with Tooltip */}
-                            <div className="relative group ml-6">
+                            <div className="relative group ml-3">
                             <a
                                 href="https://github.com/Sahilll94/Travel-Book"
                                 target="_blank"
