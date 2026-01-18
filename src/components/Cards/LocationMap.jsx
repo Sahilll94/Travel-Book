@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
-import { MdPlace, MdDateRange, MdInfo } from 'react-icons/md';
+import { MdPlace, MdDateRange, MdInfo, MdOutlineExplore, MdFavorite } from 'react-icons/md';
 import { motion } from 'framer-motion';
 import moment from 'moment';
 
@@ -282,40 +282,120 @@ const LocationMap = ({ stories, locations, location, onViewStory, className }) =
             <InfoWindow
               position={selectedMarker.position}
               onCloseClick={() => setSelectedMarker(null)}
+              options={{
+                pixelOffset: window.google?.maps?.Size ? new window.google.maps.Size(0, -40) : undefined,
+                maxWidth: 380
+              }}
             >
-              <div className="p-2 max-w-sm">
-                {selectedMarker.story?.imageUrl && (
-                  <div 
-                    className="w-full h-32 bg-cover bg-center rounded-t-md mb-2"
-                    style={{ backgroundImage: `url(${selectedMarker.story.imageUrl})` }}
-                  />
-                )}
-                <h3 className="font-medium text-lg mb-1">{selectedMarker.story?.title || selectedMarker.location}</h3>
-                <div className="flex items-center text-sm text-gray-500 mb-1">
-                  <MdPlace className="mr-1" />
-                  <span>{selectedMarker.location}</span>
+              <motion.div 
+                className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-2xl border border-gray-100 dark:border-gray-700"
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              >
+                {/* Image Section */}
+                <div className="relative h-40 overflow-hidden bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600">
+                  {selectedMarker.story?.imageUrl ? (
+                    <>
+                      <motion.div 
+                        className="w-full h-full bg-cover bg-center"
+                        style={{ backgroundImage: `url(${selectedMarker.story.imageUrl})` }}
+                        whileHover={{ scale: 1.1 }}
+                        transition={{ duration: 0.3 }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                    </>
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <MdOutlineExplore className="text-6xl text-gray-400 dark:text-gray-500" />
+                    </div>
+                  )}
+                  
+                  {/* Favorite Badge */}
+                  {selectedMarker.story?.isFavourite && (
+                    <motion.div 
+                      className="absolute top-3 right-3 bg-red-500 text-white rounded-full p-2 shadow-lg"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.2 }}
+                    >
+                      <MdFavorite className="text-lg" />
+                    </motion.div>
+                  )}
                 </div>
-                {selectedMarker.story?.visitedDate && (
-                  <div className="flex items-center text-sm text-gray-500 mb-2">
-                    <MdDateRange className="mr-1" />
-                    <span>{formatDate(selectedMarker.story.visitedDate)}</span>
-                  </div>
-                )}
-                {selectedMarker.story?.story && (
-                  <p className="text-sm text-gray-600 line-clamp-3">
-                    {selectedMarker.story.story.slice(0, 150)}
-                    {selectedMarker.story.story.length > 150 ? '...' : ''}
-                  </p>
-                )}
-                {onViewStory && selectedMarker.story && (
-                  <button 
-                    className="mt-2 w-full py-1.5 bg-cyan-500 hover:bg-cyan-600 text-white rounded text-sm"
-                    onClick={() => onViewStory(selectedMarker.story)}
+
+                {/* Content Section */}
+                <div className="p-4 space-y-3">
+                  {/* Title */}
+                  <motion.h3 
+                    className="text-lg font-bold text-gray-900 dark:text-white line-clamp-2"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
                   >
-                    View Story
-                  </button>
-                )}
-              </div>
+                    {selectedMarker.story?.title || selectedMarker.location}
+                  </motion.h3>
+
+                  {/* Location with Icon */}
+                  <motion.div 
+                    className="flex items-start gap-2 text-sm"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.15 }}
+                  >
+                    <MdPlace className="text-cyan-500 dark:text-cyan-400 mt-0.5 flex-shrink-0 text-base" />
+                    <span className="text-gray-700 dark:text-gray-300 font-medium">
+                      {selectedMarker.location}
+                    </span>
+                  </motion.div>
+
+                  {/* Date with Icon */}
+                  {selectedMarker.story?.visitedDate && (
+                    <motion.div 
+                      className="flex items-center gap-2 text-sm"
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.2 }}
+                    >
+                      <MdDateRange className="text-cyan-500 dark:text-cyan-400 flex-shrink-0 text-base" />
+                      <span className="text-gray-600 dark:text-gray-400">
+                        {formatDate(selectedMarker.story.visitedDate)}
+                      </span>
+                    </motion.div>
+                  )}
+
+                  {/* Story Preview */}
+                  {selectedMarker.story?.story && (
+                    <motion.div 
+                      className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3 border border-gray-200 dark:border-gray-600"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.25 }}
+                    >
+                      <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-4 leading-relaxed">
+                        {selectedMarker.story.story.slice(0, 200)}
+                        {selectedMarker.story.story.length > 200 ? '...' : ''}
+                      </p>
+                    </motion.div>
+                  )}
+
+                  {/* View Story Button */}
+                  {onViewStory && selectedMarker.story && (
+                    <motion.button 
+                      className="w-full py-2.5 px-4 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-semibold rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center gap-2 group"
+                      onClick={() => onViewStory(selectedMarker.story)}
+                      whileHover={{ y: -2 }}
+                      whileTap={{ y: 0 }}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 }}
+                    >
+                      <span>View Full Story</span>
+                      <MdOutlineExplore className="text-lg group-hover:translate-x-1 transition-transform" />
+                    </motion.button>
+                  )}
+                </div>
+              </motion.div>
             </InfoWindow>
           )}
         </GoogleMap>
