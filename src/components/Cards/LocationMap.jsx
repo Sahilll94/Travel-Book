@@ -284,17 +284,17 @@ const LocationMap = ({ stories, locations, location, onViewStory, className }) =
               onCloseClick={() => setSelectedMarker(null)}
               options={{
                 pixelOffset: window.google?.maps?.Size ? new window.google.maps.Size(0, -40) : undefined,
-                maxWidth: 380
+                maxWidth: 300
               }}
             >
               <motion.div 
-                className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-2xl border border-gray-100 dark:border-gray-700"
+                className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-100 dark:border-gray-700"
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
               >
                 {/* Image Section */}
-                <div className="relative h-40 overflow-hidden bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600">
+                <div className="relative h-24 overflow-hidden bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600">
                   {selectedMarker.story?.imageUrl ? (
                     <>
                       <motion.div 
@@ -307,28 +307,28 @@ const LocationMap = ({ stories, locations, location, onViewStory, className }) =
                     </>
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
-                      <MdOutlineExplore className="text-6xl text-gray-400 dark:text-gray-500" />
+                      <MdOutlineExplore className="text-4xl text-gray-400 dark:text-gray-500" />
                     </div>
                   )}
                   
                   {/* Favorite Badge */}
                   {selectedMarker.story?.isFavourite && (
                     <motion.div 
-                      className="absolute top-3 right-3 bg-red-500 text-white rounded-full p-2 shadow-lg"
+                      className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1.5 shadow-lg"
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
                       transition={{ delay: 0.2 }}
                     >
-                      <MdFavorite className="text-lg" />
+                      <MdFavorite className="text-sm" />
                     </motion.div>
                   )}
                 </div>
 
                 {/* Content Section */}
-                <div className="p-4 space-y-3">
+                <div className="p-3 space-y-2">
                   {/* Title */}
                   <motion.h3 
-                    className="text-lg font-bold text-gray-900 dark:text-white line-clamp-2"
+                    className="text-sm font-bold text-gray-900 dark:text-white line-clamp-2"
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1 }}
@@ -338,13 +338,13 @@ const LocationMap = ({ stories, locations, location, onViewStory, className }) =
 
                   {/* Location with Icon */}
                   <motion.div 
-                    className="flex items-start gap-2 text-sm"
+                    className="flex items-start gap-1.5 text-xs"
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.15 }}
                   >
-                    <MdPlace className="text-cyan-500 dark:text-cyan-400 mt-0.5 flex-shrink-0 text-base" />
-                    <span className="text-gray-700 dark:text-gray-300 font-medium">
+                    <MdPlace className="text-cyan-500 dark:text-cyan-400 mt-0.5 flex-shrink-0 text-sm" />
+                    <span className="text-gray-700 dark:text-gray-300 font-medium line-clamp-1">
                       {selectedMarker.location}
                     </span>
                   </motion.div>
@@ -352,12 +352,12 @@ const LocationMap = ({ stories, locations, location, onViewStory, className }) =
                   {/* Date with Icon */}
                   {selectedMarker.story?.visitedDate && (
                     <motion.div 
-                      className="flex items-center gap-2 text-sm"
+                      className="flex items-center gap-1.5 text-xs"
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.2 }}
                     >
-                      <MdDateRange className="text-cyan-500 dark:text-cyan-400 flex-shrink-0 text-base" />
+                      <MdDateRange className="text-cyan-500 dark:text-cyan-400 flex-shrink-0 text-sm" />
                       <span className="text-gray-600 dark:text-gray-400">
                         {formatDate(selectedMarker.story.visitedDate)}
                       </span>
@@ -367,14 +367,14 @@ const LocationMap = ({ stories, locations, location, onViewStory, className }) =
                   {/* Story Preview */}
                   {selectedMarker.story?.story && (
                     <motion.div 
-                      className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3 border border-gray-200 dark:border-gray-600"
+                      className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-2 border border-gray-200 dark:border-gray-600"
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.25 }}
                     >
-                      <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-4 leading-relaxed">
-                        {selectedMarker.story.story.slice(0, 200)}
-                        {selectedMarker.story.story.length > 200 ? '...' : ''}
+                      <p className="text-xs text-gray-700 dark:text-gray-300 line-clamp-2 leading-relaxed">
+                        {selectedMarker.story.story.slice(0, 120)}
+                        {selectedMarker.story.story.length > 120 ? '...' : ''}
                       </p>
                     </motion.div>
                   )}
@@ -382,16 +382,16 @@ const LocationMap = ({ stories, locations, location, onViewStory, className }) =
                   {/* View Story Button */}
                   {onViewStory && selectedMarker.story && (
                     <motion.button 
-                      className="w-full py-2.5 px-4 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-semibold rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center gap-2 group"
+                      className="w-full py-1.5 px-3 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white text-xs font-semibold rounded-lg shadow-md transition-all duration-300 flex items-center justify-center gap-1"
                       onClick={() => onViewStory(selectedMarker.story)}
-                      whileHover={{ y: -2 }}
+                      whileHover={{ y: -1 }}
                       whileTap={{ y: 0 }}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3 }}
                     >
-                      <span>View Full Story</span>
-                      <MdOutlineExplore className="text-lg group-hover:translate-x-1 transition-transform" />
+                      <span>View Story</span>
+                      <MdOutlineExplore className="text-xs" />
                     </motion.button>
                   )}
                 </div>
