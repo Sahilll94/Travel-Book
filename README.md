@@ -9,6 +9,28 @@
 - **Frontend**: [Travel-Book Frontend Repository](https://github.com/Sahilll94/Travel-Book)
 
 # Travel Book - Your Digital Travel Journal
+## 📑 Table of Contents
+
+- [Quick Start for Contributors](#quick-start-for-contributors)
+  - [Prerequisites](#prerequisites)
+  - [Setup Instructions](#setup-instructions)
+- [Project Overview](#project-overview)
+- [Project Structure](#project-structure)
+- [Purpose & Vision](#purpose--vision)
+- [Technology Stack](#technology-stack)
+  - [Frontend](#frontend)
+  - [Backend](#backend)
+  - [Development & Deployment](#development--deployment)
+- [Key Features](#key-features)
+- [User Flow](#user-flow)
+- [Mobile-First Approach](#mobile-first-approach)
+- [Unique Selling Points](#unique-selling-points)
+- [Accessibility Features](#accessibility-features)
+- [Contributing & Recognition](#contributing--recognition)
+- [Frontend Development Roadmap](#frontend-development-roadmap)
+- [License](#license)
+- [Support](#support)
+
 
 ## Quick Start for Contributors
 
@@ -73,6 +95,7 @@ Before you begin, ensure you have the following installed:
 ## Project Overview
 
 Travel Book is a modern web application designed to help users document, organize, and share their travel experiences. It serves as a digital travel journal where users can record memories, photos, and details about places they've visited. The platform provides a user-friendly interface for travelers to create a personal collection of travel stories, organize them by location and date, and optionally share them with others.
+
 
 ## Project Structure
 
