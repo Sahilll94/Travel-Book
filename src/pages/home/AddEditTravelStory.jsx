@@ -51,7 +51,6 @@ const AddEditTravelStory = ({
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [activeStep, setActiveStep] = useState(1);
-  const [didBlur, setDidBlur] = useState(false);
   const [autoAdvancePaused, setAutoAdvancePaused] = useState(false);
   const [formCompleted, setFormCompleted] = useState({
     title: !!storyInfo?.title,
@@ -947,8 +946,8 @@ const AddEditTravelStory = ({
                     placeholder="Start writing your travel story here..."
                     value={story}
                     onChange={({ target }) => setStory(target.value)}
-                    onBlur={() => setDidBlur(true)}
-                    onFocus={() => setDidBlur(false)}
+                    onBlur={() =>  setAutoAdvancePaused(false)}
+                    onFocus={() => setAutoAdvancePaused(true)}
                   ></textarea>
                   <p className="text-xs sm:text-sm leading-relaxed text-slate-500 dark:text-slate-400 mt-3">
                     Describe your experience, include interesting details and
@@ -1143,248 +1142,148 @@ const AddEditTravelStory = ({
       </div>
 
       {/* Edit Confirmation Dialog */}
-      <AnimatePresence>
-        {showEditConfirmation && (
-          <motion.div
-            className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={(e) => {
-              if (e.target === e.currentTarget) {
-                setShowEditConfirmation(false);
-              }
-            }}
-          >
-            <motion.div
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden
-    w-full
-    max-w-[95vw]
-    sm:max-w-md
-    md:max-w-lg
-    lg:max-w-xl
-    xl:max-w-2xl
-    max-h-[85vh]
-    overflow-y-auto"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            >
-              <div className="p-4 sm:p-6 flex flex-col h-full justify-between">
-                <div>
-                  <div className="flex items-center mb-4">
-                    <div className="w-12 h-12 rounded-full bg-cyan-100 dark:bg-cyan-900/30 flex items-center justify-center mr-4">
-                      <MdEdit className="text-2xl text-cyan-500 dark:text-cyan-400" />
-                    </div>
-                    <h3 className="text-base sm:text-xl font-bold text-gray-900 dark:text-white">
-                      Save Changes?
-                    </h3>
-                  </div>
+            <AnimatePresence>
+                {showEditConfirmation && (
+                    <motion.div 
+                        className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={(e) => {
+                            if (e.target === e.currentTarget) {
+                                setShowEditConfirmation(false);
+                            }
+                        }}
+                    >
+                        <motion.div 
+                            className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-xl max-w-md aspect-square w-full"
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                        >
+                            <div className="p-6 flex flex-col h-full justify-between">
+                                <div>
+                                    <div className="flex items-center mb-4">
+                                        <div className="w-12 h-12 rounded-full bg-cyan-100 dark:bg-cyan-900/30 flex items-center justify-center mr-4">
+                                            <MdEdit className="text-2xl text-cyan-500 dark:text-cyan-400" />
+                                        </div>
+                                        <h3 className="text-xl font-bold text-gray-900 dark:text-white">Save Changes?</h3>
+                                    </div>
+                                    
+                                    <div>
+                                        <p className="text-gray-700 dark:text-gray-300 mb-3">
+                                            You're about to update "<span className="font-semibold text-gray-900 dark:text-white">{title}</span>". 
+                                        </p>
+                                        
+                                        <div className="bg-cyan-50 dark:bg-cyan-900/20 border border-cyan-200 dark:border-cyan-800 rounded-lg p-3 mb-3">
+                                            <p className="text-cyan-700 dark:text-cyan-300 text-sm flex items-start">
+                                                <MdInfo className="text-cyan-500 mr-2 mt-0.5 flex-shrink-0" />
+                                                Updated content:
+                                            </p>
+                                            <ul className="mt-2 ml-6 text-sm text-cyan-700 dark:text-cyan-300 space-y-1 list-disc">
+                                                <li>Title and date</li>
+                                                <li>Story content</li>
+                                                {typeof storyImg === "object" && <li>Image</li>}
+                                                <li>Locations</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div className="flex justify-end gap-3 mt-auto">
+                                    <motion.button 
+                                        className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg border border-gray-200 dark:border-gray-600"
+                                        onClick={() => setShowEditConfirmation(false)}
+                                        whileHover={{ scale: 1.02 }}
+                                        whileTap={{ scale: 0.98 }}
+                                    >
+                                        Cancel
+                                    </motion.button>
+                                    <motion.button 
+                                        className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white rounded-lg flex items-center shadow-sm"
+                                        onClick={proceedWithUpdate}
+                                        whileHover={{ scale: 1.02 }}
+                                        whileTap={{ scale: 0.98 }}
+                                    >
+                                        <MdUpdate className="mr-1" /> Save
+                                    </motion.button>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
-                  <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 mb-3 leading-relaxed">
-                    You're about to update "
-                    <span className="font-semibold text-gray-900 dark:text-white">
-                      {title}
-                    </span>
-                    ".
-                  </p>
-
-                  <div className="bg-cyan-50 dark:bg-cyan-900/20 border border-cyan-200 dark:border-cyan-800 rounded-lg p-3 mb-3">
-                    <p className="text-cyan-700 dark:text-cyan-300 text-sm flex items-start">
-                      <MdInfo className="text-cyan-500 mr-2 mt-0.5 flex-shrink-0" />
-                      Updated content:
-                    </p>
-                    <ul className="mt-2 ml-6 text-sm text-cyan-700 dark:text-cyan-300 space-y-1 list-disc">
-                      <li>Title and date</li>
-                      <li>Story content</li>
-                      {typeof storyImg === "object" && <li>Image</li>}
-                      <li>Locations</li>
-                    </ul>
-                  </div>
-                </div>
-
-                {/* Buttons */}
-                <div className="flex flex-col sm:flex-row justify-end gap-3 mt-auto">
-                  <motion.button
-                    className="w-full sm:w-auto px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg border border-gray-200 dark:border-gray-600 min-h-[44px]"
-                    onClick={() => setShowEditConfirmation(false)}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    Cancel
-                  </motion.button>
-                  <motion.button
-                    className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white rounded-lg flex items-center justify-center shadow-sm min-h-[44px]"
-                    onClick={proceedWithUpdate}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <MdUpdate className="mr-1" /> Save
-                  </motion.button>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-      <AnimatePresence>
-        {showEditConfirmation && (
-          <motion.div
-            className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={(e) => {
-              if (e.target === e.currentTarget) {
-                setShowEditConfirmation(false);
-              }
-            }}
-          >
-            <motion.div
-              className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-xl w-full max-w-sm sm:max-w-md max-h-[80vh] overflow-y-auto"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            >
-              <div className="p-4 sm:p-6 flex flex-col h-full justify-between">
-                <div>
-                  <div className="flex items-center mb-4">
-                    <div className="w-12 h-12 rounded-full bg-cyan-100 dark:bg-cyan-900/30 flex items-center justify-center mr-4">
-                      <MdEdit className="text-2xl text-cyan-500 dark:text-cyan-400" />
-                    </div>
-                    <h3 className="text-base sm:text-xl font-bold text-gray-900 dark:text-white">
-                      Save Changes?
-                    </h3>
-                  </div>
-
-                  <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 mb-3 leading-relaxed">
-                    You're about to update "
-                    <span className="font-semibold text-gray-900 dark:text-white">
-                      {title}
-                    </span>
-                    ".
-                  </p>
-
-                  <div className="bg-cyan-50 dark:bg-cyan-900/20 border border-cyan-200 dark:border-cyan-800 rounded-lg p-3 mb-3">
-                    <p className="text-cyan-700 dark:text-cyan-300 text-sm flex items-start">
-                      <MdInfo className="text-cyan-500 mr-2 mt-0.5 flex-shrink-0" />
-                      Updated content:
-                    </p>
-                    <ul className="mt-2 ml-6 text-sm text-cyan-700 dark:text-cyan-300 space-y-1 list-disc">
-                      <li>Title and date</li>
-                      <li>Story content</li>
-                      {typeof storyImg === "object" && <li>Image</li>}
-                      <li>Locations</li>
-                    </ul>
-                  </div>
-                </div>
-
-                {/* Buttons */}
-                <div className="flex flex-col sm:flex-row justify-end gap-3 mt-auto">
-                  <motion.button
-                    className="w-full sm:w-auto px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg border border-gray-200 dark:border-gray-600 min-h-[44px]"
-                    onClick={() => setShowEditConfirmation(false)}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    Cancel
-                  </motion.button>
-                  <motion.button
-                    className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white rounded-lg flex items-center justify-center shadow-sm min-h-[44px]"
-                    onClick={proceedWithUpdate}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <MdUpdate className="mr-1" /> Save
-                  </motion.button>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Create Confirmation Dialog */}
-      <AnimatePresence>
-        {showEditConfirmation && (
-          <motion.div
-            className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={(e) => {
-              if (e.target === e.currentTarget) {
-                setShowEditConfirmation(false);
-              }
-            }}
-          >
-            <motion.div
-              className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-xl max-w-md aspect-square w-full"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            >
-              <div className="p-6 flex flex-col h-full justify-between">
-                <div>
-                  <div className="flex items-center mb-4">
-                    <div className="w-12 h-12 rounded-full bg-cyan-100 dark:bg-cyan-900/30 flex items-center justify-center mr-4">
-                      <MdEdit className="text-2xl text-cyan-500 dark:text-cyan-400" />
-                    </div>
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                      Save Changes?
-                    </h3>
-                  </div>
-
-                  <div>
-                    <p className="text-gray-700 dark:text-gray-300 mb-3">
-                      You're about to update "
-                      <span className="font-semibold text-gray-900 dark:text-white">
-                        {title}
-                      </span>
-                      ".
-                    </p> 
-
-                    <div className="bg-cyan-50 dark:bg-cyan-900/20 border border-cyan-200 dark:border-cyan-800 rounded-lg p-3 mb-3">
-                      <p className="text-cyan-700 dark:text-cyan-300 text-sm flex items-start">
-                        <MdInfo className="text-cyan-500 mr-2 mt-0.5 flex-shrink-0" />
-                        Updated content:
-                      </p>
-                      <ul className="mt-2 ml-6 text-sm text-cyan-700 dark:text-cyan-300 space-y-1 list-disc">
-                        <li>Title and date</li>
-                        <li>Story content</li>
-                        {typeof storyImg === "object" && <li>Image</li>}
-                        <li>Locations</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex justify-end gap-3 mt-auto">
-                  <motion.button
-                    className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg border border-gray-200 dark:border-gray-600"
-                    onClick={() => setShowEditConfirmation(false)}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    Cancel
-                  </motion.button>
-                  <motion.button
-                    className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white rounded-lg flex items-center shadow-sm"
-                    onClick={proceedWithUpdate}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <MdUpdate className="mr-1" /> Save
-                  </motion.button>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            {/* Create Confirmation Dialog */}
+            <AnimatePresence>
+                {showSaveConfirmation && (
+                    <motion.div 
+                        className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={(e) => {
+                            if (e.target === e.currentTarget) {
+                                setShowSaveConfirmation(false);
+                            }
+                        }}
+                    >
+                        <motion.div 
+                            className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-xl max-w-md aspect-square w-full"
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                        >
+                            <div className="p-6 flex flex-col h-full justify-between">
+                                <div>
+                                    <div className="flex items-center mb-4">
+                                        <div className="w-12 h-12 rounded-full bg-cyan-100 dark:bg-cyan-900/30 flex items-center justify-center mr-4">
+                                            <MdSave className="text-2xl text-cyan-500 dark:text-cyan-400" />
+                                        </div>
+                                        <h3 className="text-xl font-bold text-gray-900 dark:text-white">Save Memory?</h3>
+                                    </div>
+                                    
+                                    <div>
+                                        <p className="text-gray-700 dark:text-gray-300 mb-3">
+                                            You're about to save "<span className="font-semibold text-gray-900 dark:text-white">{title}</span>" to your travel collection.
+                                        </p>
+                                        
+                                        <div className="bg-cyan-50 dark:bg-cyan-900/20 border border-cyan-200 dark:border-cyan-800 rounded-lg p-3">
+                                            <div className="flex items-start">
+                                                <MdInfo className="text-cyan-500 mr-2 mt-0.5 flex-shrink-0" />
+                                                <p className="text-cyan-700 dark:text-cyan-300 text-sm">
+                                                    You can edit or delete this memory later from your dashboard.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div className="flex justify-end gap-3 mt-auto">
+                                    <motion.button 
+                                        className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg border border-gray-200 dark:border-gray-600"
+                                        onClick={() => setShowSaveConfirmation(false)}
+                                        whileHover={{ scale: 1.02 }}
+                                        whileTap={{ scale: 0.98 }}
+                                    >
+                                        Cancel
+                                    </motion.button>
+                                    <motion.button 
+                                        className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white rounded-lg flex items-center shadow-sm"
+                                        onClick={proceedWithAdd}
+                                        whileHover={{ scale: 1.02 }}
+                                        whileTap={{ scale: 0.98 }}
+                                    >
+                                        <MdAdd className="mr-1" /> Create
+                                    </motion.button>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
     </motion.div>
   );
 };
