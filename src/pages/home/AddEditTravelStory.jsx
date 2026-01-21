@@ -1345,7 +1345,7 @@ const AddEditTravelStory = ({
                         {title}
                       </span>
                       ".
-                    </p>
+                    </p> 
 
                     <div className="bg-cyan-50 dark:bg-cyan-900/20 border border-cyan-200 dark:border-cyan-800 rounded-lg p-3 mb-3">
                       <p className="text-cyan-700 dark:text-cyan-300 text-sm flex items-start">
