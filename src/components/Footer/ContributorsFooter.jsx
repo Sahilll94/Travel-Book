@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaTwitter, FaHeart, FaCode, FaUsers, FaBook, FaEnvelope } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaXTwitter, FaHeart, FaCode, FaUsers, FaBook, FaEnvelope } from 'react-icons/fa';
 import { BiCopyright, BiLink } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
