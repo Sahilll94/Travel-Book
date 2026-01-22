@@ -196,7 +196,7 @@ const StoryDetails = () => {
                   <div className="w-full h-full p-4 flex flex-col">
                     {/* Logo area */}
                     <div className="flex justify-center mb-2">
-                      <img src={logo} alt="Travel Book Logo" className="h-10" />
+                      <img src={logo} loading="eager" alt="Travel Book Logo" className="h-10" />
                     </div>
                     
                     {/* Main content */}
@@ -208,6 +208,7 @@ const StoryDetails = () => {
                         <img 
                           src={story.imageUrl} 
                           alt={story.title} 
+                          loading="lazy"
                           className="w-full h-full object-cover"
                         />
                       </div>
@@ -345,6 +346,7 @@ const StoryDetails = () => {
                 <img 
                   src={story.imageUrl} 
                   alt={story.title} 
+                  loading="lazy"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -378,7 +380,7 @@ const StoryDetails = () => {
             
             {/* Create your own travel story */}
             <div className="bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl shadow-lg p-8 text-center text-white">
-              <img src={logo} alt="Travel Book" className="h-16 mx-auto mb-4" />
+              <img src={logo} alt="Travel Book" loading="eager" className="h-16 mx-auto mb-4" />
               <h2 className="text-2xl font-bold mb-3">Create Your Own Travel Story</h2>
               <p className="text-white/90 mb-6">Document and share your travel memories with friends and family</p>
               <a 

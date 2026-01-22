@@ -136,7 +136,8 @@ const ImageSelector = ({ image, setImage, handleDeleteImg }) => {
                     >
                         <img 
                             src={previewUrl} 
-                            alt="Selected memory" 
+                            alt="Selected memory"
+                            loading="lazy"
                             className="w-full h-[500px] object-cover rounded-lg shadow-sm border border-slate-200 dark:border-gray-700"
                         />
                         

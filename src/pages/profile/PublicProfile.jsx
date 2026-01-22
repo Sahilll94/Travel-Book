@@ -143,6 +143,7 @@ const PublicProfile = () => {
                         <img 
                           src={profileData.profileImage || '/avatar-default.png'} 
                           alt={profileData.fullName || 'User'} 
+                          loading="lazy"
                           className="w-full h-full object-cover"
                           onError={(e) => {
                             e.target.onerror = null;

@@ -11,7 +11,7 @@ const HowItWorks = () => {
 
                 <div className="relative mt-12 lg:mt-20">
                     <div className="absolute inset-x-0 hidden xl:px-44 top-2 md:block md:px-20 lg:px-28">
-                        <img className="w-full opacity-70 dark:opacity-30" src="https://cdn.rareblocks.xyz/collection/celebration/images/steps/2/curved-dotted-line.svg" alt="" />
+                        <img className="w-full opacity-70 dark:opacity-30" src="https://cdn.rareblocks.xyz/collection/celebration/images/steps/2/curved-dotted-line.svg" loading="lazy" alt="" />
                     </div>
 
                     <div className="relative grid grid-cols-1 text-center gap-y-12 md:grid-cols-3 gap-x-12">

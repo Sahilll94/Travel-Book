@@ -1674,6 +1674,7 @@ const Home = () => {
                     <img 
                       src={shareModal.story.imageUrl} 
                       alt={shareModal.story.title}
+                      loading="lazy"
                       className="w-16 h-16 object-cover rounded-md mr-3"
                     />
                     <div>

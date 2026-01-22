@@ -20,7 +20,7 @@ const Terms = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <img src={logo} alt="Travel Book Logo" className='h-12 sm:h-16' />
+            <img src={logo} loading="eager" alt="Travel Book Logo" className='h-12 sm:h-16' />
           </motion.a>
           
           <div className="flex items-center gap-4">
@@ -174,7 +174,7 @@ const Terms = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="md:col-span-1">
                 <Link to="/">
-                  <img src={logo} alt="Travel Book Logo" className="h-16 mb-4" />
+                  <img src={logo} loading="eager" alt="Travel Book Logo" className="h-16 mb-4" />
                 </Link>
                 <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
                   Travel Book helps you document and share your adventures around the world.

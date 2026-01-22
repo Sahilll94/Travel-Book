@@ -70,7 +70,7 @@ const Navbar = ({
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
             >
-                <img src={logo} alt="Travel Book Logo" className='h-12 sm:h-16' />
+                <img src={logo} loading="eager" alt="Travel Book Logo" className='h-12 sm:h-16' />
             </motion.a>
 
             {isToken && (
