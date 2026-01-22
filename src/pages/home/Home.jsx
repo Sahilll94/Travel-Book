@@ -706,12 +706,12 @@ const Home = () => {
       // Show only recent stories (last 30 days)
       const today = new Date();
       today.setHours(0, 0, 0, 0); // Start of today
-      const thirtyDaysAgo = new Date();
-      thirtyDaysAgo.setHours(0, 0, 0, 0);
+      const thirtyDaysAgo = new Date(today);
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      
       stories = stories.filter(story => {
         const storyDate = new Date(story.visitedDate);
-        storyDate.setHours(0, 0, 0, 0);
+        storyDate.setHours(0, 0, 0, 0); // Compare only dates, not times
         return storyDate >= thirtyDaysAgo;
       });
     }
@@ -1400,7 +1400,7 @@ const Home = () => {
           },
         }}
         appElement={document.getElementById('root')}
-        className="model-box w-full max-w-[clamp(340px,67vw,780px)]  mx-auto max-h-[90vh] overflow-y-auto"
+        className="model-box"
       >
         <AddEditTravelStory
           type={openAddEditModal.type}
@@ -1422,7 +1422,7 @@ const Home = () => {
           },
         }}
         appElement={document.getElementById('root')}
-        className="model-box w-full max-w-[clamp(340px,67vw,780px)]  mx-auto max-h-[90vh] overflow-y-auto"
+        className="model-box"
       >
         <ViewTravelStory
           storyInfo={openViewModal.data || null}
@@ -1444,7 +1444,7 @@ const Home = () => {
           },
         }}
         appElement={document.getElementById('root')}
-        className="model-box w-full max-w-[clamp(340px,67vw,780px)]  mx-auto max-h-[90vh] overflow-y-auto"
+        className="model-box max-w-3xl mx-auto"
       >
         <TravelAnalytics onClose={() => setShowAnalytics(false)} />
       </Modal>
@@ -1476,7 +1476,7 @@ const Home = () => {
           }
         }}
         appElement={document.getElementById('root')}
-        className="model-box w-full max-w-[clamp(340px,67vw,780px)]  mx-auto max-h-[90vh] overflow-y-auto"
+        className="model-box max-w-md mx-auto"
       >
         <motion.div
           className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-2xl"
@@ -1559,7 +1559,7 @@ const Home = () => {
           }
         }}
         appElement={document.getElementById('root')}
-        className="model-box w-full max-w-[clamp(340px,67vw,780px)]  mx-auto max-h-[90vh] overflow-y-auto"
+        className="model-box max-w-md mx-auto"
       >
         <motion.div
           className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-2xl"
@@ -1642,7 +1642,7 @@ const Home = () => {
           }
         }}
         appElement={document.getElementById('root')}
-        className="model-box w-full max-w-[clamp(340px,67vw,780px)]  mx-auto max-h-[90vh] overflow-y-auto"
+        className="model-box max-w-lg mx-auto"
       >
         <motion.div 
           className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-xl"
