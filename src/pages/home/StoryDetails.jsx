@@ -380,7 +380,7 @@ const StoryDetails = () => {
             
             {/* Create your own travel story */}
             <div className="bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl shadow-lg p-8 text-center text-white">
-              <img src={logo} alt="Travel Book" loading="eager" className="h-16 mx-auto mb-4" />
+              <img src={logo} alt="Travel Book" loading="lazy" className="h-16 mx-auto mb-4" />
               <h2 className="text-2xl font-bold mb-3">Create Your Own Travel Story</h2>
               <p className="text-white/90 mb-6">Document and share your travel memories with friends and family</p>
               <a 
