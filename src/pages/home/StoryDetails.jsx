@@ -196,7 +196,7 @@ const StoryDetails = () => {
                   <div className="w-full h-full p-4 flex flex-col">
                     {/* Logo area */}
                     <div className="flex justify-center mb-2">
-                      <img src={logo} loading="eager" alt="Travel Book Logo" className="h-10" />
+                      <img src={logo} loading="lazy" alt="Travel Book Logo" className="h-10" />
                     </div>
                     
                     {/* Main content */}
