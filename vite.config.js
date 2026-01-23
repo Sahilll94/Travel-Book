@@ -189,10 +189,18 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (id.includes('node_modules')) {
-            if (id.includes('react')) return 'react-vendor';
-            if (id.includes('firebase')) return 'firebase-vendor';
-            if (id.includes('lottie')) return 'lottie-vendor'; // if using animations
+            const moduleName = id.split('node_modules/').pop().split('/')[0];
+
+            if (['react', 'react-dom', 'react-router-dom'].includes(moduleName)) {
+              return 'react-vendor';
+            }
+
+            if (moduleName.startsWith('firebase')) {
+              return 'firebase-vendor';
+            }
             
+            if (moduleName === 'chart.js') return 'chartjs-vendor';
+
             return 'vendor';
           }
         },
