@@ -15,7 +15,7 @@ const Footer = () => {
           <div className="lg:col-span-4">
             <div className="flex items-center mb-0">
               <a href="/">
-                <img className="w-20 h-20" src={logo} loading="eager" alt="" />
+                <img className="w-20 h-20" src={logo} loading="lazy" alt="Travel Book Logo" />
               </a>
             </div>
 
