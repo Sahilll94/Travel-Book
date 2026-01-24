@@ -1397,6 +1397,7 @@ const Home = () => {
           overlay: {
             backgroundColor: 'rgba(0,0,0,0.2)',
             zIndex: 999,
+            backdropFilter: 'blur(10px)',
           },
         }}
         appElement={document.getElementById('root')}
@@ -1419,6 +1420,7 @@ const Home = () => {
           overlay: {
             backgroundColor: 'rgba(0,0,0,0.2)',
             zIndex: 999,
+            backdropFilter: 'blur(10px)',
           },
         }}
         appElement={document.getElementById('root')}
@@ -1441,6 +1443,7 @@ const Home = () => {
           overlay: {
             backgroundColor: 'rgba(0,0,0,0.2)',
             zIndex: 999,
+            backdropFilter: 'blur(10px)',
           },
         }}
         appElement={document.getElementById('root')}

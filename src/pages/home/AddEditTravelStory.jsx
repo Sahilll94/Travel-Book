@@ -231,7 +231,7 @@ const AddEditTravelStory = ({
 
     return (
         <motion.div 
-            className='relative bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-gray-900/60 p-3 sm:p-6 transition-all duration-300 max-w-4xl mx-auto'
+            className='relative bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-gray-900/60 p-2 sm:p-6 transition-all duration-300 w-full'
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
@@ -522,7 +522,7 @@ const AddEditTravelStory = ({
                     </div>
                 </div>
 
-                <div className='md:col-span-2 p-4 sm:p-5 border rounded-lg bg-white/50 dark:bg-gray-800/50 border-slate-200 dark:border-gray-700 shadow-sm'>
+                <div className='md:col-span-2 p-2 sm:p-5 border rounded-lg bg-white/50 dark:bg-gray-800/50 border-slate-200 dark:border-gray-700 shadow-sm'>
                     <AnimatePresence mode="wait">
                         {activeStep === 1 && (
                             <motion.div 
@@ -536,14 +536,14 @@ const AddEditTravelStory = ({
                                 <h3 className='text-lg font-semibold text-slate-800 dark:text-white mb-4 flex items-center'>
                                     <MdTitle className='mr-2 text-cyan-500' /> Title your memory
                                 </h3>
-                                <div className='bg-white dark:bg-gray-800 p-5 rounded-lg shadow-sm border border-slate-200 dark:border-gray-700'>
-                                    <input
-                                        type="text"
-                                        className='text-2xl w-full text-slate-800 dark:text-white outline-none border-b-2 border-slate-200 dark:border-gray-600 focus:border-cyan-400 dark:focus:border-cyan-600 pb-2 transition-all bg-transparent'
-                                        placeholder='A memorable day at...'
-                                        value={title}
-                                        onChange={({ target }) => setTitle(target.value)}
-                                    />
+                                    <div className='bg-white dark:bg-gray-800 p-2 sm:p-5 rounded-lg shadow-sm border border-slate-200 dark:border-gray-700'>
+                                        <input
+                                            type="text"
+                                            className='text-xl sm:text-2xl w-full text-slate-800 dark:text-white outline-none border-b-2 border-slate-200 dark:border-gray-600 focus:border-cyan-400 dark:focus:border-cyan-600 pb-2 transition-all bg-transparent'
+                                            placeholder='A memorable day at...'
+                                            value={title}
+                                            onChange={({ target }) => setTitle(target.value)}
+                                        />
                                     <p className='text-xs text-slate-500 dark:text-slate-400 mt-3'>Give your travel memory a catchy title that captures the essence of your experience.</p>
                                     
                                     {formCompleted.title && window.innerWidth < 768 && (
@@ -564,7 +564,7 @@ const AddEditTravelStory = ({
                                     <div className='mt-6 flex justify-between'>
                                         <div></div>
                                         <motion.button 
-                                            className='bg-cyan-500 hover:bg-cyan-600 text-white px-5 py-2.5 rounded-lg transition-colors flex items-center shadow-sm'
+                                            className='bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg transition-colors flex items-center shadow-sm text-sm sm:text-base'
                                             onClick={() => setActiveStep(2)}
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}
@@ -588,7 +588,7 @@ const AddEditTravelStory = ({
                                 <h3 className='text-lg font-semibold text-slate-800 dark:text-white mb-4 flex items-center'>
                                     <MdCalendarToday className='mr-2 text-cyan-500' /> When did this happen?
                                 </h3>
-                                <div className='bg-white dark:bg-gray-800 p-5 rounded-lg shadow-sm border border-slate-200 dark:border-gray-700'>
+                                <div className='bg-white dark:bg-gray-800 p-2 sm:p-5 rounded-lg shadow-sm border border-slate-200 dark:border-gray-700'>
                                     <DataSelector date={visitedDate} setDate={setVisitedDate} />
                                     <p className='text-xs text-slate-500 dark:text-slate-400 mt-3'>Select the date when you visited this location.</p>
                                     
@@ -607,17 +607,17 @@ const AddEditTravelStory = ({
                                         <span>Swipe left/right to navigate between steps</span>
                                     </div>
                                     
-                                    <div className='mt-6 flex justify-between'>
+                                    <div className='mt-6 flex justify-between gap-2'>
                                         <motion.button 
-                                            className='border border-slate-300 dark:border-gray-600 hover:bg-slate-100 dark:hover:bg-gray-700 text-slate-700 dark:text-slate-200 px-5 py-2.5 rounded-lg transition-colors flex items-center'
+                                            className='border border-slate-300 dark:border-gray-600 hover:bg-slate-100 dark:hover:bg-gray-700 text-slate-700 dark:text-slate-200 px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg transition-colors flex items-center text-sm sm:text-base'
                                             onClick={() => setActiveStep(1)}
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}
                                         >
-                                            <MdKeyboardArrowLeft className="mr-1 text-xl" /> Previous
+                                            <MdKeyboardArrowLeft className="mr-1 text-xl" /> Back
                                         </motion.button>
                                         <motion.button 
-                                            className='bg-cyan-500 hover:bg-cyan-600 text-white px-5 py-2.5 rounded-lg transition-colors flex items-center shadow-sm'
+                                            className='bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg transition-colors flex items-center shadow-sm text-sm sm:text-base'
                                             onClick={() => setActiveStep(3)}
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}
@@ -641,7 +641,7 @@ const AddEditTravelStory = ({
                                 <h3 className='text-lg font-semibold text-slate-800 dark:text-white mb-4 flex items-center'>
                                     <MdImage className='mr-2 text-cyan-500' /> Add a photo
                                 </h3>
-                                <div className='bg-white dark:bg-gray-800 p-5 rounded-lg shadow-sm border border-slate-200 dark:border-gray-700'>
+                                <div className='bg-white dark:bg-gray-800 p-2 sm:p-5 rounded-lg shadow-sm border border-slate-200 dark:border-gray-700'>
                                     <ImageSelector image={storyImg} setImage={setStoryImg} handleDeleteImg={handleDeleteStoryImg} />
                                     <p className='text-xs text-slate-500 dark:text-slate-400 mt-3'>Upload a photo that best captures your travel experience.</p>
                                     
@@ -660,17 +660,17 @@ const AddEditTravelStory = ({
                                         <span>Swipe left/right to navigate between steps</span>
                                     </div>
                                     
-                                    <div className='mt-6 flex justify-between'>
+                                    <div className='mt-6 flex justify-between gap-2'>
                                         <motion.button 
-                                            className='border border-slate-300 dark:border-gray-600 hover:bg-slate-100 dark:hover:bg-gray-700 text-slate-700 dark:text-slate-200 px-5 py-2.5 rounded-lg transition-colors flex items-center'
+                                            className='border border-slate-300 dark:border-gray-600 hover:bg-slate-100 dark:hover:bg-gray-700 text-slate-700 dark:text-slate-200 px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg transition-colors flex items-center text-sm sm:text-base'
                                             onClick={() => setActiveStep(2)}
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}
                                         >
-                                            <MdKeyboardArrowLeft className="mr-1 text-xl" /> Previous
+                                            <MdKeyboardArrowLeft className="mr-1 text-xl" /> Back
                                         </motion.button>
                                         <motion.button 
-                                            className='bg-cyan-500 hover:bg-cyan-600 text-white px-5 py-2.5 rounded-lg transition-colors flex items-center shadow-sm'
+                                            className='bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg transition-colors flex items-center shadow-sm text-sm sm:text-base'
                                             onClick={() => setActiveStep(4)}
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}
@@ -694,7 +694,7 @@ const AddEditTravelStory = ({
                                 <h3 className='text-lg font-semibold text-slate-800 dark:text-white mb-4 flex items-center'>
                                     <MdDescription className='mr-2 text-cyan-500' /> Tell your story
                                 </h3>
-                                <div className='bg-white dark:bg-gray-800 p-5 rounded-lg shadow-sm border border-slate-200 dark:border-gray-700'>
+                                <div className='bg-white dark:bg-gray-800 p-2 sm:p-5 rounded-lg shadow-sm border border-slate-200 dark:border-gray-700'>
                                     <textarea
                                         className='w-full text-slate-800 dark:text-white outline-none border border-slate-200 dark:border-gray-600 rounded-lg p-3 focus:border-cyan-400 dark:focus:border-cyan-600 focus:ring-2 focus:ring-cyan-100 dark:focus:ring-cyan-900/30 transition-all min-h-[150px] sm:min-h-[200px] bg-transparent text-base sm:text-sm'
                                         placeholder='Start writing your travel story here...'
@@ -718,17 +718,17 @@ const AddEditTravelStory = ({
                                         <span>Swipe left/right to navigate between steps</span>
                                     </div>
                                     
-                                    <div className='mt-6 flex justify-between'>
+                                    <div className='mt-6 flex justify-between gap-2'>
                                         <motion.button 
-                                            className='border border-slate-300 dark:border-gray-600 hover:bg-slate-100 dark:hover:bg-gray-700 text-slate-700 dark:text-slate-200 px-5 py-2.5 rounded-lg transition-colors flex items-center'
+                                            className='border border-slate-300 dark:border-gray-600 hover:bg-slate-100 dark:hover:bg-gray-700 text-slate-700 dark:text-slate-200 px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg transition-colors flex items-center text-sm sm:text-base'
                                             onClick={() => setActiveStep(3)}
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}
                                         >
-                                            <MdKeyboardArrowLeft className="mr-1 text-xl" /> Previous
+                                            <MdKeyboardArrowLeft className="mr-1 text-xl" /> Back
                                         </motion.button>
                                         <motion.button 
-                                            className='bg-cyan-500 hover:bg-cyan-600 text-white px-5 py-2.5 rounded-lg transition-colors flex items-center shadow-sm'
+                                            className='bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg transition-colors flex items-center shadow-sm text-sm sm:text-base'
                                             onClick={() => setActiveStep(5)}
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}
@@ -752,7 +752,7 @@ const AddEditTravelStory = ({
                                 <h3 className='text-lg font-semibold text-slate-800 dark:text-white mb-4 flex items-center'>
                                     <MdLocationOn className='mr-2 text-cyan-500' /> Add locations
                                 </h3>
-                                <div className='bg-white dark:bg-gray-800 p-5 rounded-lg shadow-sm border border-slate-200 dark:border-gray-700'>
+                                <div className='bg-white dark:bg-gray-800 p-2 sm:p-5 rounded-lg shadow-sm border border-slate-200 dark:border-gray-700'>
                                     <TagInput tags={visitedLocation} setTags={setVisitedLocation} />
                                     <p className='text-xs text-slate-500 dark:text-slate-400 mt-3'>Add all the places you visited during this trip.</p>
                                     
@@ -784,17 +784,17 @@ const AddEditTravelStory = ({
                                         <span>Swipe left/right to navigate between steps</span>
                                     </div>
                                     
-                                    <div className='mt-6 flex justify-between'>
+                                    <div className='mt-6 flex justify-between gap-2'>
                                         <motion.button 
-                                            className='border border-slate-300 dark:border-gray-600 hover:bg-slate-100 dark:hover:bg-gray-700 text-slate-700 dark:text-slate-200 px-5 py-2.5 rounded-lg transition-colors flex items-center'
+                                            className='border border-slate-300 dark:border-gray-600 hover:bg-slate-100 dark:hover:bg-gray-700 text-slate-700 dark:text-slate-200 px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg transition-colors flex items-center text-sm sm:text-base'
                                             onClick={() => setActiveStep(4)}
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}
                                         >
-                                            <MdKeyboardArrowLeft className="mr-1 text-xl" /> Previous
+                                            <MdKeyboardArrowLeft className="mr-1 text-xl" /> Back
                                         </motion.button>
                                         <motion.button 
-                                            className={`px-6 py-3 rounded-lg text-white flex items-center justify-center font-medium transition-all shadow-sm ${loading ? 'bg-cyan-400 dark:bg-cyan-600 cursor-not-allowed' : 'bg-gradient-to-r from-cyan-500 to-cyan-600 dark:from-cyan-600 dark:to-cyan-700 hover:from-cyan-600 hover:to-cyan-700 dark:hover:from-cyan-500 dark:hover:to-cyan-600'}`}
+                                            className={`px-4 py-2 sm:px-6 sm:py-3 rounded-lg text-white flex items-center justify-center font-medium transition-all shadow-sm text-sm sm:text-base ${loading ? 'bg-cyan-400 dark:bg-cyan-600 cursor-not-allowed' : 'bg-gradient-to-r from-cyan-500 to-cyan-600 dark:from-cyan-600 dark:to-cyan-700 hover:from-cyan-600 hover:to-cyan-700 dark:hover:from-cyan-500 dark:hover:to-cyan-600'}`}
                                             onClick={handleAddOrUpdateClick}
                                             disabled={loading}
                                             whileHover={!loading ? { scale: 1.05 } : {}}
