@@ -231,7 +231,7 @@ const AddEditTravelStory = ({
 
     return (
         <motion.div 
-            className='relative bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-gray-900/60 p-3 sm:p-6 transition-all duration-300 max-w-4xl mx-auto'
+            className='relative bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-gray-900/60 p-3 sm:p-6 transition-all duration-300 w-full'
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
