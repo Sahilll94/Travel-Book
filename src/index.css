@@ -89,7 +89,7 @@
   }
 
   .model-box {
-    @apply w-[90vw] md:w-[90%] h-[90vh] bg-white dark:bg-gray-800 rounded-lg mx-auto mt-14 p-5 overflow-y-scroll scrollbar z-50 dark:text-white border dark:border-gray-700;
+    @apply w-[95vw] md:w-[90%] h-[90vh] bg-white dark:bg-gray-800 rounded-lg mx-auto mt-4 md:mt-14 p-3 md:p-5 overflow-y-scroll scrollbar z-50 dark:text-white border dark:border-gray-700;
   }
 
   .btn-small {
