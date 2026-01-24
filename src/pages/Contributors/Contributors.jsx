@@ -4,7 +4,7 @@ import { FaGithub, FaLinkedin, FaGlobe, FaMapMarkerAlt, FaExternalLinkAlt } from
 import { BiCode, BiUserPlus } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../utils/AuthContext';
-import axiosInstance from '../../utils/axiosInstance';
+import ContributorService from '../../services/contributorService';
 import ContributorsFooter from '../../components/Footer/ContributorsFooter';
 import ContributorsNavbar from '../../components/Navbar/ContributorsNavbar';
 
@@ -23,8 +23,8 @@ const Contributors = () => {
 
   const fetchContributors = async () => {
     try {
-      const response = await axiosInstance.get('/contributors');
-      setContributors(response.data.contributors || []);
+      const data = await ContributorService.getContributors();
+      setContributors(data.contributors || []);
     } catch (error) {
       console.error('Error fetching contributors:', error);
     } finally {
@@ -34,8 +34,7 @@ const Contributors = () => {
 
   const fetchPrsCount = async () => {
     try {
-      const response = await fetch('https://api.github.com/search/issues?q=repo:Sahilll94/Travel-Book+type:pr');
-      const data = await response.json();
+      const data = await ContributorService.getGithubPRs();
       if (data && data.total_count !== undefined) {
         setPrsCount(data.total_count.toString());
       }
@@ -50,8 +49,8 @@ const Contributors = () => {
     const normalizedFilter = filter.toLowerCase().replace(/\s+/g, '');
     const normalizedContributionType = contributor.contributionType?.toLowerCase().replace(/\s+/g, '') || '';
     return normalizedContributionType.includes(normalizedFilter) ||
-           normalizedContributionType === normalizedFilter ||
-           contributor.contributionType?.toLowerCase() === filter.toLowerCase();
+      normalizedContributionType === normalizedFilter ||
+      contributor.contributionType?.toLowerCase() === filter.toLowerCase();
   });
 
   const contributionTypes = ['All', 'Feature', 'Bug Fix', 'UI', 'Documentation'];
@@ -102,9 +101,9 @@ const Contributors = () => {
             Our Open Source Community
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
-            Travel Book is built by passionate developers from around the world. Every feature, bug fix, 
-            and improvement comes from the collaborative efforts of our contributor community. 
-            We believe in recognizing and celebrating the individuals who dedicate their time and skills 
+            Travel Book is built by passionate developers from around the world. Every feature, bug fix,
+            and improvement comes from the collaborative efforts of our contributor community.
+            We believe in recognizing and celebrating the individuals who dedicate their time and skills
             to making this project better for everyone.
           </p>
         </motion.div>
@@ -119,7 +118,7 @@ const Contributors = () => {
           <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-6">
             How to Contribute to Travel Book
           </h3>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
               <h4 className="text-lg font-medium text-gray-800 dark:text-gray-200 mb-3">
@@ -144,7 +143,7 @@ const Contributors = () => {
                 </li>
               </ul>
             </div>
-            
+
             <div>
               <h4 className="text-lg font-medium text-gray-800 dark:text-gray-200 mb-3">
                 Ways to Contribute
@@ -173,7 +172,7 @@ const Contributors = () => {
               </ul>
             </div>
           </div>
-          
+
           <div className="mt-8 p-6 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
             <h4 className="text-lg font-medium text-gray-800 dark:text-gray-200 mb-3">
               Submission Process
@@ -227,7 +226,7 @@ const Contributors = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
             <div className="flex items-center">
               <div className="p-3 bg-green-100 dark:bg-green-900 rounded-lg">
@@ -241,7 +240,7 @@ const Contributors = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700">
             <div className="flex items-center">
               <div className="p-3 bg-purple-100 dark:bg-purple-900 rounded-lg">
@@ -269,11 +268,10 @@ const Contributors = () => {
               <button
                 key={type}
                 onClick={() => setFilter(type)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  filter === type
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${filter === type
                     ? 'bg-cyan-500 text-white shadow-lg'
                     : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700'
-                }`}
+                  }`}
               >
                 {type.charAt(0).toUpperCase() + type.slice(1)}
               </button>

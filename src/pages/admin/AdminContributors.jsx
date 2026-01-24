@@ -3,9 +3,10 @@ import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { FaCheck, FaTimes, FaGithub, FaLinkedin, FaGlobe, FaEnvelope, FaTrash, FaSearch, FaFilter, FaUserShield, FaCalendarAlt, FaMapMarkerAlt, FaExternalLinkAlt, FaUsers, FaClipboardList, FaCheckCircle, FaTimesCircle, FaClock } from 'react-icons/fa';
 import { BiRefresh, BiDownload } from 'react-icons/bi';
-import axiosInstance from '../../utils/axiosInstance';
 import { useAuth } from '../../utils/AuthContext';
 import ContributorsNavbar from '../../components/Navbar/ContributorsNavbar';
+import AuthService from '../../services/authService';
+import ContributorService from '../../services/contributorService';
 
 const AdminContributors = () => {
   const { currentUser, loading: authLoading } = useAuth();
@@ -23,9 +24,9 @@ const AdminContributors = () => {
   // Function to get user info directly from API (same as Home component)
   const getUserInfo = async () => {
     try {
-      const user = await axiosInstance.get('/get-user');
-      setUserInfo(user.data.user);
-      console.log('User info from API:', user.data.user);
+      const data = await AuthService.getUser();
+      setUserInfo(data.user);
+      console.log('User info from API:', data.user);
     } catch (error) {
       console.error('Failed to get user info:', error);
       return null;
@@ -48,7 +49,7 @@ const AdminContributors = () => {
     console.log('Is admin (API):', userInfo?.email === 'sahilk64555@gmail.com');
     console.log('Is admin (combined):', isAdmin);
     console.log('========================');
-    
+
     if (!authLoading) {
       getUserInfo();
     }
@@ -63,9 +64,9 @@ const AdminContributors = () => {
   const fetchContributors = async () => {
     try {
       setLoading(true);
-      const response = await axiosInstance.get('/admin/contributors');
-      console.log('Fetched contributors:', response.data);
-      setContributors(response.data.contributors || []);
+      const data = await ContributorService.getAdminContributors();
+      console.log('Fetched contributors:', data);
+      setContributors(data.contributors || []);
     } catch (error) {
       console.error('Error fetching contributors:', error);
       toast.error('Failed to fetch contributors');
@@ -77,13 +78,13 @@ const AdminContributors = () => {
   const updateContributorStatus = async (contributorId, status) => {
     try {
       setProcessing({ ...processing, [contributorId]: true });
-      
-      const response = await axiosInstance.put(`/contributors/${contributorId}/status`, {
+
+      const data = await ContributorService.updateContributorStatus(contributorId, {
         status,
         adminNotes: selectedContributor === contributorId ? adminNotes : undefined
       });
 
-      if (response.data.success) {
+      if (data.success) {
         toast.success(`Contributor ${status} successfully!`);
         fetchContributors();
         setAdminNotes('');
@@ -100,9 +101,9 @@ const AdminContributors = () => {
   const exportContributors = async () => {
     try {
       // Get all contributors for export (no pagination)
-      const response = await axiosInstance.get('/admin/contributors?limit=1000');
-      const data = response.data.contributors || [];
-      
+      const data_api = await ContributorService.getAdminContributors({ limit: 1000 });
+      const data = data_api.contributors || [];
+
       if (data.length === 0) {
         toast.error('No contributors to export');
         return;
@@ -152,7 +153,7 @@ const AdminContributors = () => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      
+
       toast.success('Contributors exported successfully!');
     } catch (error) {
       console.error('Error exporting contributors:', error);
@@ -167,10 +168,10 @@ const AdminContributors = () => {
 
     try {
       setProcessing({ ...processing, [contributorId]: true });
-      
-      const response = await axiosInstance.delete(`/contributors/${contributorId}`);
 
-      if (response.data.success) {
+      const data = await ContributorService.deleteContributor(contributorId);
+
+      if (data.success) {
         toast.success('Contributor deleted successfully!');
         fetchContributors();
       }
@@ -219,7 +220,7 @@ const AdminContributors = () => {
       if (filter !== 'all' && contributor.status !== filter) {
         return false;
       }
-      
+
       // Apply search filter
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
@@ -231,12 +232,12 @@ const AdminContributors = () => {
           contributor.country?.toLowerCase().includes(query)
         );
       }
-      
+
       return true;
     })
     .sort((a, b) => {
       let aValue, bValue;
-      
+
       switch (sortBy) {
         case 'fullName':
           aValue = a.fullName.toLowerCase();
@@ -252,7 +253,7 @@ const AdminContributors = () => {
           bValue = new Date(b.submittedAt);
           break;
       }
-      
+
       if (sortOrder === 'asc') {
         return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
       } else {
@@ -271,7 +272,7 @@ const AdminContributors = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <ContributorsNavbar currentPage="admin" />
-      
+
       {/* Enhanced Header */}
       <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -289,7 +290,7 @@ const AdminContributors = () => {
                 </p>
               </div>
             </div>
-            
+
             <div className="flex items-center space-x-3">
               <button
                 onClick={fetchContributors}
@@ -299,8 +300,8 @@ const AdminContributors = () => {
                 <BiRefresh className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
                 <span>Refresh</span>
               </button>
-              
-              <button 
+
+              <button
                 onClick={exportContributors}
                 className="flex items-center space-x-2 px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 transition-colors"
               >
@@ -330,7 +331,7 @@ const AdminContributors = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center space-x-3">
               <div className="p-2 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg">
@@ -342,7 +343,7 @@ const AdminContributors = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center space-x-3">
               <div className="p-2 bg-green-100 dark:bg-green-900/20 rounded-lg">
@@ -354,7 +355,7 @@ const AdminContributors = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center space-x-3">
               <div className="p-2 bg-red-100 dark:bg-red-900/20 rounded-lg">
@@ -389,7 +390,7 @@ const AdminContributors = () => {
                 />
               </div>
             </div>
-            
+
             {/* Status Filter */}
             <div className="flex items-center space-x-2">
               <FaFilter className="text-gray-400 w-4 h-4" />
@@ -404,7 +405,7 @@ const AdminContributors = () => {
                 <option value="rejected">Rejected</option>
               </select>
             </div>
-            
+
             {/* Sort Controls */}
             <div className="flex items-center space-x-2">
               <select
@@ -416,7 +417,7 @@ const AdminContributors = () => {
                 <option value="fullName">Sort by Name</option>
                 <option value="contributionType">Sort by Type</option>
               </select>
-              
+
               <button
                 onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
                 className="px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
@@ -474,17 +475,16 @@ const AdminContributors = () => {
                               <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
                                 {contributor.fullName}
                               </h3>
-                              <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                                contributor.status === 'pending'
+                              <span className={`px-3 py-1 rounded-full text-sm font-medium ${contributor.status === 'pending'
                                   ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300'
                                   : contributor.status === 'approved'
-                                  ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300'
-                                  : 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-300'
-                              }`}>
+                                    ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300'
+                                    : 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-300'
+                                }`}>
                                 {contributor.status.charAt(0).toUpperCase() + contributor.status.slice(1)}
                               </span>
                             </div>
-                            
+
                             <div className="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-400">
                               <div className="flex items-center space-x-1">
                                 <FaGithub className="w-4 h-4" />
@@ -503,7 +503,7 @@ const AdminContributors = () => {
                             </div>
                           </div>
                         </div>
-                        
+
                         <div className="text-right">
                           <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">ID: {contributor._id.slice(-6)}</div>
                           <div className="flex items-center space-x-2">
@@ -555,7 +555,7 @@ const AdminContributors = () => {
                                 {contributor.contributionType}
                               </span>
                             </div>
-                            
+
                             <div>
                               <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Description:</span>
                               <p className="mt-1 text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-700 p-3 rounded-lg text-sm">
@@ -574,7 +574,7 @@ const AdminContributors = () => {
                                 <span className="text-gray-600 dark:text-gray-400">{contributor.email}</span>
                               </div>
                             )}
-                            
+
                             {contributor.bio && (
                               <div>
                                 <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Bio:</span>
@@ -613,7 +613,7 @@ const AdminContributors = () => {
                         <div className="text-xs text-gray-500 dark:text-gray-400">
                           ID: {contributor._id}
                         </div>
-                        
+
                         <div className="flex items-center space-x-3">
                           {contributor.status === 'pending' && (
                             <>
@@ -635,7 +635,7 @@ const AdminContributors = () => {
                               </button>
                             </>
                           )}
-                          
+
                           {contributor.status !== 'pending' && (
                             <button
                               onClick={() => updateContributorStatus(contributor._id, 'pending')}
@@ -646,7 +646,7 @@ const AdminContributors = () => {
                               <span>Set Pending</span>
                             </button>
                           )}
-                          
+
                           <button
                             onClick={() => deleteContributor(contributor._id)}
                             disabled={processing[contributor._id]}

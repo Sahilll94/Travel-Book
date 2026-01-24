@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaEnvelope, FaCheckCircle, FaArrowRight } from "react-icons/fa";
-import axiosInstance from "../../utils/axiosInstance";
+import AuthService from "../../services/authService";
 import { toast } from "sonner";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { validateEmail } from "../../utils/helper";
@@ -55,11 +55,9 @@ const ForgotPassword = () => {
     setLoading(true);
 
     try {
-      const response = await axiosInstance.post("/forgot-password", {
-        email,
-      });
+      const data = await AuthService.forgotPassword(email);
 
-      if (response.data && !response.data.error) {
+      if (data && !data.error) {
         setSuccess(true);
         toast.success("Password reset link sent to your email!");
       }
@@ -123,7 +121,7 @@ const ForgotPassword = () => {
                 Check Your Email
               </h2>
               <p className="text-gray-600 dark:text-gray-300">
-                We've sent a password reset link to <strong>{email}</strong>. 
+                We've sent a password reset link to <strong>{email}</strong>.
                 Please check your inbox and click on the "Secure Account" button to reset your password.
               </p>
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
@@ -173,11 +171,10 @@ const ForgotPassword = () => {
                     value={email}
                     onChange={handleEmailChange}
                     onFocus={() => handleInputFocus("email")}
-                    className={`pl-10 pr-4 py-3 w-full rounded-lg bg-gray-50 dark:bg-gray-700 border ${
-                      formTouched.email && !validateEmail(email)
+                    className={`pl-10 pr-4 py-3 w-full rounded-lg bg-gray-50 dark:bg-gray-700 border ${formTouched.email && !validateEmail(email)
                         ? "border-red-400 dark:border-red-600 focus:ring-red-500"
                         : "border-gray-200 dark:border-gray-600 focus:ring-cyan-500"
-                    } focus:border-transparent focus:ring-2 transition-all duration-200 outline-none text-gray-800 dark:text-white`}
+                      } focus:border-transparent focus:ring-2 transition-all duration-200 outline-none text-gray-800 dark:text-white`}
                   />
                   {formTouched.email && !validateEmail(email) && (
                     <motion.p

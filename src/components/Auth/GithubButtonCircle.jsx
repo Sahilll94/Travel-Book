@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../../utils/AuthContext';
 import { signInWithGithub, checkExistingAccount } from '../../utils/firebase';
-import axiosInstance from '../../utils/axiosInstance';
+import AuthService from '../../services/authService';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 import { handleAuthError } from '../../utils/authErrorHandler.jsx';
 
-const GithubButtonCircle = ({ 
-  redirectPath = '/dashboard', 
+const GithubButtonCircle = ({
+  redirectPath = '/dashboard',
   isSignUp = false,
   className = '',
   ...props
@@ -16,7 +16,7 @@ const GithubButtonCircle = ({
   const [isLoading, setIsLoading] = useState(false);
   const buttonRef = useRef(null);
   const [ripples, setRipples] = useState([]);
-  
+
   // Clean up ripples after animation completes
   useEffect(() => {
     if (ripples.length > 0) {
@@ -26,26 +26,26 @@ const GithubButtonCircle = ({
       return () => clearTimeout(timer);
     }
   }, [ripples]);
-  
+
   // Animation variants for button
   const buttonVariants = {
-    hover: { 
+    hover: {
       scale: 1.08,
-      boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" 
+      boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
     },
-    tap: { 
+    tap: {
       scale: 0.95,
-      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)" 
+      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
     },
-    initial: { 
+    initial: {
       scale: 1,
-      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)" 
+      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
     }
   };
 
   const handleSignIn = async (e) => {
     if (isLoading) return;
-    
+
     // Create ripple effect
     if (buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
@@ -53,49 +53,46 @@ const GithubButtonCircle = ({
       const y = e.clientY - rect.top;
       setRipples([...ripples, { x, y, id: Date.now() }]);
     }
-    
+
     try {
       setIsLoading(true);
-      
+
       // Subtle haptic feedback using navigator.vibrate if available
       if (window.navigator && window.navigator.vibrate) {
         window.navigator.vibrate(50);
       }      // Sign in with GitHub using Firebase
       const { user, idToken } = await signInWithGithub();
-      
+
       if (!user) {
         toast.error('GitHub sign-in failed. Please try again.');
         return;
       }
-      
+
       console.log('GitHub auth - got ID token:', idToken ? `${idToken.substring(0, 10)}...` : 'missing');
 
       // Send the Firebase user data to your backend to either create a new user or get an existing one
-      const response = await axiosInstance.post('/github-auth', {
+      const data = await AuthService.githubAuth({
         email: user.email,
         fullName: user.displayName || (user.email ? user.email.split('@')[0] : ''),
         photoURL: user.photoURL,
         uid: user.uid
-      }, {
-        headers: {
-          Authorization: `Bearer ${idToken}`
-        }
       });
 
-      if (response.data.success) {
+      if (data.success) {
         // Login using your existing auth context
-        login(response.data.token, response.data.user, redirectPath);
+        login(data.token, data.user, redirectPath);
         toast.success('Signed in successfully with GitHub!');
       } else {
-        toast.error(response.data.message || 'Authentication failed');
-      }    } catch (error) {
+        toast.error(data.message || 'Authentication failed');
+      }
+    } catch (error) {
       console.error('GitHub OAuth error:', error);
       handleAuthError(error, 'GitHub');
     } finally {
       setIsLoading(false);
     }
   };
-  
+
   // Hover label text
   const getLabelText = () => {
     if (isSignUp) {
@@ -103,7 +100,7 @@ const GithubButtonCircle = ({
     }
     return 'Sign in with GitHub';
   };
-  
+
   return (
     <div className="relative group">
       <motion.button
@@ -127,10 +124,10 @@ const GithubButtonCircle = ({
               animate={{ opacity: 0, scale: 4 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.8 }}
-              style={{ 
-                position: 'absolute', 
-                top: ripple.y, 
-                left: ripple.x, 
+              style={{
+                position: 'absolute',
+                top: ripple.y,
+                left: ripple.x,
                 transform: 'translate(-50%, -50%)',
                 width: '30px',
                 height: '30px',
@@ -141,18 +138,18 @@ const GithubButtonCircle = ({
             />
           ))}
         </AnimatePresence>
-        
+
         {/* Loading spinner or GitHub icon */}
         <div className="relative z-10 flex items-center justify-center">
           {isLoading ? (
             <div className="h-5 w-5 animate-spin rounded-full border-2 border-gray-300 border-t-cyan-600 dark:border-gray-600 dark:border-t-cyan-400"></div>
-          ) : (            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fillRule="evenodd" clipRule="evenodd" d="M12 0C5.37 0 0 5.37 0 12C0 17.31 3.435 21.795 8.205 23.385C8.805 23.49 9.03 23.13 9.03 22.815C9.03 22.53 9.015 21.585 9.015 20.58C6 21.135 5.22 19.845 4.98 19.17C4.845 18.825 4.26 17.76 3.75 17.475C3.33 17.25 2.73 16.695 3.735 16.68C4.68 16.665 5.355 17.55 5.58 17.91C6.66 19.725 8.385 19.215 9.075 18.9C9.18 18.12 9.495 17.595 9.84 17.295C7.17 16.995 4.38 15.96 4.38 11.37C4.38 10.065 4.845 8.985 5.61 8.145C5.49 7.845 5.07 6.615 5.73 4.965C5.73 4.965 6.735 4.65 9.03 6.195C9.99 5.925 11.01 5.79 12.03 5.79C13.05 5.79 14.07 5.925 15.03 6.195C17.325 4.635 18.33 4.965 18.33 4.965C18.99 6.615 18.57 7.845 18.45 8.145C19.215 8.985 19.68 10.05 19.68 11.37C19.68 15.975 16.875 16.995 14.205 17.295C14.64 17.67 15.015 18.39 15.015 19.515C15.015 21.12 15 22.41 15 22.815C15 23.13 15.225 23.505 15.825 23.385C18.2072 22.5807 20.2772 21.0497 21.7437 19.0074C23.2101 16.965 23.9993 14.5143 24 12C24 5.37 18.63 0 12 0Z" className="fill-gray-800 dark:fill-white" />
-            </svg>
+          ) : (<svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fillRule="evenodd" clipRule="evenodd" d="M12 0C5.37 0 0 5.37 0 12C0 17.31 3.435 21.795 8.205 23.385C8.805 23.49 9.03 23.13 9.03 22.815C9.03 22.53 9.015 21.585 9.015 20.58C6 21.135 5.22 19.845 4.98 19.17C4.845 18.825 4.26 17.76 3.75 17.475C3.33 17.25 2.73 16.695 3.735 16.68C4.68 16.665 5.355 17.55 5.58 17.91C6.66 19.725 8.385 19.215 9.075 18.9C9.18 18.12 9.495 17.595 9.84 17.295C7.17 16.995 4.38 15.96 4.38 11.37C4.38 10.065 4.845 8.985 5.61 8.145C5.49 7.845 5.07 6.615 5.73 4.965C5.73 4.965 6.735 4.65 9.03 6.195C9.99 5.925 11.01 5.79 12.03 5.79C13.05 5.79 14.07 5.925 15.03 6.195C17.325 4.635 18.33 4.965 18.33 4.965C18.99 6.615 18.57 7.845 18.45 8.145C19.215 8.985 19.68 10.05 19.68 11.37C19.68 15.975 16.875 16.995 14.205 17.295C14.64 17.67 15.015 18.39 15.015 19.515C15.015 21.12 15 22.41 15 22.815C15 23.13 15.225 23.505 15.825 23.385C18.2072 22.5807 20.2772 21.0497 21.7437 19.0074C23.2101 16.965 23.9993 14.5143 24 12C24 5.37 18.63 0 12 0Z" className="fill-gray-800 dark:fill-white" />
+          </svg>
           )}
         </div>
       </motion.button>
-      
+
       {/* Tooltip on hover */}
       <div className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-800 dark:bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
         {getLabelText()}

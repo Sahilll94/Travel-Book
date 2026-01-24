@@ -13,7 +13,7 @@ import { AiOutlineCloudServer } from "react-icons/ai";
 import { FiArrowRight } from "react-icons/fi";
 import { MdGroup } from "react-icons/md";
 import ThemeToggle from "../../components/ThemeToggle/ThemeToggle";
-import axiosInstance from "../../utils/axiosInstance";
+import StoryService from "../../services/storyService";
 
 const Hero = () => {
     const { isAuthenticated, loading } = useAuth();
@@ -31,9 +31,9 @@ const Hero = () => {
     useEffect(() => {
         const fetchMemoriesCount = async () => {
             try {
-                const response = await axiosInstance.get('/total-stories');
-                if (response.data && response.data.totalStories) {
-                    setMemoriesCount(response.data.totalStories.toString());
+                const data = await StoryService.getTotalStories();
+                if (data && data.totalStories) {
+                    setMemoriesCount(data.totalStories.toString());
                 }
             } catch (error) {
                 console.error('Error fetching memories count:', error);

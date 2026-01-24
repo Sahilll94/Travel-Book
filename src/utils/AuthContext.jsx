@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axiosInstance from './axiosInstance';
+import AuthService from '../services/authService';
 import { toast } from 'sonner';
 import { onAuthStateChangedListener, signOutUser } from './firebase';
 
@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       const token = localStorage.getItem('token');
-      
+
       if (!token) {
         console.log("No token found in localStorage");
         setLoading(false);
@@ -27,16 +27,16 @@ export const AuthProvider = ({ children }) => {
 
       try {
         console.log("Checking authentication with token");
-        const response = await axiosInstance.get('/get-user');
-        
-        if (response.data && response.data.user) {
-          setCurrentUser(response.data.user);
+        const response = await AuthService.getUser();
+
+        if (response && response.user) {
+          setCurrentUser(response.user);
           setIsAuthenticated(true);
           console.log("User authenticated successfully");
         }
       } catch (error) {
         console.error('Authentication check failed', error);
-        
+
         if (error.response?.status === 401) {
           console.log("Token invalid or expired, clearing localStorage");
           localStorage.removeItem('token');
@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('token', token);
     setCurrentUser(user);
     setIsAuthenticated(true);
-    
+
     // Use a small timeout to ensure state is updated before navigation
     setTimeout(() => {
       navigate(redirectPath);

@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaShieldAlt, FaLock, FaCheckCircle, FaArrowRight } from "react-icons/fa";
 import PasswordInput from "../../components/Input/PasswordInput";
-import axiosInstance from "../../utils/axiosInstance";
+import AuthService from "../../services/authService";
 import { toast } from "sonner";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import logo from "../../assets/images/logo.png";
@@ -29,12 +29,12 @@ const ResetPassword = () => {
     const params = new URLSearchParams(location.search);
     const resetToken = params.get("token");
     const userEmail = params.get("email");
-    
+
     if (!resetToken || !userEmail) {
       setError("Invalid or missing reset information. Please request a new password reset link.");
       return;
     }
-    
+
     setToken(resetToken);
     setEmail(userEmail);
   }, [location]);
@@ -97,13 +97,9 @@ const ResetPassword = () => {
     setLoading(true);
 
     try {
-      const response = await axiosInstance.post("/reset-password", {
-        email,
-        token,
-        newPassword: password,
-      });
+      const data = await AuthService.resetPassword(email, token, password);
 
-      if (response.data && !response.data.error) {
+      if (data && !data.error) {
         setSuccess(true);
         toast.success("Password has been successfully reset!");
         // Navigate to login page after 3 seconds
@@ -212,11 +208,10 @@ const ResetPassword = () => {
                     onChange={handlePasswordChange}
                     onFocus={() => handleInputFocus("password")}
                     placeholder="New password"
-                    className={`pl-10 ${
-                      formTouched.password && !validatePassword(password)
+                    className={`pl-10 ${formTouched.password && !validatePassword(password)
                         ? "border-red-400 dark:border-red-600 focus:ring-red-500"
                         : "border-gray-200 dark:border-gray-600 focus:ring-cyan-500"
-                    }`}
+                      }`}
                   />
                   {formTouched.password && !validatePassword(password) && (
                     <motion.p
@@ -239,11 +234,10 @@ const ResetPassword = () => {
                     onChange={handleConfirmPasswordChange}
                     onFocus={() => handleInputFocus("confirmPassword")}
                     placeholder="Confirm new password"
-                    className={`pl-10 ${
-                      formTouched.confirmPassword && password !== confirmPassword
+                    className={`pl-10 ${formTouched.confirmPassword && password !== confirmPassword
                         ? "border-red-400 dark:border-red-600 focus:ring-red-500"
                         : "border-gray-200 dark:border-gray-600 focus:ring-cyan-500"
-                    }`}
+                      }`}
                   />
                   {formTouched.confirmPassword && password !== confirmPassword && (
                     <motion.p

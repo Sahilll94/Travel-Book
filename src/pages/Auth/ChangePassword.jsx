@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import axiosInstance from '../../utils/axiosInstance';
+import AuthService from '../../services/authService';
 import PasswordInput from '../../components/Input/PasswordInput';
 import Navbar from '../../components/Navbar';
 import Toaster from '../../components/Toaster';
@@ -18,55 +18,52 @@ const ChangePassword = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!currentPassword) {
       newErrors.currentPassword = 'Current password is required';
     }
-    
+
     if (!newPassword) {
       newErrors.newPassword = 'New password is required';
     } else if (newPassword.length < 8) {
       newErrors.newPassword = 'Password must be at least 8 characters long';
     }
-    
+
     if (newPassword !== confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match';
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
-    
+
     setLoading(true);
-    
+
     try {
-      await axiosInstance.post('/change-password', {
-        currentPassword,
-        newPassword
-      });
-      
+      await AuthService.changePassword(currentPassword, newPassword);
+
       toast.success('Password changed successfully');
-      
+
       // Clear form
       setCurrentPassword('');
       setNewPassword('');
       setConfirmPassword('');
-      
+
       // Redirect to profile after a brief delay
       setTimeout(() => {
         navigate('/profile');
       }, 2000);
-      
+
     } catch (error) {
       console.error('Error changing password:', error);
       const errorMessage = error.response?.data?.message || 'Failed to change password. Please try again.';
       toast.error(errorMessage);
-      
+
       if (error.response?.data?.field) {
         setErrors({
           [error.response.data.field]: errorMessage
@@ -83,9 +80,9 @@ const ChangePassword = () => {
         <title>Change Password | Travel Book</title>
         <meta name="description" content="Update your password on Travel Book" />
       </Helmet>
-      
+
       <Navbar />
-      
+
       <div className="container mx-auto px-4 py-8 max-w-md">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -96,7 +93,7 @@ const ChangePassword = () => {
           <h1 className="text-2xl font-bold text-gray-800 dark:text-white mb-6 text-center">
             Change Password
           </h1>
-          
+
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -112,7 +109,7 @@ const ChangePassword = () => {
                 <p className="mt-1 text-sm text-red-500">{errors.currentPassword}</p>
               )}
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 New Password
@@ -127,7 +124,7 @@ const ChangePassword = () => {
                 <p className="mt-1 text-sm text-red-500">{errors.newPassword}</p>
               )}
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Confirm New Password
@@ -142,7 +139,7 @@ const ChangePassword = () => {
                 <p className="mt-1 text-sm text-red-500">{errors.confirmPassword}</p>
               )}
             </div>
-            
+
             <div className="flex justify-between items-center pt-2">
               <button
                 type="button"
@@ -151,13 +148,12 @@ const ChangePassword = () => {
               >
                 Cancel
               </button>
-              
+
               <button
                 type="submit"
                 disabled={loading}
-                className={`px-4 py-2 bg-cyan-500 hover:bg-cyan-600 text-white rounded-lg shadow-sm transition duration-200 ${
-                  loading ? 'opacity-70 cursor-not-allowed' : ''
-                }`}
+                className={`px-4 py-2 bg-cyan-500 hover:bg-cyan-600 text-white rounded-lg shadow-sm transition duration-200 ${loading ? 'opacity-70 cursor-not-allowed' : ''
+                  }`}
               >
                 {loading ? (
                   <span className="flex items-center">
@@ -175,7 +171,7 @@ const ChangePassword = () => {
           </form>
         </motion.div>
       </div>
-      
+
       <Toaster position="bottom-right" toastOptions={{ duration: 3000 }} />
     </HelmetProvider>
   );
