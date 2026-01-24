@@ -68,48 +68,56 @@ const Hero = () => {
                         </div>
 
                         {/* Navbar items - Desktop */}
-                        <div className="hidden lg:flex lg:ml-10 xl:ml-16 lg:items-center lg:justify-center lg:space-x-8 xl:space-x-16">
-                            <Link
-                                to="about"
-                                smooth={true}
-                                duration={500}
-                                offset={-50}
-                                className="cursor-pointer text-base font-medium text-gray-900 dark:text-gray-100 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-gray-900 dark:focus:ring-gray-100 focus:ring-offset-2"
-                            >
-                                About Travel-Book
-                            </Link>
+                        <ul className="hidden lg:flex lg:ml-10 xl:ml-16 lg:items-center lg:justify-center lg:space-x-8 xl:space-x-16">
+                            <li>
+                                <Link
+                                    to="about"
+                                    smooth={true}
+                                    duration={500}
+                                    offset={-50}
+                                    className="cursor-pointer text-base font-medium text-gray-900 dark:text-gray-100 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-gray-900 dark:focus:ring-gray-100 focus:ring-offset-2"
+                                >
+                                    About Travel-Book
+                                </Link>
+                            </li>
 
-                            <Link
-                                to="how-it-works"
-                                smooth={true}
-                                duration={500}
-                                offset={-50}
-                                className="cursor-pointer text-base font-medium text-gray-900 dark:text-gray-100 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-gray-900 dark:focus:ring-gray-100 focus:ring-offset-2"
-                            >
-                                How does it work?
-                            </Link>
+                            <li>
+                                <Link
+                                    to="how-it-works"
+                                    smooth={true}
+                                    duration={500}
+                                    offset={-50}
+                                    className="cursor-pointer text-base font-medium text-gray-900 dark:text-gray-100 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-gray-900 dark:focus:ring-gray-100 focus:ring-offset-2"
+                                >
+                                    How does it work?
+                                </Link>
+                            </li>
 
-                            <Link
-                                to="services"
-                                smooth={true}
-                                duration={500}
-                                offset={-50}
-                                className="cursor-pointer text-base font-medium text-gray-900 dark:text-gray-100 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-gray-900 dark:focus:ring-gray-100 focus:ring-offset-2"
-                            >
-                                Our Services
-                            </Link>
+                            <li>
+                                <Link
+                                    to="services"
+                                    smooth={true}
+                                    duration={500}
+                                    offset={-50}
+                                    className="cursor-pointer text-base font-medium text-gray-900 dark:text-gray-100 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-gray-900 dark:focus:ring-gray-100 focus:ring-offset-2"
+                                >
+                                    Our Services
+                                </Link>
+                            </li>
 
-                            <a
-                                href="/contributors"
-                                className="text-base font-medium text-gray-900 dark:text-gray-100 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-gray-900 dark:focus:ring-gray-100 focus:ring-offset-2"
-                            >
-                                Contributors
-                            </a>
-                        </div>
+                            <li>
+                                <a
+                                    href="/contributors"
+                                    className="text-base font-medium text-gray-900 dark:text-gray-100 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-gray-900 dark:focus:ring-gray-100 focus:ring-offset-2"
+                                >
+                                    Contributors
+                                </a>
+                            </li>
+                        </ul>
 
                         <div className="flex items-center">
                             <ThemeToggle /> {/* Added ThemeToggle component */}
-                            
+
                             {/* Mobile Contributors Icon */}
                             <a
                                 href="/contributors"
@@ -118,68 +126,68 @@ const Hero = () => {
                             >
                                 <MdGroup size={24} />
                             </a>
-                           <div className="relative group ml-3">
-                        <a
-                            href="https://stats.uptimerobot.com/4klrGTjcP6"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="Check Service Status"
-                            className="text-gray-900 dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300 text-2xl"
-                        >
-                            <AiOutlineCloudServer className="w-8 h-8" />
-                        </a>
-
-                        {/* Tooltip below the icon, no background */}
-                        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 text-xs font-medium text-gray-700 dark:text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                           Server Status
-                            </div>
-                        </div>
-
-                           {/* API Docs Icon */}
                             <div className="relative group ml-3">
-                            <a
-                                href="http://docs.travelbook.sahilfolio.live/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-gray-900 dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300 text-2xl"
-                            >
-                                <i className="bi bi-journal-code"></i>
-                            </a>
-                            <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 text-xs font-medium text-gray-700 dark:text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                           API Docs
+                                <a
+                                    href="https://stats.uptimerobot.com/4klrGTjcP6"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="Check Service Status"
+                                    className="text-gray-900 dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300 text-2xl"
+                                >
+                                    <AiOutlineCloudServer className="w-8 h-8" />
+                                </a>
+
+                                {/* Tooltip below the icon, no background */}
+                                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 text-xs font-medium text-gray-700 dark:text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                    Server Status
+                                </div>
                             </div>
+
+                            {/* API Docs Icon */}
+                            <div className="relative group ml-3">
+                                <a
+                                    href="http://docs.travelbook.sahilfolio.live/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-gray-900 dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300 text-2xl"
+                                >
+                                    <i className="bi bi-journal-code"></i>
+                                </a>
+                                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 text-xs font-medium text-gray-700 dark:text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                    API Docs
+                                </div>
 
                             </div>
 
                             {/* Medium Blog Icon */}
                             <div className="relative group ml-3">
-                            <a
-                                href="http://medium.travelbook.sahilfolio.live/"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-gray-900 dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300 text-2xl"
-                            >
-                                <i className="bi bi-journal-richtext"></i>
-                            </a>
-                            <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 text-xs font-medium text-gray-700 dark:text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                            Blog
-                            </div>
+                                <a
+                                    href="http://medium.travelbook.sahilfolio.live/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-gray-900 dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300 text-2xl"
+                                >
+                                    <i className="bi bi-journal-richtext"></i>
+                                </a>
+                                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 text-xs font-medium text-gray-700 dark:text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                    Blog
+                                </div>
 
                             </div>
 
-                          {/* GitHub Icon with Tooltip */}
+                            {/* GitHub Icon with Tooltip */}
                             <div className="relative group ml-3">
-                            <a
-                                href="https://github.com/Sahilll94/Travel-Book"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-gray-900 dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300 text-2xl"
-                            >
-                                <i className="bi bi-github"></i>
-                            </a>
-                           <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 text-xs font-medium text-gray-700 dark:text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                            GitHub
-                            </div>
+                                <a
+                                    href="https://github.com/Sahilll94/Travel-Book"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-gray-900 dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300 text-2xl"
+                                >
+                                    <i className="bi bi-github"></i>
+                                </a>
+                                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 text-xs font-medium text-gray-700 dark:text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                    GitHub
+                                </div>
 
                             </div>
 
