@@ -7,7 +7,6 @@ import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 export default defineConfig({
   plugins: [
     react({
-      // Add this configuration to suppress the UNSAFE_componentWillMount warning
       babel: {
         parserOpts: {
           plugins: ['decorators-legacy']
@@ -186,27 +185,9 @@ export default defineConfig({
   ],
   build: {
     rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes('node_modules')) {
-            const moduleName = id.split('node_modules/').pop().split('/')[0];
-
-            if (['react', 'react-dom', 'react-router-dom'].includes(moduleName)) {
-              return 'react-vendor';
-            }
-
-            if (moduleName.startsWith('firebase')) {
-              return 'firebase-vendor';
-            }
-            
-            if (moduleName === 'chart.js') return 'chartjs-vendor';
-
-            return 'vendor';
-          }
-        },
-      },
+      output: {},
     },
     minify: 'esbuild',
-    chunkSizeWarningLimit: 500,
+    chunkSizeWarningLimit: 1000,
   },
 })
