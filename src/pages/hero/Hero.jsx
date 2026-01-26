@@ -182,7 +182,7 @@ const Hero = () => {
 
       <section id="hero" className="pt-12 pb-16 px-4 sm:px-6 lg:px-12">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-         <div className="grid max-w-lg grid-cols-1 mx-auto lg:max-w-full lg:items-center lg:grid-cols-2 gap-y-12 lg:gap-x-16">
+        <div className="grid max-w-lg grid-cols-1 mx-auto md:max-w-2xl lg:max-w-full lg:items-center lg:grid-cols-2 gap-y-10 md:gap-y-12 lg:gap-x-16">
             <div>
               <div className="text-center lg:text-left">
                 <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-center md:text-left leading-tight px-2">
@@ -195,7 +195,7 @@ const Hero = () => {
                 </p>
 
                 <div className="mt-6 sm:mt-6">
-                  <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 sm:gap-4 mt-2">
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center md:justify-start gap-3 sm:gap-4 mt-3 w-full sm:w-auto">
                     {!loading && isAuthenticated ? (
                       <div className="w-full sm:w-auto sm:flex sm:items-center">
                         <motion.button
@@ -337,7 +337,7 @@ const Hero = () => {
 
             <div>
               <img
-  className="w-full max-w-md mx-auto no-drag"
+  className="w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto no-drag"
                 src={heroimg}
                 alt="Preview of the Travel-Book"
                 draggable="false"
