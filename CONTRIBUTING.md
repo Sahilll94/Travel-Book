@@ -4,11 +4,17 @@ Welcome to Travel Book! We're excited to have you contribute to our digital trav
 
 ## Quick Start Guide
 
-### Prerequisites
-- Node.js (v16 or higher)
-- npm or yarn package manager
-- Git for version control
-- MongoDB (for backend, or use MongoDB Atlas)
+## First-Time Setup Checklist (Recommended for Beginners)
+
+Before starting the project, make sure the following are completed:
+
+- [ ] Node.js version is 16 or higher (`node -v`)
+- [ ] Git is installed and configured
+- [ ] MongoDB is running locally OR MongoDB Atlas connection is ready
+- [ ] Both frontend and backend repositories are cloned
+- [ ] `.env` files are created from `.env.example`
+- [ ] Backend is running on http://localhost:5000
+- [ ] Frontend is running on http://localhost:5173
 
 ### Setup Instructions
 
@@ -40,6 +46,12 @@ npm install
 cp .env.example .env
 
 # Update .env with your configuration:
+
+# Important:
+# - Do NOT commit your .env file to GitHub
+# - Restart the server after making changes to .env
+# - Ensure values do not contain extra spaces or quotes
+
 # - MongoDB connection string (local or MongoDB Atlas)
 # - Firebase Admin credentials
 # - Cloudinary API keys
@@ -47,6 +59,8 @@ cp .env.example .env
 # - Google Generative AI API key
 # - JWT secret
 # - Port (default: 5000)
+
+
 
 # Start the development server
 npm run dev
@@ -276,8 +290,13 @@ See the [Backend Repository](https://github.com/Sahilll94/Travel-Book-Backend) f
 
 ## Troubleshooting
 
-### Common Issues and Solutions
+### Common Beginner Errors
+#### Node version mismatch
+If you encounter unexpected errors during `npm install`, check your Node version:
+```bash
+node -v
 
+### Common Issues and Solutions
 **Backend not running:**
 - Verify MongoDB is running/accessible
 - Check if port 5000 is available
