@@ -4,7 +4,8 @@ import { FaGithub, FaLinkedin, FaXTwitter, FaHeart, FaCode, FaUsers, FaBook, FaE
 import { BiCopyright, BiLink } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import axiosInstance from '../../utils/axiosInstance';
+import StoryService from '../../services/storyService';
+import ContributorService from '../../services/contributorService';
 import logo from '../../assets/images/logo.png';
 
 const ContributorsFooter = ({ contributorsCount = 0 }) => {
@@ -17,8 +18,8 @@ const ContributorsFooter = ({ contributorsCount = 0 }) => {
     // Fetch commits count from GitHub
     const fetchCommitsCount = async () => {
       try {
-        const response = await fetch('https://api.github.com/repos/Sahilll94/Travel-Book/commits?per_page=1');
-        const linkHeader = response.headers.get('link');
+        const response = await ContributorService.getGithubCommits();
+        const linkHeader = response.headers.get ? response.headers.get('link') : response.headers['link'];
         if (linkHeader) {
           const matches = linkHeader.match(/&page=(\d+)>; rel="last"/);
           if (matches && matches[1]) {
@@ -33,9 +34,9 @@ const ContributorsFooter = ({ contributorsCount = 0 }) => {
     // Fetch stories count from database
     const fetchStoriesCount = async () => {
       try {
-        const response = await axiosInstance.get('/total-stories');
-        if (response.data && response.data.totalStories) {
-          setStoriesCount(response.data.totalStories + '+');
+        const data = await StoryService.getTotalStories();
+        if (data && data.totalStories) {
+          setStoriesCount(data.totalStories + '+');
         }
       } catch (error) {
         console.error('Error fetching stories count:', error);
@@ -97,18 +98,18 @@ const ContributorsFooter = ({ contributorsCount = 0 }) => {
                 className="space-y-4"
               >
                 <div className="flex items-center space-x-2">
-                  <img 
-                    src={logo} 
-                    alt="Travel Book Logo" 
+                  <img
+                    src={logo}
+                    alt="Travel Book Logo"
                     className="w-8 h-8 object-contain"
                   />
                   <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">Travel Book</h3>
                 </div>
                 <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
-                  A platform for travelers to share their experiences, 
+                  A platform for travelers to share their experiences,
                   built by a passionate community of developers worldwide.
                 </p>
-                
+
                 {/* Stats */}
                 <div className="grid grid-cols-3 gap-4 pt-4">
                   {stats.map((stat, index) => (

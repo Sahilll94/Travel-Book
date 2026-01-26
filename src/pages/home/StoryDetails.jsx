@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaInstagram, FaMapMarkerAlt, FaCalendarAlt, FaDownload, FaShare, FaArrowLeft, FaTimes } from "react-icons/fa";
 import LocationMap from "../../components/Cards/LocationMap";
 import logo from "../../assets/images/logo.png";
+import StoryService from "../../services/storyService";
 
 const StoryDetails = () => {
   const { id } = useParams();
@@ -16,20 +17,19 @@ const StoryDetails = () => {
   const [showInstagramPreview, setShowInstagramPreview] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [showFullImage, setShowFullImage] = useState(false);
-  
+
   const instagramStoryRef = useRef();
-  
+
   useEffect(() => {
     const fetchStory = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}api/story/${id}`);
-        
-        if (!response.ok) {
+        const data = await StoryService.getPublicStoryById(id);
+
+        if (!data) {
           throw new Error("Unable to fetch story details");
         }
-        
-        const data = await response.json();
+
         setStory(data);
         toast.success("Story loaded successfully");
       } catch (error) {
@@ -56,7 +56,7 @@ const StoryDetails = () => {
   const downloadForInstagram = async () => {
     try {
       setIsDownloading(true);
-      
+
       if (instagramStoryRef.current) {
         // Ensure all images are loaded
         const images = instagramStoryRef.current.querySelectorAll('img');
@@ -67,7 +67,7 @@ const StoryDetails = () => {
             img.onerror = resolve;
           });
         }));
-        
+
         const canvas = await html2canvas(instagramStoryRef.current, {
           allowTaint: true,
           useCORS: true,
@@ -100,8 +100,8 @@ const StoryDetails = () => {
         text: "Check out this travel story!",
         url: window.location.href,
       })
-      .then(() => toast.success("Shared successfully"))
-      .catch((error) => console.error("Error sharing:", error));
+        .then(() => toast.success("Shared successfully"))
+        .catch((error) => console.error("Error sharing:", error));
     } else {
       // Fallback for browsers that don't support the Web Share API
       navigator.clipboard.writeText(window.location.href)
@@ -145,7 +145,7 @@ const StoryDetails = () => {
   return (
     <HelmetProvider>
       <Toaster position="top-center" />
-      
+
       {/* Meta tags for sharing */}
       <Helmet>
         <title>{story.title} | Travel Book</title>
@@ -162,13 +162,13 @@ const StoryDetails = () => {
       {/* Instagram Story Preview Modal */}
       <AnimatePresence>
         {showInstagramPreview && (
-          <motion.div 
+          <motion.div
             className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <motion.div 
+            <motion.div
               className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-md w-full max-h-[90vh] overflow-hidden"
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
@@ -176,17 +176,17 @@ const StoryDetails = () => {
             >
               <div className="p-4 border-b dark:border-gray-700 flex justify-between items-center">
                 <h3 className="text-lg font-medium dark:text-white">Just take a quick screenshot and post it to your story!</h3>
-                <button 
+                <button
                   onClick={() => setShowInstagramPreview(false)}
                   className="text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white"
                 >
                   <FaTimes size={20} />
                 </button>
               </div>
-              
+
               <div className="p-4 overflow-y-auto">
                 {/* Instagram Story Template */}
-                <div 
+                <div
                   ref={instagramStoryRef}
                   className="w-[270px] h-[480px] mx-auto relative overflow-hidden rounded-xl"
                   style={{
@@ -198,24 +198,24 @@ const StoryDetails = () => {
                     <div className="flex justify-center mb-2">
                       <img src={logo} alt="Travel Book Logo" className="h-10" />
                     </div>
-                    
+
                     {/* Main content */}
                     <div className="flex-1 bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-3 flex flex-col">
                       <h2 className="text-lg font-bold text-white mb-1 line-clamp-1">{story.title}</h2>
                       <p className="text-xs text-white opacity-90 mb-2">{formatDate(story.visitedDate)}</p>
-                      
+
                       <div className="relative w-full h-32 mb-2 rounded-lg overflow-hidden">
-                        <img 
-                          src={story.imageUrl} 
-                          alt={story.title} 
+                        <img
+                          src={story.imageUrl}
+                          alt={story.title}
                           className="w-full h-full object-cover"
                         />
                       </div>
-                      
+
                       <p className="text-xs text-white leading-tight mb-2 line-clamp-3">
                         {story.story}
                       </p>
-                      
+
                       <div className="mt-auto">
                         <p className="text-xs font-medium text-white opacity-80 mb-0.5">Visited:</p>
                         <p className="text-xs text-white truncate">
@@ -223,7 +223,7 @@ const StoryDetails = () => {
                         </p>
                       </div>
                     </div>
-                    
+
                     {/* Footer */}
                     <div className="mt-2 flex justify-center">
                       <p className="text-xs text-white text-center">
@@ -233,15 +233,15 @@ const StoryDetails = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="p-4 border-t dark:border-gray-700 flex gap-2">
-                <button 
+                <button
                   onClick={() => setShowInstagramPreview(false)}
                   className="flex-1 py-2 px-3 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300"
                 >
                   Cancel
                 </button>
-                <button 
+                <button
                   onClick={downloadForInstagram}
                   disabled={isDownloading}
                   className="flex-1 py-2 px-3 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium disabled:opacity-70"
@@ -257,14 +257,14 @@ const StoryDetails = () => {
       {/* Full image modal */}
       <AnimatePresence>
         {showFullImage && (
-          <motion.div 
+          <motion.div
             className="fixed inset-0 bg-black bg-opacity-90 z-40 flex items-center justify-center p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setShowFullImage(false)}
           >
-            <motion.button 
+            <motion.button
               className="absolute top-4 right-4 text-white bg-black bg-opacity-50 rounded-full p-2"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -272,8 +272,8 @@ const StoryDetails = () => {
             >
               <FaTimes size={24} />
             </motion.button>
-            <motion.img 
-              src={story.imageUrl} 
+            <motion.img
+              src={story.imageUrl}
               alt={story.title}
               className="max-h-[90vh] max-w-full object-contain rounded"
               initial={{ scale: 0.9 }}
@@ -294,7 +294,7 @@ const StoryDetails = () => {
               <span className="font-medium">Back to Home</span>
             </Link>
             <div className="flex items-center gap-3">
-              <motion.button 
+              <motion.button
                 className="flex items-center gap-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-full px-3 py-1.5 text-sm"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -303,7 +303,7 @@ const StoryDetails = () => {
                 <FaShare size={14} />
                 <span>Share</span>
               </motion.button>
-              <motion.button 
+              <motion.button
                 className="flex items-center gap-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full px-3 py-1.5 text-sm"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -315,7 +315,7 @@ const StoryDetails = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
             {/* Story header */}
@@ -323,7 +323,7 @@ const StoryDetails = () => {
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-4">
                 {story.title}
               </h1>
-              
+
               <div className="flex flex-wrap gap-4 justify-center mb-4">
                 <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
                   <FaCalendarAlt />
@@ -335,16 +335,16 @@ const StoryDetails = () => {
                 </div>
               </div>
             </div>
-            
+
             {/* Story image */}
             <div className="mb-8">
-              <div 
+              <div
                 className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] rounded-xl overflow-hidden cursor-pointer group"
                 onClick={() => setShowFullImage(true)}
               >
-                <img 
-                  src={story.imageUrl} 
-                  alt={story.title} 
+                <img
+                  src={story.imageUrl}
+                  alt={story.title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -354,7 +354,7 @@ const StoryDetails = () => {
                 </div>
               </div>
             </div>
-            
+
             {/* Story content */}
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
               <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">The Story</h2>
@@ -364,26 +364,26 @@ const StoryDetails = () => {
                 </p>
               </div>
             </div>
-            
+
             {/* Location map */}
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
               <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">Locations Visited</h2>
               <div className="h-[400px] rounded-lg overflow-hidden">
-                <LocationMap 
-                  location={story.visitedLocation[0]} 
+                <LocationMap
+                  location={story.visitedLocation[0]}
                   className="w-full h-full"
                 />
               </div>
             </div>
-            
+
             {/* Create your own travel story */}
             <div className="bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl shadow-lg p-8 text-center text-white">
               <img src={logo} alt="Travel Book" className="h-16 mx-auto mb-4" />
               <h2 className="text-2xl font-bold mb-3">Create Your Own Travel Story</h2>
               <p className="text-white/90 mb-6">Document and share your travel memories with friends and family</p>
-              <a 
-                href="/" 
-                target="_blank" 
+              <a
+                href="/"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block bg-white text-cyan-500 font-medium px-6 py-3 rounded-full hover:bg-gray-100 transition-colors"
               >

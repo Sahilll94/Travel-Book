@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { FaGithub, FaLinkedin, FaGlobe, FaUser, FaEnvelope, FaCode, FaMapMarkerAlt } from 'react-icons/fa';
 import { BiCheckCircle, BiArrowBack } from 'react-icons/bi';
-import axiosInstance from '../../utils/axiosInstance';
 import ContributorsFooter from '../../components/Footer/ContributorsFooter';
 import ContributorsNavbar from '../../components/Navbar/ContributorsNavbar';
+import ContributorService from '../../services/contributorService';
 
 const ContributorForm = () => {
   const navigate = useNavigate();
@@ -79,7 +79,7 @@ const ContributorForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
 
     setLoading(true);
@@ -96,9 +96,9 @@ const ContributorForm = () => {
         prLinks: prLinksArray
       };
 
-      const response = await axiosInstance.post('/contributors/submit', submitData);
+      const data = await ContributorService.addContributor(submitData);
 
-      if (response.data.success) {
+      if (data.success) {
         toast.success('Your contribution has been submitted for review!');
         // Reset form
         setFormData({
@@ -116,7 +116,7 @@ const ContributorForm = () => {
           profilePicture: '',
           consentToDisplay: false
         });
-        
+
         // Navigate to success page or contributors page after a delay
         setTimeout(() => {
           navigate('/contributors');
@@ -161,7 +161,7 @@ const ContributorForm = () => {
           className="bg-white dark:bg-gray-800 p-8 mb-8 rounded-lg shadow-lg"
         >
           <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Submission Guidelines</h2>
-          
+
           <div className="space-y-6">
             <div>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">Before You Submit</h3>
@@ -494,11 +494,10 @@ const ContributorForm = () => {
               disabled={loading}
               whileHover={{ scale: loading ? 1 : 1.02 }}
               whileTap={{ scale: loading ? 1 : 0.98 }}
-              className={`w-full py-4 rounded-lg font-semibold text-lg transition-all duration-200 ${
-                loading
+              className={`w-full py-4 rounded-lg font-semibold text-lg transition-all duration-200 ${loading
                   ? 'bg-gray-400 dark:bg-gray-600 cursor-not-allowed'
                   : 'bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 shadow-lg hover:shadow-xl'
-              } text-white`}
+                } text-white`}
             >
               {loading ? (
                 <div className="flex items-center justify-center">
@@ -516,8 +515,8 @@ const ContributorForm = () => {
             {/* Info Note */}
             <div className="mt-6 p-4 bg-cyan-50 dark:bg-cyan-900/20 border border-cyan-200 dark:border-cyan-700 rounded-lg">
               <p className="text-sm text-cyan-800 dark:text-cyan-200">
-                <strong>Note:</strong> Your submission will be reviewed by our team. We'll verify your contributions 
-                against the GitHub repository and send you an email confirmation once approved. This process helps 
+                <strong>Note:</strong> Your submission will be reviewed by our team. We'll verify your contributions
+                against the GitHub repository and send you an email confirmation once approved. This process helps
                 maintain the quality and authenticity of our contributors list.
               </p>
             </div>

@@ -4,14 +4,13 @@ import { FiCheckCircle } from 'react-icons/fi';
 import DataSelector from '../../components/Input/DataSelector';
 import ImageSelector from '../../components/Input/ImageSelector';
 import TagInput from '../../components/Input/TagInput';
-import axiosInstance from '../../utils/axiosInstance';
+import StoryService from '../../services/storyService';
+import ImageService from '../../services/imageService';
 import moment from 'moment';
 import { toast } from 'sonner'; // Import toast but not Toaster
 import { motion, AnimatePresence } from 'framer-motion';
 
 import 'sonner/dist/styles.css';
-
-import uploadImage from '../../utils/uploadImage';
 
 const AddEditTravelStory = ({
     storyInfo,
@@ -34,7 +33,7 @@ const AddEditTravelStory = ({
         location: !!(storyInfo?.visitedLocation && storyInfo?.visitedLocation.length > 0),
         date: !!storyInfo?.visitedDate
     });
-    
+
     // New state for confirmation modals
     const [showEditConfirmation, setShowEditConfirmation] = useState(false);
     const [showSaveConfirmation, setShowSaveConfirmation] = useState(false);
@@ -67,7 +66,7 @@ const AddEditTravelStory = ({
 
     useEffect(() => {
         const isMobile = window.innerWidth < 768;
-        
+
         // Only auto-advance for new stories (type === "add"), not when editing
         if (isMobile && type === "add") {
             if (formCompleted.title && activeStep === 1) {
@@ -103,11 +102,11 @@ const AddEditTravelStory = ({
         try {
             let imageUrl = "";
             if (storyImg) {
-                const imgUploadRes = await uploadImage(storyImg);
+                const imgUploadRes = await ImageService.uploadImage(storyImg);
                 imageUrl = imgUploadRes.imageUrl || "";
             }
 
-            const response = await axiosInstance.post("/add-travel-story", {
+            const response = await StoryService.addStory({
                 title,
                 story,
                 imageUrl: imageUrl || "",
@@ -115,7 +114,7 @@ const AddEditTravelStory = ({
                 visitedDate: visitedDate ? moment(visitedDate).valueOf() : moment().valueOf(),
             });
 
-            if (response.data && response.data.story) {
+            if (response && response.story) {
                 toast.success("Story Added Successfully!");
                 getAllTravelStories();
                 onClose();
@@ -136,14 +135,14 @@ const AddEditTravelStory = ({
             let postData = { title, story, imageUrl, visitedLocation, visitedDate: visitedDate ? moment(visitedDate).valueOf() : moment().valueOf() };
 
             if (typeof storyImg === "object") {
-                const imgUploadRes = await uploadImage(storyImg);
+                const imgUploadRes = await ImageService.uploadImage(storyImg);
                 imageUrl = imgUploadRes.imageUrl || "";
                 postData.imageUrl = imageUrl;
             }
 
-            const response = await axiosInstance.put(`/edit-story/${storyId}`, postData);
+            const response = await StoryService.editStory(storyId, postData);
 
-            if (response.data && response.data.story) {
+            if (response && response.story) {
                 toast.success("Story Updated Successfully!");
                 getAllTravelStories();
                 onClose();
@@ -194,13 +193,13 @@ const AddEditTravelStory = ({
     const handleDeleteStoryImg = async () => {
         try {
             setLoading(true);
-            const deleteImgRes = await axiosInstance.delete('/delete-image', { params: { imageUrl: storyInfo.imageUrl } });
+            const deleteImgRes = await ImageService.deleteImage(storyInfo.imageUrl);
 
-            if (deleteImgRes.data) {
+            if (deleteImgRes) {
                 const storyId = storyInfo._id;
                 const postData = { title, story, visitedLocation, visitedDate: moment().valueOf(), imageUrl: "" };
 
-                await axiosInstance.put(`/edit-story/${storyId}`, postData);
+                await StoryService.editStory(storyId, postData);
                 setStoryImg(null);
                 toast.success("Image deleted successfully");
             }
@@ -230,7 +229,7 @@ const AddEditTravelStory = ({
     };
 
     return (
-        <motion.div 
+        <motion.div
             className='relative bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-gray-900/60 p-2 sm:p-6 transition-all duration-300 w-full'
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -243,22 +242,22 @@ const AddEditTravelStory = ({
             <div className='mb-4 flex flex-col sm:hidden'>
                 <div className='flex justify-between items-center'>
                     <h5 className='text-xl font-bold text-slate-800 dark:text-white flex items-center'>
-                        {type === "add" ? 
-                            <><MdAdd className='text-cyan-500 mr-2' /> Create Memory</> : 
+                        {type === "add" ?
+                            <><MdAdd className='text-cyan-500 mr-2' /> Create Memory</> :
                             <><MdEdit className='text-cyan-500 mr-2' /> Edit Memory</>
                         }
                     </h5>
                     <div className='flex gap-2'>
-                        <motion.button 
-                            className='p-2 rounded-full bg-slate-100 dark:bg-gray-700 text-slate-500 dark:text-slate-300' 
+                        <motion.button
+                            className='p-2 rounded-full bg-slate-100 dark:bg-gray-700 text-slate-500 dark:text-slate-300'
                             onClick={toggleMobileNav}
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
                         >
                             {showMobileNav ? <MdClose className='text-xl' /> : <MdEdit className='text-xl' />}
                         </motion.button>
-                        <motion.button 
-                            className='p-2 rounded-full bg-slate-100 dark:bg-gray-700 text-slate-500 dark:text-slate-300' 
+                        <motion.button
+                            className='p-2 rounded-full bg-slate-100 dark:bg-gray-700 text-slate-500 dark:text-slate-300'
                             onClick={onClose}
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
@@ -267,20 +266,20 @@ const AddEditTravelStory = ({
                         </motion.button>
                     </div>
                 </div>
-                
+
                 <div className="mt-3 flex justify-between items-center">
                     {[1, 2, 3, 4, 5].map((step) => (
-                        <div 
-                            key={step} 
+                        <div
+                            key={step}
                             className={`flex-1 ${step < activeStep ? 'bg-cyan-500' : step === activeStep ? 'bg-cyan-400' : 'bg-gray-200 dark:bg-gray-700'} 
                                         h-2 rounded-full mx-0.5 transition-all duration-300`}
                         />
                     ))}
                 </div>
-                
+
                 <div className="mt-3 mb-1 text-center">
                     <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
-                        Step {activeStep} of 5: 
+                        Step {activeStep} of 5:
                         {activeStep === 1 && " Title"}
                         {activeStep === 2 && " Date"}
                         {activeStep === 3 && " Image"}
@@ -288,7 +287,7 @@ const AddEditTravelStory = ({
                         {activeStep === 5 && " Locations"}
                     </span>
                 </div>
-                
+
                 <AnimatePresence>
                     {showMobileNav && (
                         <motion.div
@@ -310,11 +309,11 @@ const AddEditTravelStory = ({
                                 transition={{ type: "spring", damping: 25, stiffness: 300 }}
                             >
                                 <div className="w-12 h-1 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto mb-4" />
-                                
+
                                 <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4 text-center">
                                     Navigate Steps
                                 </h3>
-                                
+
                                 <div className="grid grid-cols-1 gap-3">
                                     {[
                                         { step: 1, icon: <MdTitle />, title: "Title", completed: formCompleted.title },
@@ -325,13 +324,11 @@ const AddEditTravelStory = ({
                                     ].map(item => (
                                         <motion.button
                                             key={item.step}
-                                            className={`flex items-center p-3 rounded-lg ${
-                                                activeStep === item.step 
-                                                    ? 'bg-cyan-50 dark:bg-cyan-900/30 border border-cyan-200 dark:border-cyan-800' 
+                                            className={`flex items-center p-3 rounded-lg ${activeStep === item.step
+                                                    ? 'bg-cyan-50 dark:bg-cyan-900/30 border border-cyan-200 dark:border-cyan-800'
                                                     : 'bg-white dark:bg-gray-700'
-                                            } ${
-                                                item.completed ? 'border-l-4 border-l-green-500' : ''
-                                            }`}
+                                                } ${item.completed ? 'border-l-4 border-l-green-500' : ''
+                                                }`}
                                             onClick={() => {
                                                 setActiveStep(item.step);
                                                 setShowMobileNav(false);
@@ -339,9 +336,8 @@ const AddEditTravelStory = ({
                                             whileHover={{ scale: 1.02, x: 5 }}
                                             whileTap={{ scale: 0.98 }}
                                         >
-                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-3 ${
-                                                item.completed ? 'bg-green-100 dark:bg-green-800 text-green-600 dark:text-green-300' : 'bg-gray-100 dark:bg-gray-600'
-                                            }`}>
+                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-3 ${item.completed ? 'bg-green-100 dark:bg-green-800 text-green-600 dark:text-green-300' : 'bg-gray-100 dark:bg-gray-600'
+                                                }`}>
                                                 {item.completed ? <MdDone /> : item.icon}
                                             </div>
                                             <span className="font-medium text-gray-800 dark:text-white">{item.title}</span>
@@ -353,7 +349,7 @@ const AddEditTravelStory = ({
                                         </motion.button>
                                     ))}
                                 </div>
-                                
+
                                 <div className="mt-6 flex justify-center">
                                     <motion.button
                                         className="bg-slate-200 dark:bg-gray-700 text-slate-700 dark:text-slate-200 px-5 py-2.5 rounded-lg"
@@ -369,17 +365,17 @@ const AddEditTravelStory = ({
                     )}
                 </AnimatePresence>
             </div>
-            
+
             <div className='mb-6 hidden sm:block'>
                 <div className='flex justify-between items-center mb-4'>
                     <h5 className='text-2xl font-bold text-slate-800 dark:text-white flex items-center'>
-                        {type === "add" ? 
-                            <><MdAdd className='text-cyan-500 mr-2' /> Create New Memory</> : 
+                        {type === "add" ?
+                            <><MdAdd className='text-cyan-500 mr-2' /> Create New Memory</> :
                             <><MdEdit className='text-cyan-500 mr-2' /> Update Your Memory</>
                         }
                     </h5>
-                    <motion.button 
-                        className='p-2 rounded-full hover:bg-slate-100 dark:hover:bg-gray-700 transition-all text-slate-500 dark:text-slate-300' 
+                    <motion.button
+                        className='p-2 rounded-full hover:bg-slate-100 dark:hover:bg-gray-700 transition-all text-slate-500 dark:text-slate-300'
                         onClick={onClose}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
@@ -387,9 +383,9 @@ const AddEditTravelStory = ({
                         <MdClose className='text-xl' />
                     </motion.button>
                 </div>
-                
+
                 <div className="w-full bg-slate-100 dark:bg-gray-700 rounded-full h-2.5 mb-3 overflow-hidden">
-                    <motion.div 
+                    <motion.div
                         className="bg-gradient-to-r from-cyan-400 to-cyan-600 dark:from-cyan-500 dark:to-cyan-700 h-2.5 rounded-full"
                         style={{ width: `${completionPercentage()}%` }}
                         initial={{ width: 0 }}
@@ -417,7 +413,7 @@ const AddEditTravelStory = ({
             <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
                 <div className='md:col-span-1 hidden md:block'>
                     <div className='flex flex-col gap-3'>
-                        <motion.div 
+                        <motion.div
                             className={`p-4 border rounded-lg cursor-pointer dark:text-white ${getStepClass(1)} ${formCompleted.title ? 'bg-gradient-to-r from-cyan-50 to-slate-50 dark:from-cyan-900/20 dark:to-gray-800 border-cyan-200 dark:border-cyan-800' : ''}`}
                             onClick={() => setActiveStep(1)}
                             whileHover={{ scale: 1.02 }}
@@ -434,7 +430,7 @@ const AddEditTravelStory = ({
                             </div>
                         </motion.div>
 
-                        <motion.div 
+                        <motion.div
                             className={`p-4 border rounded-lg cursor-pointer dark:text-white ${getStepClass(2)} ${formCompleted.date ? 'bg-gradient-to-r from-cyan-50 to-slate-50 dark:from-cyan-900/20 dark:to-gray-800 border-cyan-200 dark:border-cyan-800' : ''}`}
                             onClick={() => setActiveStep(2)}
                             whileHover={{ scale: 1.02 }}
@@ -451,7 +447,7 @@ const AddEditTravelStory = ({
                             </div>
                         </motion.div>
 
-                        <motion.div 
+                        <motion.div
                             className={`p-4 border rounded-lg cursor-pointer dark:text-white ${getStepClass(3)} ${formCompleted.image ? 'bg-gradient-to-r from-cyan-50 to-slate-50 dark:from-cyan-900/20 dark:to-gray-800 border-cyan-200 dark:border-cyan-800' : ''}`}
                             onClick={() => setActiveStep(3)}
                             whileHover={{ scale: 1.02 }}
@@ -468,7 +464,7 @@ const AddEditTravelStory = ({
                             </div>
                         </motion.div>
 
-                        <motion.div 
+                        <motion.div
                             className={`p-4 border rounded-lg cursor-pointer dark:text-white ${getStepClass(4)} ${formCompleted.story ? 'bg-gradient-to-r from-cyan-50 to-slate-50 dark:from-cyan-900/20 dark:to-gray-800 border-cyan-200 dark:border-cyan-800' : ''}`}
                             onClick={() => setActiveStep(4)}
                             whileHover={{ scale: 1.02 }}
@@ -485,7 +481,7 @@ const AddEditTravelStory = ({
                             </div>
                         </motion.div>
 
-                        <motion.div 
+                        <motion.div
                             className={`p-4 border rounded-lg cursor-pointer dark:text-white ${getStepClass(5)} ${formCompleted.location ? 'bg-gradient-to-r from-cyan-50 to-slate-50 dark:from-cyan-900/20 dark:to-gray-800 border-cyan-200 dark:border-cyan-800' : ''}`}
                             onClick={() => setActiveStep(5)}
                             whileHover={{ scale: 1.02 }}
@@ -525,7 +521,7 @@ const AddEditTravelStory = ({
                 <div className='md:col-span-2 p-2 sm:p-5 border rounded-lg bg-white/50 dark:bg-gray-800/50 border-slate-200 dark:border-gray-700 shadow-sm'>
                     <AnimatePresence mode="wait">
                         {activeStep === 1 && (
-                            <motion.div 
+                            <motion.div
                                 key="step1"
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -536,18 +532,18 @@ const AddEditTravelStory = ({
                                 <h3 className='text-lg font-semibold text-slate-800 dark:text-white mb-4 flex items-center'>
                                     <MdTitle className='mr-2 text-cyan-500' /> Title your memory
                                 </h3>
-                                    <div className='bg-white dark:bg-gray-800 p-2 sm:p-5 rounded-lg shadow-sm border border-slate-200 dark:border-gray-700'>
-                                        <input
-                                            type="text"
-                                            className='text-xl sm:text-2xl w-full text-slate-800 dark:text-white outline-none border-b-2 border-slate-200 dark:border-gray-600 focus:border-cyan-400 dark:focus:border-cyan-600 pb-2 transition-all bg-transparent'
-                                            placeholder='A memorable day at...'
-                                            value={title}
-                                            onChange={({ target }) => setTitle(target.value)}
-                                        />
+                                <div className='bg-white dark:bg-gray-800 p-2 sm:p-5 rounded-lg shadow-sm border border-slate-200 dark:border-gray-700'>
+                                    <input
+                                        type="text"
+                                        className='text-xl sm:text-2xl w-full text-slate-800 dark:text-white outline-none border-b-2 border-slate-200 dark:border-gray-600 focus:border-cyan-400 dark:focus:border-cyan-600 pb-2 transition-all bg-transparent'
+                                        placeholder='A memorable day at...'
+                                        value={title}
+                                        onChange={({ target }) => setTitle(target.value)}
+                                    />
                                     <p className='text-xs text-slate-500 dark:text-slate-400 mt-3'>Give your travel memory a catchy title that captures the essence of your experience.</p>
-                                    
+
                                     {formCompleted.title && window.innerWidth < 768 && (
-                                        <motion.div 
+                                        <motion.div
                                             initial={{ opacity: 0, scale: 0.8 }}
                                             animate={{ opacity: 1, scale: 1 }}
                                             className="mt-4 bg-green-50 dark:bg-green-900/20 p-3 rounded-lg border border-green-100 dark:border-green-800 flex items-center"
@@ -556,14 +552,14 @@ const AddEditTravelStory = ({
                                             <span className="text-green-700 dark:text-green-400 text-sm">Title completed! Swipe left or use the navigation to continue.</span>
                                         </motion.div>
                                     )}
-                                    
+
                                     <div className="md:hidden mt-3 text-center text-xs text-slate-500 dark:text-slate-400">
                                         <span>Swipe left/right to navigate between steps</span>
                                     </div>
-                                    
+
                                     <div className='mt-6 flex justify-between'>
                                         <div></div>
-                                        <motion.button 
+                                        <motion.button
                                             className='bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg transition-colors flex items-center shadow-sm text-sm sm:text-base'
                                             onClick={() => setActiveStep(2)}
                                             whileHover={{ scale: 1.05 }}
@@ -577,7 +573,7 @@ const AddEditTravelStory = ({
                         )}
 
                         {activeStep === 2 && (
-                            <motion.div 
+                            <motion.div
                                 key="step2"
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -591,9 +587,9 @@ const AddEditTravelStory = ({
                                 <div className='bg-white dark:bg-gray-800 p-2 sm:p-5 rounded-lg shadow-sm border border-slate-200 dark:border-gray-700'>
                                     <DataSelector date={visitedDate} setDate={setVisitedDate} />
                                     <p className='text-xs text-slate-500 dark:text-slate-400 mt-3'>Select the date when you visited this location.</p>
-                                    
+
                                     {formCompleted.date && window.innerWidth < 768 && (
-                                        <motion.div 
+                                        <motion.div
                                             initial={{ opacity: 0, scale: 0.8 }}
                                             animate={{ opacity: 1, scale: 1 }}
                                             className="mt-4 bg-green-50 dark:bg-green-900/20 p-3 rounded-lg border border-green-100 dark:border-green-800 flex items-center"
@@ -602,13 +598,13 @@ const AddEditTravelStory = ({
                                             <span className="text-green-700 dark:text-green-400 text-sm">Date selected! Swipe left or use the navigation to continue.</span>
                                         </motion.div>
                                     )}
-                                    
+
                                     <div className="md:hidden mt-3 text-center text-xs text-slate-500 dark:text-slate-400">
                                         <span>Swipe left/right to navigate between steps</span>
                                     </div>
-                                    
+
                                     <div className='mt-6 flex justify-between gap-2'>
-                                        <motion.button 
+                                        <motion.button
                                             className='border border-slate-300 dark:border-gray-600 hover:bg-slate-100 dark:hover:bg-gray-700 text-slate-700 dark:text-slate-200 px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg transition-colors flex items-center text-sm sm:text-base'
                                             onClick={() => setActiveStep(1)}
                                             whileHover={{ scale: 1.05 }}
@@ -616,7 +612,7 @@ const AddEditTravelStory = ({
                                         >
                                             <MdKeyboardArrowLeft className="mr-1 text-xl" /> Back
                                         </motion.button>
-                                        <motion.button 
+                                        <motion.button
                                             className='bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg transition-colors flex items-center shadow-sm text-sm sm:text-base'
                                             onClick={() => setActiveStep(3)}
                                             whileHover={{ scale: 1.05 }}
@@ -630,7 +626,7 @@ const AddEditTravelStory = ({
                         )}
 
                         {activeStep === 3 && (
-                            <motion.div 
+                            <motion.div
                                 key="step3"
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -644,9 +640,9 @@ const AddEditTravelStory = ({
                                 <div className='bg-white dark:bg-gray-800 p-2 sm:p-5 rounded-lg shadow-sm border border-slate-200 dark:border-gray-700'>
                                     <ImageSelector image={storyImg} setImage={setStoryImg} handleDeleteImg={handleDeleteStoryImg} />
                                     <p className='text-xs text-slate-500 dark:text-slate-400 mt-3'>Upload a photo that best captures your travel experience.</p>
-                                    
+
                                     {formCompleted.image && window.innerWidth < 768 && (
-                                        <motion.div 
+                                        <motion.div
                                             initial={{ opacity: 0, scale: 0.8 }}
                                             animate={{ opacity: 1, scale: 1 }}
                                             className="mt-4 bg-green-50 dark:bg-green-900/20 p-3 rounded-lg border border-green-100 dark:border-green-800 flex items-center"
@@ -655,13 +651,13 @@ const AddEditTravelStory = ({
                                             <span className="text-green-700 dark:text-green-400 text-sm">Image added! Swipe left or use the navigation to continue.</span>
                                         </motion.div>
                                     )}
-                                    
+
                                     <div className="md:hidden mt-3 text-center text-xs text-slate-500 dark:text-slate-400">
                                         <span>Swipe left/right to navigate between steps</span>
                                     </div>
-                                    
+
                                     <div className='mt-6 flex justify-between gap-2'>
-                                        <motion.button 
+                                        <motion.button
                                             className='border border-slate-300 dark:border-gray-600 hover:bg-slate-100 dark:hover:bg-gray-700 text-slate-700 dark:text-slate-200 px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg transition-colors flex items-center text-sm sm:text-base'
                                             onClick={() => setActiveStep(2)}
                                             whileHover={{ scale: 1.05 }}
@@ -669,7 +665,7 @@ const AddEditTravelStory = ({
                                         >
                                             <MdKeyboardArrowLeft className="mr-1 text-xl" /> Back
                                         </motion.button>
-                                        <motion.button 
+                                        <motion.button
                                             className='bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg transition-colors flex items-center shadow-sm text-sm sm:text-base'
                                             onClick={() => setActiveStep(4)}
                                             whileHover={{ scale: 1.05 }}
@@ -683,7 +679,7 @@ const AddEditTravelStory = ({
                         )}
 
                         {activeStep === 4 && (
-                            <motion.div 
+                            <motion.div
                                 key="step4"
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -702,9 +698,9 @@ const AddEditTravelStory = ({
                                         onChange={({ target }) => setStory(target.value)}
                                     ></textarea>
                                     <p className='text-xs text-slate-500 dark:text-slate-400 mt-3'>Describe your experience, include interesting details and memorable moments.</p>
-                                    
+
                                     {formCompleted.story && window.innerWidth < 768 && (
-                                        <motion.div 
+                                        <motion.div
                                             initial={{ opacity: 0, scale: 0.8 }}
                                             animate={{ opacity: 1, scale: 1 }}
                                             className="mt-4 bg-green-50 dark:bg-green-900/20 p-3 rounded-lg border border-green-100 dark:border-green-800 flex items-center"
@@ -713,13 +709,13 @@ const AddEditTravelStory = ({
                                             <span className="text-green-700 dark:text-green-400 text-sm">Story written! Swipe left or use the navigation to continue.</span>
                                         </motion.div>
                                     )}
-                                    
+
                                     <div className="md:hidden mt-3 text-center text-xs text-slate-500 dark:text-slate-400">
                                         <span>Swipe left/right to navigate between steps</span>
                                     </div>
-                                    
+
                                     <div className='mt-6 flex justify-between gap-2'>
-                                        <motion.button 
+                                        <motion.button
                                             className='border border-slate-300 dark:border-gray-600 hover:bg-slate-100 dark:hover:bg-gray-700 text-slate-700 dark:text-slate-200 px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg transition-colors flex items-center text-sm sm:text-base'
                                             onClick={() => setActiveStep(3)}
                                             whileHover={{ scale: 1.05 }}
@@ -727,7 +723,7 @@ const AddEditTravelStory = ({
                                         >
                                             <MdKeyboardArrowLeft className="mr-1 text-xl" /> Back
                                         </motion.button>
-                                        <motion.button 
+                                        <motion.button
                                             className='bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg transition-colors flex items-center shadow-sm text-sm sm:text-base'
                                             onClick={() => setActiveStep(5)}
                                             whileHover={{ scale: 1.05 }}
@@ -741,7 +737,7 @@ const AddEditTravelStory = ({
                         )}
 
                         {activeStep === 5 && (
-                            <motion.div 
+                            <motion.div
                                 key="step5"
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -755,9 +751,9 @@ const AddEditTravelStory = ({
                                 <div className='bg-white dark:bg-gray-800 p-2 sm:p-5 rounded-lg shadow-sm border border-slate-200 dark:border-gray-700'>
                                     <TagInput tags={visitedLocation} setTags={setVisitedLocation} />
                                     <p className='text-xs text-slate-500 dark:text-slate-400 mt-3'>Add all the places you visited during this trip.</p>
-                                    
+
                                     {formCompleted.location && window.innerWidth < 768 && (
-                                        <motion.div 
+                                        <motion.div
                                             initial={{ opacity: 0, scale: 0.8 }}
                                             animate={{ opacity: 1, scale: 1 }}
                                             className="mt-4 bg-green-50 dark:bg-green-900/20 p-3 rounded-lg border border-green-100 dark:border-green-800 flex items-center"
@@ -766,7 +762,7 @@ const AddEditTravelStory = ({
                                             <span className="text-green-700 dark:text-green-400 text-sm">Locations added! Ready to save your memory.</span>
                                         </motion.div>
                                     )}
-                                    
+
                                     {completionPercentage() === 100 && window.innerWidth < 768 && (
                                         <motion.div
                                             initial={{ opacity: 0, y: 20 }}
@@ -779,13 +775,13 @@ const AddEditTravelStory = ({
                                             </div>
                                         </motion.div>
                                     )}
-                                    
+
                                     <div className="md:hidden mt-3 text-center text-xs text-slate-500 dark:text-slate-400">
                                         <span>Swipe left/right to navigate between steps</span>
                                     </div>
-                                    
+
                                     <div className='mt-6 flex justify-between gap-2'>
-                                        <motion.button 
+                                        <motion.button
                                             className='border border-slate-300 dark:border-gray-600 hover:bg-slate-100 dark:hover:bg-gray-700 text-slate-700 dark:text-slate-200 px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg transition-colors flex items-center text-sm sm:text-base'
                                             onClick={() => setActiveStep(4)}
                                             whileHover={{ scale: 1.05 }}
@@ -793,7 +789,7 @@ const AddEditTravelStory = ({
                                         >
                                             <MdKeyboardArrowLeft className="mr-1 text-xl" /> Back
                                         </motion.button>
-                                        <motion.button 
+                                        <motion.button
                                             className={`px-4 py-2 sm:px-6 sm:py-3 rounded-lg text-white flex items-center justify-center font-medium transition-all shadow-sm text-sm sm:text-base ${loading ? 'bg-cyan-400 dark:bg-cyan-600 cursor-not-allowed' : 'bg-gradient-to-r from-cyan-500 to-cyan-600 dark:from-cyan-600 dark:to-cyan-700 hover:from-cyan-600 hover:to-cyan-700 dark:hover:from-cyan-500 dark:hover:to-cyan-600'}`}
                                             onClick={handleAddOrUpdateClick}
                                             disabled={loading}
@@ -812,12 +808,12 @@ const AddEditTravelStory = ({
                                                 <>
                                                     {type === 'add' ? (
                                                         <>
-                                                            <MdAdd className='mr-2 text-xl' /> 
+                                                            <MdAdd className='mr-2 text-xl' />
                                                             Save Memory
                                                         </>
                                                     ) : (
                                                         <>
-                                                            <MdUpdate className='mr-2 text-xl' /> 
+                                                            <MdUpdate className='mr-2 text-xl' />
                                                             Update Memory
                                                         </>
                                                     )}
@@ -835,7 +831,7 @@ const AddEditTravelStory = ({
             {/* Edit Confirmation Dialog */}
             <AnimatePresence>
                 {showEditConfirmation && (
-                    <motion.div 
+                    <motion.div
                         className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -846,7 +842,7 @@ const AddEditTravelStory = ({
                             }
                         }}
                     >
-                        <motion.div 
+                        <motion.div
                             className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-xl max-w-md aspect-square w-full"
                             initial={{ scale: 0.9, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
@@ -861,12 +857,12 @@ const AddEditTravelStory = ({
                                         </div>
                                         <h3 className="text-xl font-bold text-gray-900 dark:text-white">Save Changes?</h3>
                                     </div>
-                                    
+
                                     <div>
                                         <p className="text-gray-700 dark:text-gray-300 mb-3">
-                                            You're about to update "<span className="font-semibold text-gray-900 dark:text-white">{title}</span>". 
+                                            You're about to update "<span className="font-semibold text-gray-900 dark:text-white">{title}</span>".
                                         </p>
-                                        
+
                                         <div className="bg-cyan-50 dark:bg-cyan-900/20 border border-cyan-200 dark:border-cyan-800 rounded-lg p-3 mb-3">
                                             <p className="text-cyan-700 dark:text-cyan-300 text-sm flex items-start">
                                                 <MdInfo className="text-cyan-500 mr-2 mt-0.5 flex-shrink-0" />
@@ -881,9 +877,9 @@ const AddEditTravelStory = ({
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div className="flex justify-end gap-3 mt-auto">
-                                    <motion.button 
+                                    <motion.button
                                         className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg border border-gray-200 dark:border-gray-600"
                                         onClick={() => setShowEditConfirmation(false)}
                                         whileHover={{ scale: 1.02 }}
@@ -891,7 +887,7 @@ const AddEditTravelStory = ({
                                     >
                                         Cancel
                                     </motion.button>
-                                    <motion.button 
+                                    <motion.button
                                         className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white rounded-lg flex items-center shadow-sm"
                                         onClick={proceedWithUpdate}
                                         whileHover={{ scale: 1.02 }}
@@ -909,7 +905,7 @@ const AddEditTravelStory = ({
             {/* Create Confirmation Dialog */}
             <AnimatePresence>
                 {showSaveConfirmation && (
-                    <motion.div 
+                    <motion.div
                         className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -920,7 +916,7 @@ const AddEditTravelStory = ({
                             }
                         }}
                     >
-                        <motion.div 
+                        <motion.div
                             className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-xl max-w-md aspect-square w-full"
                             initial={{ scale: 0.9, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
@@ -935,12 +931,12 @@ const AddEditTravelStory = ({
                                         </div>
                                         <h3 className="text-xl font-bold text-gray-900 dark:text-white">Save Memory?</h3>
                                     </div>
-                                    
+
                                     <div>
                                         <p className="text-gray-700 dark:text-gray-300 mb-3">
                                             You're about to save "<span className="font-semibold text-gray-900 dark:text-white">{title}</span>" to your travel collection.
                                         </p>
-                                        
+
                                         <div className="bg-cyan-50 dark:bg-cyan-900/20 border border-cyan-200 dark:border-cyan-800 rounded-lg p-3">
                                             <div className="flex items-start">
                                                 <MdInfo className="text-cyan-500 mr-2 mt-0.5 flex-shrink-0" />
@@ -951,9 +947,9 @@ const AddEditTravelStory = ({
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div className="flex justify-end gap-3 mt-auto">
-                                    <motion.button 
+                                    <motion.button
                                         className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg border border-gray-200 dark:border-gray-600"
                                         onClick={() => setShowSaveConfirmation(false)}
                                         whileHover={{ scale: 1.02 }}
@@ -961,7 +957,7 @@ const AddEditTravelStory = ({
                                     >
                                         Cancel
                                     </motion.button>
-                                    <motion.button 
+                                    <motion.button
                                         className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white rounded-lg flex items-center shadow-sm"
                                         onClick={proceedWithAdd}
                                         whileHover={{ scale: 1.02 }}

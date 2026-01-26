@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import PasswordInput from "../../components/Input/PasswordInput";
 import { useNavigate, Link } from "react-router-dom";
 import { validateEmail } from "../../utils/helper";
-import axiosInstance from "../../utils/axiosInstance";
+import AuthService from "../../services/authService";
 import logo from "../../assets/images/logo.png";
-import { toast } from "sonner"; 
+import { toast } from "sonner";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaEnvelope, FaShieldAlt, FaUser, FaArrowRight, FaCheck } from "react-icons/fa";
@@ -124,13 +124,9 @@ const Signup = () => {
     setLoading(true);
 
     try {
-      const response = await axiosInstance.post("/send-signup-otp", {
-        fullName: name,
-        email: email,
-        password: password,
-      });
+      const response = await AuthService.sendSignupOtp(name, email, password);
 
-      if (response.data && !response.data.error) {
+      if (response && !response.error) {
         setShowOtpVerification(true);
         toast.info("OTP sent to your email. Please verify to complete registration.");
       }
@@ -156,13 +152,10 @@ const Signup = () => {
     setOtpError(null);
 
     try {
-      const response = await axiosInstance.post("/verify-signup-otp", {
-        email,
-        otp
-      });
+      const response = await AuthService.verifySignupOtp(email, otp);
 
-      if (response.data && response.data.accessToken) {
-        localStorage.setItem("token", response.data.accessToken);
+      if (response && response.accessToken) {
+        localStorage.setItem("token", response.accessToken);
         setShowSuccess(true);
         setTimeout(() => {
           toast.success("Account created successfully! Welcome to Travel Book.");
@@ -188,10 +181,7 @@ const Signup = () => {
 
   const handleResendOtp = async () => {
     try {
-      await axiosInstance.post("/resend-otp", {
-        email,
-        isSignup: true
-      });
+      await AuthService.resendOtp(email, true);
       toast.info("New OTP sent to your email");
     } catch (error) {
       setOtpError("Failed to resend OTP. Please try again.");
@@ -205,10 +195,10 @@ const Signup = () => {
           <title>Create Account | Travel Book</title>
         </Helmet>
       </HelmetProvider>
-      
-      <div className="flex shadow-2xl rounded-xl overflow-hidden w-full max-w-5xl mx-auto my-8">        
+
+      <div className="flex shadow-2xl rounded-xl overflow-hidden w-full max-w-5xl mx-auto my-8">
         {/* image section */}
-        <motion.div 
+        <motion.div
           initial={{ x: -50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -227,14 +217,14 @@ const Signup = () => {
             </p>
           </motion.div>
         </motion.div>
- 
-       {/* signup form section */}
-        <motion.div 
+
+        {/* signup form section */}
+        <motion.div
           initial={{ x: 50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           className="w-full md:w-1/2 rounded-tr-xl rounded-br-xl p-5 sm:p-10 lg:p-16 bg-white dark:bg-gray-800 dark:shadow-gray-900/20"
-        
+
         >
           <AnimatePresence>
             {showSuccess && (
@@ -244,7 +234,7 @@ const Signup = () => {
                 exit={{ opacity: 0, scale: 0.8 }}
                 className="absolute inset-0 flex flex-col items-center justify-center bg-white dark:bg-gray-800 bg-opacity-95 dark:bg-opacity-95 z-50 rounded-xl"
               >
-                <motion.div 
+                <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: [0, 1.2, 1] }}
                   transition={{ duration: 0.5, times: [0, 0.6, 1] }}
@@ -259,9 +249,9 @@ const Signup = () => {
               </motion.div>
             )}
           </AnimatePresence>
-          
+
           {showOtpVerification ? (
-            <OTPVerification 
+            <OTPVerification
               email={email}
               onVerify={handleVerifyOtp}
               onResend={handleResendOtp}
@@ -270,7 +260,7 @@ const Signup = () => {
             />
           ) : (
             <>
-              <motion.div 
+              <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
@@ -281,7 +271,7 @@ const Signup = () => {
                 </Link>
               </motion.div>
 
-              <motion.form 
+              <motion.form
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
@@ -289,7 +279,7 @@ const Signup = () => {
                 className="space-y-5"
               >
                 <h4 className="text-2xl font-semibold mb-6 text-center text-gray-800 dark:text-white">
-                Start Logging Your Adventures
+                  Start Logging Your Adventures
                 </h4>
 
                 <div className="relative">
@@ -299,17 +289,16 @@ const Signup = () => {
                   <input
                     type="text"
                     placeholder="Full name"
-                    className={`pl-10 pr-4 py-3 w-full rounded-lg bg-gray-50 dark:bg-gray-700 border ${
-                      formTouched.name && !name.trim() 
-                        ? 'border-red-400 dark:border-red-600 focus:ring-red-500' 
+                    className={`pl-10 pr-4 py-3 w-full rounded-lg bg-gray-50 dark:bg-gray-700 border ${formTouched.name && !name.trim()
+                        ? 'border-red-400 dark:border-red-600 focus:ring-red-500'
                         : 'border-gray-200 dark:border-gray-600 focus:ring-cyan-500'
-                    } focus:border-transparent focus:ring-2 transition-all duration-200 outline-none text-gray-800 dark:text-white`}
+                      } focus:border-transparent focus:ring-2 transition-all duration-200 outline-none text-gray-800 dark:text-white`}
                     value={name}
                     onChange={handleNameChange}
                     onFocus={() => handleInputFocus('name')}
                   />
                   {formTouched.name && !name.trim() && (
-                    <motion.p 
+                    <motion.p
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       className="mt-1 text-xs text-red-500"
@@ -326,17 +315,16 @@ const Signup = () => {
                   <input
                     type="email"
                     placeholder="Email address"
-                    className={`pl-10 pr-4 py-3 w-full rounded-lg bg-gray-50 dark:bg-gray-700 border ${
-                      formTouched.email && !validateEmail(email) 
-                        ? 'border-red-400 dark:border-red-600 focus:ring-red-500' 
+                    className={`pl-10 pr-4 py-3 w-full rounded-lg bg-gray-50 dark:bg-gray-700 border ${formTouched.email && !validateEmail(email)
+                        ? 'border-red-400 dark:border-red-600 focus:ring-red-500'
                         : 'border-gray-200 dark:border-gray-600 focus:ring-cyan-500'
-                    } focus:border-transparent focus:ring-2 transition-all duration-200 outline-none text-gray-800 dark:text-white`}
+                      } focus:border-transparent focus:ring-2 transition-all duration-200 outline-none text-gray-800 dark:text-white`}
                     value={email}
                     onChange={handleEmailChange}
                     onFocus={() => handleInputFocus('email')}
                   />
                   {formTouched.email && !validateEmail(email) && (
-                    <motion.p 
+                    <motion.p
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       className="mt-1 text-xs text-red-500"
@@ -355,14 +343,13 @@ const Signup = () => {
                       value={password}
                       onChange={handlePasswordChange}
                       onFocus={() => handleInputFocus('password')}
-                      className={`pl-10 ${
-                        formTouched.password && !password 
-                          ? 'border-red-400 dark:border-red-600 focus:ring-red-500' 
+                      className={`pl-10 ${formTouched.password && !password
+                          ? 'border-red-400 dark:border-red-600 focus:ring-red-500'
                           : 'border-gray-200 dark:border-gray-600 focus:ring-cyan-500'
-                      }`}
+                        }`}
                     />
                     {formTouched.password && !password && (
-                      <motion.p 
+                      <motion.p
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="mt-1 text-xs text-red-500"
@@ -371,28 +358,26 @@ const Signup = () => {
                       </motion.p>
                     )}
                   </div>
-                  
+
                   {password && (
                     <div className="space-y-1">
                       <div className="flex space-x-1 h-1">
                         {[...Array(5)].map((_, index) => (
-                          <div 
-                            key={index} 
-                            className={`flex-1 rounded-full ${
-                              index < passwordStrength 
-                                ? getPasswordColor() 
+                          <div
+                            key={index}
+                            className={`flex-1 rounded-full ${index < passwordStrength
+                                ? getPasswordColor()
                                 : 'bg-gray-200 dark:bg-gray-700'
-                            }`}
+                              }`}
                           ></div>
                         ))}
                       </div>
-                      <p className={`text-xs ${
-                        passwordStrength <= 1 
-                          ? 'text-red-500' 
-                          : passwordStrength <= 3 
-                            ? 'text-yellow-500' 
+                      <p className={`text-xs ${passwordStrength <= 1
+                          ? 'text-red-500'
+                          : passwordStrength <= 3
+                            ? 'text-yellow-500'
                             : 'text-green-500'
-                      }`}>
+                        }`}>
                         {getPasswordFeedback()}
                       </p>
                     </div>
@@ -412,8 +397,8 @@ const Signup = () => {
                   )}
                 </AnimatePresence>
 
-                <motion.button 
-                  type="submit" 
+                <motion.button
+                  type="submit"
                   className="w-full py-3 flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white font-medium transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
                   disabled={loading}
                   whileHover={{ scale: 1.02 }}
@@ -433,9 +418,9 @@ const Signup = () => {
                     </>
                   )}
                 </motion.button>
-                
+
                 {/* Social Login Buttons */}
-                <motion.div 
+                <motion.div
                   className="mt-6 mb-6"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -470,7 +455,7 @@ const Signup = () => {
         </motion.div>
       </div>
 
-      
+
     </div>
   );
 };

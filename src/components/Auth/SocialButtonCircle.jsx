@@ -1,14 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../../utils/AuthContext';
 import { signInWithGoogle, signInWithTwitter, checkExistingAccount } from '../../utils/firebase';
-import axiosInstance from '../../utils/axiosInstance';
+import AuthService from '../../services/authService';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 import { handleAuthError } from '../../utils/authErrorHandler.jsx';
 
-const SocialButtonCircle = ({ 
-  provider = 'google', 
-  redirectPath = '/dashboard', 
+const SocialButtonCircle = ({
+  provider = 'google',
+  redirectPath = '/dashboard',
   isSignUp = false,
   className = '',
   ...props
@@ -17,7 +17,7 @@ const SocialButtonCircle = ({
   const [isLoading, setIsLoading] = useState(false);
   const buttonRef = useRef(null);
   const [ripples, setRipples] = useState([]);
-  
+
   // Clean up ripples after animation completes
   useEffect(() => {
     if (ripples.length > 0) {
@@ -27,26 +27,26 @@ const SocialButtonCircle = ({
       return () => clearTimeout(timer);
     }
   }, [ripples]);
-  
+
   // Animation variants for button
   const buttonVariants = {
-    hover: { 
+    hover: {
       scale: 1.08,
-      boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" 
+      boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
     },
-    tap: { 
+    tap: {
       scale: 0.95,
-      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)" 
+      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
     },
-    initial: { 
+    initial: {
       scale: 1,
-      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)" 
+      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
     }
   };
 
   const handleSignIn = async (e) => {
     if (isLoading) return;
-    
+
     // Create ripple effect
     if (buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
@@ -54,15 +54,15 @@ const SocialButtonCircle = ({
       const y = e.clientY - rect.top;
       setRipples([...ripples, { x, y, id: Date.now() }]);
     }
-    
+
     try {
       setIsLoading(true);
-      
+
       // Subtle haptic feedback using navigator.vibrate if available
       if (window.navigator && window.navigator.vibrate) {
         window.navigator.vibrate(50);
       }
-        // Sign in with selected provider using Firebase
+      // Sign in with selected provider using Firebase
       let result;
       if (provider === 'google') {
         result = await signInWithGoogle();
@@ -71,44 +71,51 @@ const SocialButtonCircle = ({
       } else {
         throw new Error('Unsupported provider');
       }
-      
+
       const { user, idToken } = result;
-        if (!user) {
+      if (!user) {
         toast.error(`${provider} sign-in failed. Please try again.`);
         return;
       }
-      
+
       console.log('Google auth - got ID token:', idToken ? `${idToken.substring(0, 10)}...` : 'missing');
 
       // Send the Firebase user data to your backend to either create a new user or get an existing one
-      const response = await axiosInstance.post(`/${provider}-auth`, {
-        email: user.email,
-        fullName: user.displayName || (user.email ? user.email.split('@')[0] : ''),
-        photoURL: user.photoURL,
-        uid: user.uid
-      }, {
-        headers: {
-          Authorization: `Bearer ${idToken}`
-        }
-      });
+      let data;
+      if (provider === 'google') {
+        data = await AuthService.googleAuth({
+          email: user.email,
+          fullName: user.displayName || (user.email ? user.email.split('@')[0] : ''),
+          photoURL: user.photoURL,
+          uid: user.uid
+        });
+      } else if (provider === 'twitter') {
+        data = await AuthService.twitterAuth({
+          email: user.email,
+          fullName: user.displayName || (user.email ? user.email.split('@')[0] : ''),
+          photoURL: user.photoURL,
+          uid: user.uid
+        }, idToken);
+      }
 
-      if (response.data.success) {
+      if (data && data.success) {
         // Login using your existing auth context
-        login(response.data.token, response.data.user, redirectPath);
+        login(data.token, data.user, redirectPath);
         toast.success(`Signed in successfully with ${provider.charAt(0).toUpperCase() + provider.slice(1)}!`);
       } else {
-        toast.error(response.data.message || 'Authentication failed');
-      }    } catch (error) {
+        toast.error(data.message || 'Authentication failed');
+      }
+    } catch (error) {
       console.error(`${provider} OAuth error:`, error);
       handleAuthError(error, provider.charAt(0).toUpperCase() + provider.slice(1));
     } finally {
       setIsLoading(false);
     }
   };
-  
+
   // Get the appropriate icon based on provider
   const getProviderIcon = () => {
-    switch(provider) {
+    switch (provider) {
       case 'google':
         return (
           <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -128,7 +135,7 @@ const SocialButtonCircle = ({
         return null;
     }
   };
-  
+
   // Hover label text
   const getLabelText = () => {
     if (isSignUp) {
@@ -136,7 +143,7 @@ const SocialButtonCircle = ({
     }
     return `Sign in with ${provider.charAt(0).toUpperCase() + provider.slice(1)}`;
   };
-  
+
   return (
     <div className="relative group">
       <motion.button
@@ -160,10 +167,10 @@ const SocialButtonCircle = ({
               animate={{ opacity: 0, scale: 4 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.8 }}
-              style={{ 
-                position: 'absolute', 
-                top: ripple.y, 
-                left: ripple.x, 
+              style={{
+                position: 'absolute',
+                top: ripple.y,
+                left: ripple.x,
                 transform: 'translate(-50%, -50%)',
                 width: '30px',
                 height: '30px',
@@ -174,7 +181,7 @@ const SocialButtonCircle = ({
             />
           ))}
         </AnimatePresence>
-        
+
         {/* Loading spinner or provider icon */}
         <div className="relative z-10 flex items-center justify-center">
           {isLoading ? (
@@ -184,7 +191,7 @@ const SocialButtonCircle = ({
           )}
         </div>
       </motion.button>
-      
+
       {/* Tooltip on hover */}
       <div className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-800 dark:bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
         {getLabelText()}

@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../../utils/AuthContext';
 import { signInWithTwitter, checkExistingAccount } from '../../utils/firebase';
-import axiosInstance from '../../utils/axiosInstance';
+import AuthService from '../../services/authService';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 import { handleAuthError } from '../../utils/authErrorHandler.jsx';
 
-const TwitterButtonCircle = ({ 
-  redirectPath = '/dashboard', 
+const TwitterButtonCircle = ({
+  redirectPath = '/dashboard',
   isSignUp = false,
   className = '',
   ...props
@@ -16,7 +16,7 @@ const TwitterButtonCircle = ({
   const [isLoading, setIsLoading] = useState(false);
   const buttonRef = useRef(null);
   const [ripples, setRipples] = useState([]);
-  
+
   // Clean up ripples after animation completes
   useEffect(() => {
     if (ripples.length > 0) {
@@ -26,26 +26,26 @@ const TwitterButtonCircle = ({
       return () => clearTimeout(timer);
     }
   }, [ripples]);
-  
+
   // Animation variants for button
   const buttonVariants = {
-    hover: { 
+    hover: {
       scale: 1.08,
-      boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" 
+      boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
     },
-    tap: { 
+    tap: {
       scale: 0.95,
-      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)" 
+      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
     },
-    initial: { 
+    initial: {
       scale: 1,
-      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)" 
+      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
     }
   };
 
   const handleSignIn = async (e) => {
     if (isLoading) return;
-    
+
     // Create ripple effect
     if (buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
@@ -53,10 +53,10 @@ const TwitterButtonCircle = ({
       const y = e.clientY - rect.top;
       setRipples([...ripples, { x, y, id: Date.now() }]);
     }
-    
+
     try {
       setIsLoading(true);
-      
+
       // Subtle haptic feedback using navigator.vibrate if available
       if (window.navigator && window.navigator.vibrate) {
         window.navigator.vibrate(50);
@@ -64,32 +64,28 @@ const TwitterButtonCircle = ({
 
       // Sign in with Twitter using Firebase
       const { user, idToken } = await signInWithTwitter();
-      
+
       if (!user) {
         toast.error('Twitter sign-in failed. Please try again.');
         return;
       }
-      
+
       console.log('Twitter auth - got ID token:', idToken ? `${idToken.substring(0, 10)}...` : 'missing');
 
       // Send the Firebase user data to your backend to either create a new user or get an existing one
-      const response = await axiosInstance.post('/twitter-auth', {
+      const data = await AuthService.twitterAuth({
         email: user.email,
         fullName: user.displayName || (user.email ? user.email.split('@')[0] : ''),
         photoURL: user.photoURL,
         uid: user.uid
-      }, {
-        headers: {
-          Authorization: `Bearer ${idToken}`
-        }
-      });
+      }, idToken);
 
-      if (response.data.success) {
+      if (data.success) {
         // Login using your existing auth context
-        login(response.data.token, response.data.user, redirectPath);
+        login(data.token, data.user, redirectPath);
         toast.success('Signed in successfully with Twitter!');
       } else {
-        toast.error(response.data.message || 'Authentication failed');
+        toast.error(data.message || 'Authentication failed');
       }
     } catch (error) {
       console.error('Twitter OAuth error:', error);
@@ -98,7 +94,7 @@ const TwitterButtonCircle = ({
       setIsLoading(false);
     }
   };
-  
+
   // Hover label text
   const getLabelText = () => {
     if (isSignUp) {
@@ -106,7 +102,7 @@ const TwitterButtonCircle = ({
     }
     return 'Sign in with Twitter';
   };
-  
+
   return (
     <div className="relative group">
       <motion.button
@@ -130,10 +126,10 @@ const TwitterButtonCircle = ({
               animate={{ opacity: 0, scale: 4 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.8 }}
-              style={{ 
-                position: 'absolute', 
-                top: ripple.y, 
-                left: ripple.x, 
+              style={{
+                position: 'absolute',
+                top: ripple.y,
+                left: ripple.x,
                 transform: 'translate(-50%, -50%)',
                 width: '30px',
                 height: '30px',
@@ -144,7 +140,7 @@ const TwitterButtonCircle = ({
             />
           ))}
         </AnimatePresence>
-        
+
         {/* Loading spinner or Twitter icon */}
         <div className="relative z-10 flex items-center justify-center">
           {isLoading ? (
@@ -156,7 +152,7 @@ const TwitterButtonCircle = ({
           )}
         </div>
       </motion.button>
-      
+
       {/* Tooltip on hover */}
       <div className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-800 dark:bg-gray-700 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
         {getLabelText()}

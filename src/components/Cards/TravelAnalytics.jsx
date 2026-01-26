@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axiosInstance from '../../utils/axiosInstance';
+import StoryService from '../../services/storyService';
 import { Toaster, toast } from 'sonner';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title } from 'chart.js';
 import { Pie, Bar } from 'react-chartjs-2';
@@ -22,31 +22,36 @@ const TravelAnalytics = ({ onClose }) => {
     const fetchAnalytics = async () => {
       try {
         setLoading(true);
-        const response = await axiosInstance.get('/get-all-stories');
-        
-        if (response.data && response.data.stories) {
-          const stories = response.data.stories;
-          
+        const data = await StoryService.getAllStories();
+
+        if (data && data.stories) {
+          const stories = data.stories;
+
           // Calculate total stories
           const totalStories = stories.length;
-          
+
           // Calculate favorite stories
           const favoriteStories = stories.filter(story => story.isFavourite).length;
-          
+
           // Calculate location frequency
           const locationCounts = {};
           stories.forEach(story => {
-            story.visitedLocation.forEach(location => {
-              locationCounts[location] = (locationCounts[location] || 0) + 1;
-            });
+            if (Array.isArray(story.visitedLocation)) {
+              story.visitedLocation.forEach(location => {
+                locationCounts[location] = (locationCounts[location] || 0) + 1;
+              });
+            } else if (typeof story.visitedLocation === 'string') {
+              // Handle case where visitedLocation might be a string (legacy data)
+              locationCounts[story.visitedLocation] = (locationCounts[story.visitedLocation] || 0) + 1;
+            }
           });
-          
+
           // Sort locations by frequency
           const mostVisitedLocations = Object.entries(locationCounts)
             .sort((a, b) => b[1] - a[1])
             .slice(0, 5) // Get top 5 locations
             .map(([location, count]) => ({ location, count }));
-          
+
           // Calculate stories by month
           const monthCounts = {};
           stories.forEach(story => {
@@ -54,7 +59,7 @@ const TravelAnalytics = ({ onClose }) => {
             const monthYear = `${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
             monthCounts[monthYear] = (monthCounts[monthYear] || 0) + 1;
           });
-          
+
           // Convert to array for chart
           const storiesByMonth = Object.entries(monthCounts)
             .map(([month, count]) => ({ month, count }))
@@ -64,7 +69,7 @@ const TravelAnalytics = ({ onClose }) => {
               return new Date(`${aMonth} 1, ${aYear}`) - new Date(`${bMonth} 1, ${bYear}`);
             })
             .slice(-6); // Get last 6 months
-          
+
           setStats({
             totalStories,
             favoriteStories,
@@ -79,7 +84,7 @@ const TravelAnalytics = ({ onClose }) => {
         setLoading(false);
       }
     };
-    
+
     fetchAnalytics();
   }, []);
 
@@ -126,14 +131,14 @@ const TravelAnalytics = ({ onClose }) => {
   return (
     <div className="p-6 bg-white dark:bg-gray-800 rounded-lg overflow-y-auto max-h-[80vh]">
       <Toaster position="top-right" richColors />
-      
+
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Your Travel Analytics</h2>
         <button onClick={onClose}>
           <MdClose className="text-xl text-slate-400" />
         </button>
       </div>
-      
+
       {/* Stats Summary */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
         <div className="bg-cyan-50 dark:bg-gray-700 p-4 rounded-lg">
@@ -145,7 +150,7 @@ const TravelAnalytics = ({ onClose }) => {
           <p className="text-3xl font-bold text-cyan-600 dark:text-cyan-400">{stats.favoriteStories}</p>
         </div>
       </div>
-      
+
       {/* Charts Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Most visited locations */}
@@ -161,15 +166,15 @@ const TravelAnalytics = ({ onClose }) => {
             <p className="text-gray-500 dark:text-gray-300">No location data available</p>
           </div>
         )}
-        
+
         {/* Monthly story creation */}
         {stats.storiesByMonth.length > 0 ? (
           <div className="bg-white dark:bg-gray-700 p-4 rounded-lg shadow">
             <h3 className="text-lg font-medium text-gray-800 dark:text-white mb-4">Stories Created (Last 6 Months)</h3>
             <div className="h-64">
-              <Bar 
-                data={monthlyData} 
-                options={{ 
+              <Bar
+                data={monthlyData}
+                options={{
                   maintainAspectRatio: false,
                   scales: {
                     y: {
@@ -185,7 +190,7 @@ const TravelAnalytics = ({ onClose }) => {
                       }
                     }
                   }
-                }} 
+                }}
               />
             </div>
           </div>
@@ -195,7 +200,7 @@ const TravelAnalytics = ({ onClose }) => {
           </div>
         )}
       </div>
-      
+
       {/* Travel Tips */}
       <div className="mt-8 bg-cyan-50 dark:bg-gray-700 p-4 rounded-lg">
         <h3 className="text-lg font-medium text-gray-800 dark:text-white mb-2">Travel Insights</h3>
@@ -204,8 +209,8 @@ const TravelAnalytics = ({ onClose }) => {
         ) : (
           <div className="text-gray-600 dark:text-gray-300">
             <p className="mb-2">
-              {stats.favoriteStories > 0 
-                ? `You have marked ${stats.favoriteStories} stories as favorites (${Math.round(stats.favoriteStories/stats.totalStories*100)}% of your stories).` 
+              {stats.favoriteStories > 0
+                ? `You have marked ${stats.favoriteStories} stories as favorites (${Math.round(stats.favoriteStories / stats.totalStories * 100)}% of your stories).`
                 : "You haven't marked any stories as favorites yet."}
             </p>
             {stats.mostVisitedLocations.length > 0 && (

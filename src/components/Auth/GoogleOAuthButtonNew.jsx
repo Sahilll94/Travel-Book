@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../../utils/AuthContext';
 import { signInWithGoogle } from '../../utils/firebase';
-import axiosInstance from '../../utils/axiosInstance';
+import AuthService from '../../services/authService';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -10,7 +10,7 @@ const GoogleOAuthButton = ({ redirectPath = '/dashboard', isSignUp = false }) =>
   const [isLoading, setIsLoading] = useState(false);
   const buttonRef = useRef(null);
   const [ripples, setRipples] = useState([]);
-  
+
   // Clean up ripples after animation completes
   useEffect(() => {
     if (ripples.length > 0) {
@@ -20,26 +20,26 @@ const GoogleOAuthButton = ({ redirectPath = '/dashboard', isSignUp = false }) =>
       return () => clearTimeout(timer);
     }
   }, [ripples]);
-  
+
   // Animation variants for button
   const buttonVariants = {
-    hover: { 
+    hover: {
       scale: 1.02,
-      boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" 
+      boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
     },
-    tap: { 
+    tap: {
       scale: 0.98,
-      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)" 
+      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
     },
-    initial: { 
+    initial: {
       scale: 1,
-      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)" 
+      boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
     }
   };
 
   const handleGoogleSignIn = async (e) => {
     if (isLoading) return;
-    
+
     // Create ripple effect
     if (buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
@@ -47,37 +47,37 @@ const GoogleOAuthButton = ({ redirectPath = '/dashboard', isSignUp = false }) =>
       const y = e.clientY - rect.top;
       setRipples([...ripples, { x, y, id: Date.now() }]);
     }
-    
+
     try {
       setIsLoading(true);
-      
+
       // Subtle haptic feedback using navigator.vibrate if available
       if (window.navigator && window.navigator.vibrate) {
         window.navigator.vibrate(50);
       }
-      
+
       // Sign in with Google using Firebase
       const { user } = await signInWithGoogle();
-      
+
       if (!user) {
         toast.error('Google sign-in failed. Please try again.');
         return;
       }
 
       // Send the Firebase user data to your backend to either create a new user or get an existing one
-      const response = await axiosInstance.post('/google-auth', {
+      const data = await AuthService.googleAuth({
         email: user.email,
         fullName: user.displayName,
         photoURL: user.photoURL,
         uid: user.uid
       });
 
-      if (response.data.success) {
+      if (data.success) {
         // Login using your existing auth context
-        login(response.data.token, response.data.user, redirectPath);
+        login(data.token, data.user, redirectPath);
         toast.success('Signed in successfully with Google!');
       } else {
-        toast.error(response.data.message || 'Authentication failed');
+        toast.error(data.message || 'Authentication failed');
       }
     } catch (error) {
       console.error('Google OAuth error:', error);
@@ -86,7 +86,7 @@ const GoogleOAuthButton = ({ redirectPath = '/dashboard', isSignUp = false }) =>
       setIsLoading(false);
     }
   };
-  
+
   return (
     <motion.button
       ref={buttonRef}
@@ -100,7 +100,7 @@ const GoogleOAuthButton = ({ redirectPath = '/dashboard', isSignUp = false }) =>
     >
       {/* Background hover effect */}
       <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-gray-50 to-white dark:from-gray-800 dark:to-gray-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-      
+
       {/* Ripple effect */}
       <AnimatePresence>
         {ripples.map(ripple => (
@@ -110,10 +110,10 @@ const GoogleOAuthButton = ({ redirectPath = '/dashboard', isSignUp = false }) =>
             animate={{ opacity: 0, scale: 4 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.8 }}
-            style={{ 
-              position: 'absolute', 
-              top: ripple.y, 
-              left: ripple.x, 
+            style={{
+              position: 'absolute',
+              top: ripple.y,
+              left: ripple.x,
               transform: 'translate(-50%, -50%)',
               width: '50px',
               height: '50px',
@@ -124,13 +124,13 @@ const GoogleOAuthButton = ({ redirectPath = '/dashboard', isSignUp = false }) =>
           />
         ))}
       </AnimatePresence>
-      
+
       {/* Loading spinner or Google icon */}
       <div className="relative z-10 flex items-center justify-center">
         {isLoading ? (
           <div className="flex items-center justify-center">
             <div className="h-5 w-5 animate-spin rounded-full border-2 border-gray-300 border-t-cyan-600 dark:border-gray-600 dark:border-t-cyan-400"></div>
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, width: 0 }}
               animate={{ opacity: 1, width: 'auto' }}
               transition={{ delay: 0.5, duration: 0.3 }}
@@ -151,17 +151,17 @@ const GoogleOAuthButton = ({ redirectPath = '/dashboard', isSignUp = false }) =>
           </div>
         )}
       </div>
-      
+
       {/* Button text */}
       <span className={`text-base font-medium relative z-10 transition-all duration-300 ${isLoading ? 'opacity-0' : 'group-hover:translate-x-1'}`}>
-        {isSignUp 
-          ? 'Sign up with Google' 
+        {isSignUp
+          ? 'Sign up with Google'
           : 'Sign in with Google'
         }
       </span>
-      
+
       {/* Subtle right arrow icon that appears on hover */}
-      <motion.span 
+      <motion.span
         className="absolute right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
         initial={{ x: -5 }}
         animate={{ x: 0 }}
