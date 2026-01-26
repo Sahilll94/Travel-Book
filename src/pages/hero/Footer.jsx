@@ -1,143 +1,100 @@
-
 import logo from "../../assets/images/logo.png";
-
 import { Globe } from "lucide-react";
 import { FaXTwitter } from "react-icons/fa6";
 import { LuLinkedin, LuGithub } from "react-icons/lu";
 
 const Footer = () => {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="bg-white dark:bg-gray-900 ">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
-        {/* Main Footer Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-          {/* Brand Section */}
-          <div className="lg:col-span-4">
-            <div className="flex items-center mb-0">
-              <a href="/">
-                <img className="w-20 h-20" src={logo} alt="" />
-              </a>
-            </div>
+    <footer className="relative bg-[#0f172a] text-slate-300 font-sans border-t border-slate-800">
+      {/* Top Gradient Line */}
+      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent"></div>
 
-            <p className="text-sm text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-              The Travel-Book was developed by{" "}
-              <span className="font-semibold text-gray-900 dark:text-white">
-                SAHIL
-              </span>
-              , a dedicated developer and accomplished leader. Connect with him
-              through the social links provided below.
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+
+          {/* Brand Column */}
+          <div className="md:col-span-2 space-y-6">
+            <a href="/" className="inline-block hover:opacity-90 transition-opacity">
+              <img src={logo} alt="Travel-Book" className="h-12 w-auto" />
+            </a>
+            <p className="text-sm text-slate-400 max-w-sm leading-relaxed">
+              The Travel-Book was developed by <span className="font-semibold text-slate-200">SAHIL</span>, a dedicated developer and accomplished leader. Connect with him through the social links provided below.
             </p>
-
-            {/* Social Links */}
-            <div className="flex items-center space-x-3">
-              <a
-                href="https://sahilfolio.live/"
-                title="Visit Sahil's Portfolio"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center w-9 h-9 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full transition-all duration-300 hover:bg-blue-600 hover:text-white hover:scale-110 hover:-translate-y-1 focus:bg-blue-600 focus:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-              >
-                <Globe className="w-4 h-4" />
-              </a>
-
-              <a
-                href="https://x.com/Sa_hilll94"
-                title="Visit my profile on X"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center w-9 h-9 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full transition-all duration-300 hover:bg-blue-600 hover:text-white hover:scale-110 hover:-translate-y-1 focus:bg-blue-600 focus:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-              >
-                <FaXTwitter className="w-4 h-4" />
-              </a>
-
-              <a
-                href="https://www.linkedin.com/in/sahilll94"
-                title="Visit my profile on LinkedIn"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center w-9 h-9 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full transition-all duration-300 hover:bg-blue-600 hover:text-white hover:scale-110 hover:-translate-y-1 focus:bg-blue-600 focus:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-              >
-                <LuLinkedin className="w-4 h-4" />
-              </a>
-
-              <a
-                href="https://github.com/Sahilll94"
-                title="Visit my profile on GitHub"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center w-9 h-9 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full transition-all duration-300 hover:bg-blue-600 hover:text-white hover:scale-110 hover:-translate-y-1 focus:bg-blue-600 focus:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-              >
-                <LuGithub className="w-4 h-4" />
-              </a>
+            {/* Social Icons */}
+            <div className="flex items-center gap-3 pt-2">
+              {[
+                { href: "https://sahilfolio.live/", icon: Globe, label: "Portfolio" },
+                { href: "https://x.com/Sa_hilll94", icon: FaXTwitter, label: "X (Twitter)" },
+                { href: "https://www.linkedin.com/in/sahilll94", icon: LuLinkedin, label: "LinkedIn" },
+                { href: "https://github.com/Sahilll94", icon: LuGithub, label: "GitHub" },
+              ].map((social, index) => (
+                <a
+                  key={index}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                  className="p-2.5 rounded-lg bg-slate-800 text-slate-400 hover:bg-cyan-500 hover:text-white transition-all duration-300 hover:-translate-y-1"
+                >
+                  <social.icon className="w-5 h-5" />
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div className="lg:col-span-3">
-            <h3 className="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-4">
-              Quick Links
+          {/* Links Columns */}
+          <div className="md:col-span-1">
+            <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-6">
+              Platform
             </h3>
-            <ul className="space-y-3">
-              <li>
-                <a
-                  href="/signUp"
-                  className="text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 flex items-center group"
-                >
-                  <span className="w-1 h-1 bg-gray-400 rounded-full mr-2 group-hover:bg-blue-600 transition-colors duration-200"></span>
-                  Create Account
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/login"
-                  className="text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 flex items-center group"
-                >
-                  <span className="w-1 h-1 bg-gray-400 rounded-full mr-2 group-hover:bg-blue-600 transition-colors duration-200"></span>
-                  Login
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/terms"
-                  className="text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 flex items-center group"
-                >
-                  <span className="w-1 h-1 bg-gray-400 rounded-full mr-2 group-hover:bg-blue-600 transition-colors duration-200"></span>
-                  Terms of Services
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/privacy-policy"
-                  className="text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 flex items-center group"
-                >
-                  <span className="w-1 h-1 bg-gray-400 rounded-full mr-2 group-hover:bg-blue-600 transition-colors duration-200"></span>
-                  Privacy Policy
-                </a>
-              </li>
+            <ul className="space-y-4">
+              {[
+                { name: "Create Account", href: "/signup" },
+                { name: "Login", href: "/login" },
+                { name: "Contributors", href: "/contributors" },
+              ].map((link, idx) => (
+                <li key={idx}>
+                  <a href={link.href} className="text-sm text-slate-400 hover:text-cyan-400 transition-colors">
+                    {link.name}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* About Section */}
-          <div className="lg:col-span-5">
-            <h3 className="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-4">
-              About Travel-Book
+          <div className="md:col-span-1">
+            <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-6">
+              Legal
             </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-              Discover our innovative platform designed to streamline your
-              travel experiences. From creating and sharing captivating travel
-              stories to managing your favorite destinations, our user-friendly
-              tools help you document every journey seamlessly. Stay connected
-              and inspired, whether you're planning your next adventure or
-              reminiscing past trips. Join our community and make your travel
-              memories unforgettable.
-            </p>
+            <ul className="space-y-4">
+              {[
+                { name: "Terms of Service", href: "/terms" },
+                { name: "Privacy Policy", href: "/privacy-policy" },
+              ].map((link, idx) => (
+                <li key={idx}>
+                  <a href={link.href} className="text-sm text-slate-400 hover:text-cyan-400 transition-colors">
+                    {link.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
-        {/* Copyright Section */}
-        <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
-          <p className="text-xs text-center text-gray-500 dark:text-gray-400">
-            © Copyright {new Date().getFullYear()}, All Rights Reserved by Travel-Book
+        {/* Bottom Bar */}
+        <div className="pt-8 border-t border-slate-800/80 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
+          <div className="flex flex-col md:flex-row items-center gap-2 md:gap-6">
+            <p>© {currentYear} Travel-Book</p>
+            <span className="hidden md:block w-1 h-1 bg-slate-700 rounded-full"></span>
+            <p className="flex items-center gap-1">
+              Developed by <a href="https://sahilfolio.live/" target="_blank" rel="noopener noreferrer" className="font-medium text-slate-300 hover:text-cyan-400 transition-colors">Sahil</a>
+            </p>
+          </div>
+
+          <p className="flex items-center gap-1.5">
+            Made with <span className="text-red-500 animate-pulse text-base">♥</span> for travelers
           </p>
         </div>
       </div>
