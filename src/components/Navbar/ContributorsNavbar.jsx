@@ -79,7 +79,7 @@ const ContributorsNavbar = ({ userInfo, onLogout }) => {
               whileTap={{ scale: 0.95 }}
               className="flex items-center space-x-3 group"
             >
-              <img src={logo} alt="Travel Book" className="h-10 w-auto" />
+              <img src={logo} alt="Travel Book" loading="eager" className="h-10 w-auto" />
               <div className="hidden sm:block">
                 <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
                   Travel Book

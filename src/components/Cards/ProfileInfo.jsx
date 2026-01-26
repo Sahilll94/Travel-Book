@@ -12,6 +12,7 @@ const ProfileInfo = ({ userInfo, onLogout }) => {
                             src={userInfo.profileImage} 
                             alt={userInfo.fullName || "User"} 
                             className="w-full h-full object-cover"
+                            loading="lazy"
                             onError={(e) => {
                                 e.target.onerror = null;
                                 e.target.style.display = 'none';

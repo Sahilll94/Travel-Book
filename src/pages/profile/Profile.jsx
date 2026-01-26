@@ -353,6 +353,7 @@ const Profile = () => {
                         <img 
                           src={imagePreview || profileImage || '/avatar-default.png'} 
                           alt={profileData?.fullName || 'User'} 
+                          loading="eager"
                           className="w-full h-full object-cover"
                           onError={(e) => {
                             e.target.onerror = null;

@@ -100,6 +100,7 @@ const ContributorsFooter = ({ contributorsCount = 0 }) => {
                   <img 
                     src={logo} 
                     alt="Travel Book Logo" 
+                    loading="lazy"
                     className="w-8 h-8 object-contain"
                   />
                   <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">Travel Book</h3>

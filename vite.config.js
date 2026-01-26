@@ -1,12 +1,12 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
+import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
     react({
-      // Add this configuration to suppress the UNSAFE_componentWillMount warning
       babel: {
         parserOpts: {
           plugins: ['decorators-legacy']
@@ -176,5 +176,18 @@ export default defineConfig({
         ]
       }
     }),
+    ViteImageOptimizer({
+      png: { quality: 80 },
+      jpeg: { quality: 80 },
+      webp: { quality: 80 },
+      avif: { quality: 75 },
+    }),
   ],
+  build: {
+    rollupOptions: {
+      output: {},
+    },
+    minify: 'esbuild',
+    chunkSizeWarningLimit: 1000,
+  },
 })

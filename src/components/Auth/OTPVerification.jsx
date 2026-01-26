@@ -56,7 +56,7 @@ const OTPVerification = ({ email, onVerify, onResend, isSignup = true, error }) 
         className="text-center mb-8"
       >
         <Link to="/" className="inline-block">
-          <img src={logo} alt="Travel Book Logo" className="h-20 mx-auto hover:scale-105 transition-transform duration-300" />
+          <img src={logo} alt="Travel Book Logo" loading="eager" className="h-20 mx-auto hover:scale-105 transition-transform duration-300" />
         </Link>
       </motion.div>
 

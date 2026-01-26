@@ -401,6 +401,7 @@ const AdminContributors = () => {
                           <img
                             src={contributor.profilePicture || `https://github.com/${contributor.githubUsername}.png`}
                             alt={contributor.fullName}
+                            loading="lazy"
                             className="w-16 h-16 rounded-full object-cover border-2 border-gray-200 dark:border-gray-600"
                           />
                           <div className="flex-1">
