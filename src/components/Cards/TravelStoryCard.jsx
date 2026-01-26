@@ -43,7 +43,7 @@ const TravelStoryCard = ({
             >
                 <img 
                     src={imgUrl} 
-                    alt={title} 
+                    alt={`Travel story image: ${title}`}
                     className='w-full h-full object-cover transition-transform duration-300' 
                     onClick={onClick} 
                     loading="lazy"
