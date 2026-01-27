@@ -1,9 +1,12 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaXTwitter, FaHeart, FaCode, FaUsers, FaBook, FaEnvelope } from 'react-icons/fa';
-import { BiCopyright, BiLink } from 'react-icons/bi';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  FaGithub, FaLinkedin, FaHeart, FaCode, 
+  FaUsers, FaBook, FaGlobe, FaRocket 
+} from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
+import { BiCopyright, BiChevronRight } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 import axiosInstance from '../../utils/axiosInstance';
 import logo from '../../assets/images/logo.png';
 
@@ -14,7 +17,6 @@ const ContributorsFooter = ({ contributorsCount = 0 }) => {
   const [storiesCount, setStoriesCount] = useState('200+');
 
   useEffect(() => {
-    // Fetch commits count from GitHub
     const fetchCommitsCount = async () => {
       try {
         const response = await fetch('https://api.github.com/repos/Sahilll94/Travel-Book/commits?per_page=1');
@@ -30,7 +32,6 @@ const ContributorsFooter = ({ contributorsCount = 0 }) => {
       }
     };
 
-    // Fetch stories count from database
     const fetchStoriesCount = async () => {
       try {
         const response = await axiosInstance.get('/total-stories');
@@ -51,29 +52,26 @@ const ContributorsFooter = ({ contributorsCount = 0 }) => {
       { name: 'Home', path: '/' },
       { name: 'Dashboard', path: '/dashboard' },
       { name: 'Contributors', path: '/contributors' },
-      { name: 'Apply to Contribute', path: '/contribute' }
+      { name: 'Apply Now', path: '/contribute' }
     ],
     community: [
-      { name: 'GitHub Repository', url: 'https://github.com/Sahilll94/Travel-Book' },
-      { name: 'Issues & Bugs', url: 'https://github.com/Sahilll94/Travel-Book/issues' },
-      { name: 'Feature Requests', url: 'https://github.com/Sahilll94/Travel-Book/discussions' },
-      { name: 'Contributing Guide', url: 'https://github.com/Sahilll94/Travel-Book/blob/main/CONTRIBUTING.md' }
+      { name: 'Source Code', url: 'https://github.com/Sahilll94/Travel-Book' },
+      { name: 'Report Issue', url: 'https://github.com/Sahilll94/Travel-Book/issues' },
+      { name: 'Discussions', url: 'https://github.com/Sahilll94/Travel-Book/discussions' },
+      { name: 'Contribution Guide', url: 'https://github.com/Sahilll94/Travel-Book/blob/main/CONTRIBUTING.md' }
     ],
-    resources: [
-      { name: 'Documentation', url: 'https://github.com/Sahilll94/Travel-Book/blob/main/QUICKSTART.md' },
-      { name: 'API Reference', url: 'https://travel-book-api-docs.hashnode.dev/travel-book-api-documentation' },
-      { name: 'Code of Conduct', url: 'https://github.com/Sahilll94/Travel-Book/blob/main/CODE_OF_CONDUCT.md' },
+    legal: [
+      { name: 'Privacy Policy', path: '/privacy' },
+      { name: 'Terms of Service', path: '/terms' },
       { name: 'License', url: 'https://github.com/Sahilll94/Travel-Book/blob/main/LICENSE' }
     ]
   };
 
   const socialLinks = [
-    {
-      name: 'GitHub',
-      icon: FaGithub,
-      url: 'https://github.com/Sahilll94/Travel-Book',
-      color: 'hover:text-gray-900 dark:hover:text-white'
-    }
+    { name: 'GitHub', icon: FaGithub, url: 'https://github.com/Sahilll94/Travel-Book', color: '#333' },
+    { name: 'LinkedIn', icon: FaLinkedin, url: '#', color: '#0077b5' },
+    { name: 'X', icon: FaXTwitter, url: '#', color: '#000000' },
+    { name: 'Website', icon: FaGlobe, url: '#', color: '#0891b2' }
   ];
 
   const stats = [
@@ -83,197 +81,129 @@ const ContributorsFooter = ({ contributorsCount = 0 }) => {
   ];
 
   return (
-    <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 mt-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Main Footer Content */}
-        <div className="py-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Project Info */}
-            <div className="lg:col-span-1">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="space-y-4"
-              >
-                <div className="flex items-center space-x-2">
-                  <img 
-                    src={logo} 
-                    alt="Travel Book Logo" 
-                    className="w-8 h-8 object-contain"
+    <footer className="relative bg-slate-50 dark:bg-[#0b1120] border-t border-slate-200 dark:border-slate-800 transition-colors duration-500 overflow-hidden">
+      {/* Decorative background element */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50" />
+      
+      <div className="max-w-7xl mx-auto px-6 py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
+          
+          {/* Brand Identity & Stats */}
+          <div className="lg:col-span-4 space-y-8">
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="space-y-6"
+            >
+              <div className="flex items-center space-x-3 group cursor-pointer" onClick={() => navigate('/')}>
+                <div className="relative">
+                  <motion.div 
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                    className="absolute -inset-1 bg-gradient-to-tr from-cyan-400 to-blue-500 rounded-full blur opacity-30 group-hover:opacity-60 transition duration-500"
                   />
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">Travel Book</h3>
+                  <img src={logo} alt="Logo" className="relative w-10 h-10 object-contain bg-white rounded-full p-1" />
                 </div>
-                <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
-                  A platform for travelers to share their experiences, 
-                  built by a passionate community of developers worldwide.
-                </p>
-                
-                {/* Stats */}
-                <div className="grid grid-cols-3 gap-4 pt-4">
-                  {stats.map((stat, index) => (
-                    <motion.div
-                      key={stat.label}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 }}
-                      className="text-center"
-                    >
-                      <stat.icon className="w-5 h-5 text-cyan-600 dark:text-cyan-400 mx-auto mb-1" />
-                      <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">{stat.value}</div>
-                      <div className="text-xs text-gray-600 dark:text-gray-400">{stat.label}</div>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-            </div>
+                <span className="text-2xl font-black tracking-tight text-slate-900 dark:text-white uppercase italic">
+                  Travel <span className="text-cyan-500">Book</span>
+                </span>
+              </div>
+              
+              <p className="text-slate-600 dark:text-slate-400 leading-relaxed max-w-sm">
+                Documenting the world, one story at a time. Join our open-source movement to preserve travel memories forever.
+              </p>
 
-            {/* Project Links */}
-            <div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 }}
-              >
-                <h4 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Project</h4>
-                <ul className="space-y-3">
-                  {footerLinks.project.map((link, index) => (
+              {/* Enhanced Stats Cards */}
+              <div className="flex gap-4">
+                {stats.map((stat, i) => (
+                  <motion.div
+                    key={stat.label}
+                    whileHover={{ y: -5 }}
+                    className="flex-1 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 p-3 rounded-xl shadow-sm text-center"
+                  >
+                    <stat.icon className="w-4 h-4 text-cyan-500 mx-auto mb-1" />
+                    <div className="text-lg font-bold text-slate-900 dark:text-white">{stat.value}</div>
+                    <div className="text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-500 font-medium">{stat.label}</div>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Navigation Sections */}
+          <div className="lg:col-span-5 grid grid-cols-2 sm:grid-cols-3 gap-8">
+            {[
+              { title: 'Platform', links: footerLinks.project, type: 'internal' },
+              { title: 'Community', links: footerLinks.community, type: 'external' },
+              { title: 'Resources', links: footerLinks.legal, type: 'mixed' }
+            ].map((section, idx) => (
+              <div key={section.title}>
+                <h4 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-widest mb-6">{section.title}</h4>
+                <ul className="space-y-4">
+                  {section.links.map((link) => (
                     <li key={link.name}>
                       <button
-                        onClick={() => navigate(link.path)}
-                        className="text-gray-600 dark:text-gray-400 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors text-sm flex items-center group"
+                        onClick={() => link.path ? navigate(link.path) : window.open(link.url, '_blank')}
+                        className="group flex items-center text-sm text-slate-600 dark:text-slate-400 hover:text-cyan-500 transition-colors"
                       >
-                        <BiLink className="w-4 h-4 mr-2 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <BiChevronRight className="mr-1 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all" />
                         {link.name}
                       </button>
                     </li>
                   ))}
                 </ul>
-              </motion.div>
-            </div>
-
-            {/* Community Links */}
-            <div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-              >
-                <h4 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Community</h4>
-                <ul className="space-y-3">
-                  {footerLinks.community.map((link, index) => (
-                    <li key={link.name}>
-                      <a
-                        href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-gray-600 dark:text-gray-400 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors text-sm flex items-center group"
-                      >
-                        <BiLink className="w-4 h-4 mr-2 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        {link.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            </div>
-
-            {/* Resources */}
-            <div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3 }}
-              >
-                <h4 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Resources</h4>
-                <ul className="space-y-3">
-                  {footerLinks.resources.map((link, index) => (
-                    <li key={link.name}>
-                      <a
-                        href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-gray-600 dark:text-gray-400 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors text-sm flex items-center group"
-                      >
-                        <BiLink className="w-4 h-4 mr-2 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        {link.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            </div>
+              </div>
+            ))}
           </div>
-        </div>
 
-        {/* Bottom Section */}
-        <div className="border-t border-gray-200 dark:border-gray-700 py-8">
-          <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
-            {/* Copyright */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="flex items-center text-gray-600 dark:text-gray-400 text-sm"
-            >
-              <BiCopyright className="w-4 h-4 mr-1" />
-              <span>{currentYear} Travel Book. Open Source Project.</span>
-              <FaHeart className="w-4 h-4 mx-2 text-red-500 animate-pulse" />
-              <span>Built with love by the community</span>
-            </motion.div>
-
-            {/* Social Links */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="flex items-center space-x-4"
-            >
-              <span className="text-gray-600 dark:text-gray-400 text-sm mr-2">Follow us:</span>
-              {socialLinks.map((social, index) => (
+          {/* Connect Section */}
+          <div className="lg:col-span-3 space-y-6">
+            <h4 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-widest">Connect With Us</h4>
+            <div className="flex flex-wrap gap-4">
+              {socialLinks.map((social) => (
                 <motion.a
                   key={social.name}
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ scale: 1.2, y: -2 }}
-                  whileTap={{ scale: 0.9 }}
-                  className={`text-gray-500 dark:text-gray-400 ${social.color} transition-all duration-200`}
-                  title={social.name}
+                  whileHover={{ y: -4, scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="w-12 h-12 flex items-center justify-center rounded-2xl bg-white dark:bg-slate-800 shadow-md border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-white hover:bg-cyan-500 dark:hover:bg-cyan-600 transition-all duration-300"
                 >
-                  <social.icon className="w-5 h-5" />
+                  <social.icon className="text-xl" />
                 </motion.a>
               ))}
-            </motion.div>
+            </div>
+            <div className="p-4 bg-cyan-500/10 rounded-2xl border border-cyan-500/20">
+              <div className="flex items-center gap-3 text-cyan-600 dark:text-cyan-400 font-semibold mb-1">
+                <FaRocket />
+                <span className="text-sm">Join the Sprint</span>
+              </div>
+              <p className="text-xs text-slate-600 dark:text-slate-400">Want to contribute code? Help us build the future of Travel Book.</p>
+            </div>
           </div>
 
-          {/* Attribution */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4 }}
-            className="mt-6 pt-6 border-t border-gray-100 dark:border-gray-700"
-          >
-            <div className="bg-gradient-to-r from-cyan-50 to-blue-50 dark:from-cyan-900/20 dark:to-blue-900/20 rounded-lg p-4">
-              <div className="flex flex-col sm:flex-row items-center justify-between space-y-2 sm:space-y-0">
-                <div className="flex items-center text-sm text-gray-700 dark:text-gray-300">
-                  <FaUsers className="w-4 h-4 mr-2 text-cyan-600 dark:text-cyan-400" />
-                  <span>Want to contribute? Join our community of developers!</span>
-                </div>
-                <button
-                  onClick={() => window.location.href = "https://github.com/Sahilll94/Travel-Book"}
-                  className="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white text-sm rounded-lg transition-colors font-medium"
-                >
-                  Get Started
-                </button>
-              </div>
-            </div>
-          </motion.div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="mt-16 pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex items-center text-sm text-slate-500 dark:text-slate-400">
+            <BiCopyright className="mr-1" />
+            <span>{currentYear} Travel Book. MIT Licensed.</span>
+          </div>
+
+          <div className="flex items-center gap-2 text-sm font-medium">
+            <span className="text-slate-500">Made with</span>
+            <motion.div
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            >
+              <FaHeart className="text-red-500" />
+            </motion.div>
+            <span className="text-slate-500">by</span>
+            <a href="https://github.com/Sahilll94" className="text-slate-900 dark:text-white hover:text-cyan-500 underline decoration-cyan-500/30 underline-offset-4">Sahilll94</a>
+          </div>
         </div>
       </div>
     </footer>
