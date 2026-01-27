@@ -1,42 +1,29 @@
-import React from 'react';
+import { motion } from "framer-motion";
 
 const Stats = () => {
-    return (
-        <section className="py-10 bg-white dark:bg-gray-900 sm:py-16 lg:py-24">
-            <div className="max-w-5xl px-4 mx-auto sm:px-6 lg:px-8">
-                <div className="max-w-2xl mx-auto text-center">
-                    <h2 className="text-3xl font-bold leading-tight text-black dark:text-white sm:text-4xl lg:text-5xl">Numbers tell our story</h2>
-                    <p className="mt-3 text-xl leading-relaxed text-gray-600 dark:text-gray-300 md:mt-8">A snapshot of the amazing places our users have explored and the memories they've created with us.</p>
-                </div>
+  const stats = [
+    { value: "50+", label: "Trips recorded", sub: "Capturing global memories" },
+    { value: "20+", label: "Images uploaded", sub: "Stunning global photos" },
+    { value: "1", label: "Countries explored", sub: "By our growing community" }
+  ];
 
-                <div className="grid grid-cols-1 gap-8 mt-10 text-center lg:mt-24 sm:gap-x-8 md:grid-cols-3">
-                    <div>
-                        <h3 className="font-bold text-7xl">
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-600 to-blue-600"> 50+ </span>
-                        </h3>
-                        <p className="mt-4 text-xl font-medium text-gray-900 dark:text-gray-100">Trips recorded</p>
-                        <p className="text-base mt-0.5 text-gray-500 dark:text-gray-400">Capturing memories from all over the world</p>
-                    </div>
-
-                    <div>
-                        <h3 className="font-bold text-7xl">
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-600 to-blue-600"> 20+ </span>
-                        </h3>
-                        <p className="mt-4 text-xl font-medium text-gray-900 dark:text-gray-100">Images uploaded</p>
-                        <p className="text-base mt-0.5 text-gray-500 dark:text-gray-400">Stunning photos from places around the globe</p>
-                    </div>
-
-                    <div>
-                        <h3 className="font-bold text-7xl">
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-600 to-blue-600"> 1 </span>
-                        </h3>
-                        <p className="mt-4 text-xl font-medium text-gray-900 dark:text-gray-100">Countries explored</p>
-                        <p className="text-base mt-0.5 text-gray-500 dark:text-gray-400">By our community of avid travelers</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    );
-}
-
+  return (
+    <div className="max-w-7xl mx-auto px-6 py-12">
+      <div className="text-center mb-10">
+        <h2 className="text-4xl font-black text-slate-900 dark:text-white mb-3 tracking-tight">Numbers tell our story</h2>
+        <p className="text-slate-600 dark:text-slate-400 max-w-xl mx-auto">A snapshot of the amazing places our users have explored.</p>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {stats.map((stat, i) => (
+          <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.15 }} viewport={{ once: true }} className="text-center p-8 rounded-3xl bg-slate-50/50 dark:bg-slate-800/20 border border-slate-100 dark:border-slate-700/50 hover:shadow-xl transition-all group">
+            <h3 className="text-6xl font-black bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent mb-3 group-hover:scale-110 transition-transform">{stat.value}</h3>
+            <p className="text-lg font-bold text-slate-900 dark:text-white mb-1">{stat.label}</p>
+            <p className="text-sm text-slate-500 dark:text-slate-500">{stat.sub}</p>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+};
 export default Stats;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
-import Navbar from '../../components/Navbar';
+import Navbar from '../../components/Navbar/ContributorsNavbar';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../utils/axiosInstance';
 import TravelStoryCard from '../../components/Cards/TravelStoryCard';
