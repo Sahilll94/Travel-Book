@@ -114,6 +114,8 @@ const ChatBot = () => {
             onMouseLeave={() => setShowTooltip(false)}
             onFocus={() => setShowTooltip(true)}
             onBlur={() => setShowTooltip(false)}
+            onFocus={() => setShowTooltip(true)}
+            onBlur={() => setShowTooltip(false)}
             className="relative"
             aria-label="Open chatbot"
           >
