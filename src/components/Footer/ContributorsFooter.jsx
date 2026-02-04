@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaTwitter, FaHeart, FaCode, FaUsers, FaBook, FaEnvelope } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaHeart, FaCode, FaUsers, FaBook, FaEnvelope, FaGlobe } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
 import { BiCopyright, BiLink } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -73,7 +74,25 @@ const ContributorsFooter = ({ contributorsCount = 0 }) => {
       icon: FaGithub,
       url: 'https://github.com/Sahilll94/Travel-Book',
       color: 'hover:text-gray-900 dark:hover:text-white'
-    }
+    },
+    {
+      name: 'LinkedIn',
+      icon: FaLinkedIn,
+      url: 'https://www.linkedin.com/in/sahilll94',
+      color: 'hover:text-blue-600
+    },
+    {
+      name: 'X',
+      icon: FaXTwitter,
+      url: 'https://x.com/Sa_hilll94',
+      color: 'hover:text-black dark:hover:text-white
+    },
+    {
+      name: 'Website',
+      icon: FaGlobe,
+      url: 'https://sahilfolio.live/',
+      color: 'hover:text-gray-900 dark:hover:text-white
+    },
   ];
 
   const stats = [
