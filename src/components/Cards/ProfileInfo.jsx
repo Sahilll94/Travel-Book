@@ -1,15 +1,27 @@
-import React from 'react';
+import {React,useEffect} from 'react';
 import { getInitials } from '../../utils/helper';
 import { Link } from 'react-router-dom';
 
 const ProfileInfo = ({ userInfo, onLogout }) => {
+    const defaultOld =
+  'https://res.cloudinary.com/travel-book/image/upload/v1720536854/travel_book/default-avatar.png';
+
+const defaultNew =
+  'https://travelbook.devbysahil.com/avatar-default.png';
+
+const profileImageUrl =
+  userInfo?.profileImage === defaultOld
+    ? defaultNew
+    : userInfo?.profileImage;
+
+    
     return (
         userInfo && (
             <div className='flex items-center gap-3'>
                 <Link to="/profile" className="w-12 h-12 flex items-center justify-center rounded-full text-slate-950 font-medium bg-slate-100 hover:bg-slate-200 transition-colors overflow-hidden">
                     {userInfo.profileImage ? (
                         <img 
-                            src={userInfo.profileImage} 
+                            src={profileImageUrl} 
                             alt={userInfo.fullName || "User"} 
                             className="w-full h-full object-cover"
                             loading="lazy"
