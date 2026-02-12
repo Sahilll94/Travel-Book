@@ -4,6 +4,8 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import { motion } from 'framer-motion';
 import ThemeToggle from '../../components/ThemeToggle/ThemeToggle';
 import logo from "../../assets/images/logo.png";
+import Footer from "../hero/Footer"
+
 
 const Terms = () => {
   return (
@@ -13,23 +15,149 @@ const Terms = () => {
           <title>Terms of Service | Travel Book</title>
         </Helmet>
         
-        {/* Simple Navbar */}
-        <div className='bg-white dark:bg-gray-900 flex items-center justify-between px-4 sm:px-6 py-2 drop-shadow sticky top-0 z-30'>
-          <motion.a 
-            href="/"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <img src={logo} loading="eager" alt="Travel Book Logo" className='h-12 sm:h-16' />
-          </motion.a>
-          
-          <div className="flex items-center gap-4">
-            <Link to="/privacy-policy" className="text-gray-700 dark:text-gray-300 hover:text-cyan-500 dark:hover:text-cyan-400 font-medium">
-              Privacy Policy
-            </Link>
-            <ThemeToggle />
-          </div>
-        </div>
+        {/* Original Navbar */}
+        <header className="py-4 md:py-6">
+                <div className="container px-4 mx-auto sm:px-6 lg:px-8">
+                    <div className="flex items-center justify-between">
+                        <div className="flex-shrink-0">
+                            <Link
+                                to="hero"
+                                smooth={true}
+                                duration={500}
+                                offset={-50} // Adjust the scroll position a little
+                                className="flex rounded outline-none focus:ring-1 focus:ring-gray-900 dark:focus:ring-gray-100 focus:ring-offset-2"
+                            >
+                                {/* Replaced nested <a> with direct image to prevent nesting error */}
+                                <img
+                                    className="w-auto h-12 cursor-pointer"
+                                    src={logo}
+                                    alt="logo"
+                                    loading="eager"
+                                    onClick={() => navigate("/")}
+                                />
+                            </Link>
+                        </div>
+
+                        {/* Navbar items - Desktop */}
+                        <div className="hidden lg:flex lg:ml-10 xl:ml-16 lg:items-center lg:justify-center lg:space-x-8 xl:space-x-16">
+                            <Link
+                                to="about"
+                                smooth={true}
+                                duration={500}
+                                offset={-50}
+                                className="cursor-pointer text-base font-medium text-gray-900 dark:text-gray-100 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-gray-900 dark:focus:ring-gray-100 focus:ring-offset-2"
+                            >
+                                About Travel-Book
+                            </Link>
+
+                            <Link
+                                to="how-it-works"
+                                smooth={true}
+                                duration={500}
+                                offset={-50}
+                                className="cursor-pointer text-base font-medium text-gray-900 dark:text-gray-100 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-gray-900 dark:focus:ring-gray-100 focus:ring-offset-2"
+                            >
+                                How does it work?
+                            </Link>
+
+                            <Link
+                                to="services"
+                                smooth={true}
+                                duration={500}
+                                offset={-50}
+                                className="cursor-pointer text-base font-medium text-gray-900 dark:text-gray-100 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-gray-900 dark:focus:ring-gray-100 focus:ring-offset-2"
+                            >
+                                Our Services
+                            </Link>
+
+                            <a
+                                href="/contributors"
+                                className="text-base font-medium text-gray-900 dark:text-gray-100 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-gray-900 dark:focus:ring-gray-100 focus:ring-offset-2"
+                            >
+                                Contributors
+                            </a>
+                        </div>
+
+                        <div className="flex items-center">
+                            <ThemeToggle /> {/* Added ThemeToggle component */}
+                            
+                            {/* Mobile Contributors Icon */}
+                            <a
+                                href="/contributors"
+                                className="lg:hidden p-2 rounded-lg text-gray-900 dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ml-3"
+                                aria-label="View Contributors"
+                            >
+                                <MdGroup size={24} />
+                            </a>
+                           <div className="relative group ml-3">
+                        <a
+                            href="https://stats.uptimerobot.com/4klrGTjcP6"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Check Service Status"
+                            className="text-gray-900 dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300 text-2xl"
+                        >
+                            <AiOutlineCloudServer className="w-8 h-8" />
+                        </a>
+
+                        {/* Tooltip below the icon, no background */}
+                        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 text-xs font-medium text-gray-700 dark:text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                           Server Status
+                            </div>
+                        </div>
+
+                           {/* API Docs Icon */}
+                            <div className="relative group ml-3">
+                            <a
+                                href="http://docs.travelbook.sahilfolio.live/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-gray-900 dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300 text-2xl"
+                            >
+                                <i className="bi bi-journal-code"></i>
+                            </a>
+                            <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 text-xs font-medium text-gray-700 dark:text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                           API Docs
+                            </div>
+
+                            </div>
+
+                            {/* Medium Blog Icon */}
+                            <div className="relative group ml-3">
+                            <a
+                                href="http://medium.travelbook.sahilfolio.live/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-gray-900 dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300 text-2xl"
+                            >
+                                <i className="bi bi-journal-richtext"></i>
+                            </a>
+                            <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 text-xs font-medium text-gray-700 dark:text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                            Blog
+                            </div>
+
+                            </div>
+
+                          {/* GitHub Icon with Tooltip */}
+                            <div className="relative group ml-3">
+                            <a
+                                href="https://github.com/Sahilll94/Travel-Book"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-gray-900 dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300 text-2xl"
+                            >
+                                <i className="bi bi-github"></i>
+                            </a>
+                           <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 text-xs font-medium text-gray-700 dark:text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                            GitHub
+                            </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </header>
         
         {/* Main Content */}
         <motion.div 
@@ -168,90 +296,10 @@ const Terms = () => {
           </div>
         </motion.div>
         
-        {/* New Footer */}
-        <footer className="mt-auto py-8 bg-white dark:bg-gray-900">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="md:col-span-1">
-                <Link to="/">
-                  <img src={logo} loading="lazy" alt="Travel Book Logo" className="h-16 mb-4" />
-                </Link>
-                <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
-                  Travel Book helps you document and share your adventures around the world.
-                  Create memories that last a lifetime.
-                </p>
-                <div className="flex space-x-4">
-                  <a href="https://sahilfolio.live/" target="_blank" rel="noopener noreferrer" className="text-gray-500 dark:text-gray-400 hover:text-cyan-500 dark:hover:text-cyan-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
-                    </svg>
-                  </a>
-                  <a href="https://x.com/Sa_hilll94" target="_blank" rel="noopener noreferrer" className="text-gray-500 dark:text-gray-400 hover:text-cyan-500 dark:hover:text-cyan-400">
-                    <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M19.633 7.997c.013.175.013.349.013.523 0 5.325-4.053 11.461-11.46 11.461-2.282 0-4.402-.661-6.186-1.809.324.037.636.05.973.05a8.07 8.07 0 0 0 5.001-1.721 4.036 4.036 0 0 1-3.767-2.793c.249.037.499.062.761.062.361 0 .724-.05 1.061-.137a4.027 4.027 0 0 1-3.23-3.953v-.05c.537.299 1.16.486 1.82.511a4.022 4.022 0 0 1-1.796-3.354c0-.748.199-1.434.548-2.032a11.457 11.457 0 0 0 8.306 4.215c-.062-.3-.1-.611-.1-.923a4.026 4.026 0 0 1 4.028-4.028c1.16 0 2.207.486 2.943 1.272a7.957 7.957 0 0 0 2.556-.973 4.02 4.02 0 0 1-1.771 2.22 8.073 8.073 0 0 0 2.319-.624 8.645 8.645 0 0 1-2.019 2.083z"></path>
-                    </svg>
-                  </a>
-                  <a href="https://www.linkedin.com/in/sahilll94" target="_blank" rel="noopener noreferrer" className="text-gray-500 dark:text-gray-400 hover:text-cyan-500 dark:hover:text-cyan-400">
-                    <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.761 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11.395 19h-2.978v-10.727h2.978v10.727zm-1.489-12.452c-1.017 0-1.844-.83-1.844-1.848 0-1.017.827-1.844 1.844-1.844 1.019 0 1.846.827 1.846 1.844 0 1.018-.827 1.848-1.846 1.848zm13.484 12.452h-2.978v-5.805c0-1.383-.025-3.164-1.93-3.164-1.935 0-2.234 1.511-2.234 3.071v5.898h-2.978v-10.727h2.857v1.466h.041c.398-.756 1.368-1.553 2.814-1.553 3.008 0 3.566 1.98 3.566 4.555v6.259z" />
-                    </svg>
-                  </a>
-                  <a href="https://github.com/Sahilll94" target="_blank" rel="noopener noreferrer" className="text-gray-500 dark:text-gray-400 hover:text-cyan-500 dark:hover:text-cyan-400">
-                    <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                      <path fillRule="evenodd" clipRule="evenodd" d="M12.026 2c-5.509 0-9.974 4.465-9.974 9.974 0 4.406 2.857 8.145 6.821 9.465.499.09.679-.217.679-.481 0-.237-.008-.865-.011-1.696-2.775.602-3.361-1.338-3.361-1.338-.452-1.152-1.107-1.459-1.107-1.459-.905-.619.069-.605.069-.605 1.002.07 1.527 1.028 1.527 1.028.89 1.524 2.336 1.084 2.902.829.091-.645.351-1.085.635-1.334-2.214-.251-4.542-1.107-4.542-4.93 0-1.087.389-1.979 1.024-2.675-.101-.253-.446-1.268.099-2.64 0 0 .837-.269 2.742 1.021a9.582 9.582 0 0 1 2.496-.336 9.554 9.554 0 0 1 2.496.336c1.906-1.291 2.742-1.021 2.742-1.021.545 1.372.203 2.387.099 2.64.64.696 1.024 1.587 1.024 2.675 0 3.833-2.33 4.675-4.552 4.922.355.308.675.916.675 1.846 0 1.334-.012 2.41-.012 2.737 0 .267.178.577.687.479C19.146 20.115 22 16.379 22 11.974 22 6.465 17.535 2 12.026 2z"></path>
-                    </svg>
-                  </a>
-                </div>
-              </div>
-              
-              <div className="md:col-span-1">
-                <h3 className="text-gray-800 dark:text-white font-semibold mb-4">Quick Links</h3>
-                <ul className="space-y-2">
-                  <li>
-                    <Link to="/" className="text-gray-600 dark:text-gray-300 hover:text-cyan-500 dark:hover:text-cyan-400">
-                      Home
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/terms" className="text-gray-600 dark:text-gray-300 hover:text-cyan-500 dark:hover:text-cyan-400">
-                      Terms of Service
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/privacy-policy" className="text-gray-600 dark:text-gray-300 hover:text-cyan-500 dark:hover:text-cyan-400">
-                      Privacy Policy
-                    </Link>
-                  </li>
-                  <li>
-                    <a href="/signUp" className="text-gray-600 dark:text-gray-300 hover:text-cyan-500 dark:hover:text-cyan-400">
-                      Create Account
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/login" className="text-gray-600 dark:text-gray-300 hover:text-cyan-500 dark:hover:text-cyan-400">
-                      Login
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              
-              <div className="md:col-span-1">
-                <h3 className="text-gray-800 dark:text-white font-semibold mb-4">About Travel Book</h3>
-                <p className="text-gray-600 dark:text-gray-300 text-sm">
-                  Discover our innovative platform designed to streamline your travel experiences. 
-                  From creating and sharing captivating travel stories to managing your favorite destinations, 
-                  our user-friendly tools help you document every journey seamlessly.
-                </p>
-              </div>
-            </div>
-            
-            <div className="border-t border-gray-200 dark:border-gray-700 mt-8 pt-8 text-center">
-              <p className="text-gray-500 dark:text-gray-400 text-sm">
-                &copy; {new Date().getFullYear()} Travel Book. All rights reserved.
-              </p>
-            </div>
-          </div>
-        </footer>
+        {/* Original Footer */}
+         <section id="footer" className="bg-white dark:bg-gray-900">
+                <Footer />
+            </section>
       </div>
     </HelmetProvider>
   );
