@@ -32,6 +32,33 @@
 - [Support](#support)
 
 
+## 📑 Table of Contents
+
+- [Quick Start for Contributors](#quick-start-for-contributors)
+- [Project Overview](#project-overview)
+- [Project Structure](#project-structure)
+- [Purpose & Vision](#purpose--vision)
+- [Technology Stack](#technology-stack)
+  - [Frontend](#frontend)
+  - [Backend](#backend)
+  - [Development & Deployment](#development--deployment)
+- [Key Features](#key-features)
+  - [User Authentication](#user-authentication)
+  - [Travel Story Management](#travel-story-management)
+  - [Organization & Discovery](#organization--discovery)
+  - [User Experience](#user-experience)
+  - [Analytics & Insights](#analytics--insights)
+  - [Social Features](#social-features)
+  - [AI Features](#ai-features)
+- [User Flow](#user-flow)
+- [Mobile-First Approach](#mobile-first-approach)
+- [Unique Selling Points](#unique-selling-points)
+- [Accessibility Features](#accessibility-features)
+- [Contributing & Recognition](#contributing--recognition)
+- [Frontend Development Roadmap](#frontend-development-roadmap)
+- [License](#license)
+- [Support](#support)
+
 ## Quick Start for Contributors
 
 ### Prerequisites

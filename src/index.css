@@ -19,13 +19,13 @@
 }
 
 
-@layer base{
+@layer base {
 
-  html{
-    font-family: "Poppins","sans-serif";
+  html {
+    font-family: "Poppins", "sans-serif";
   }
 
-  body{
+  body {
     @apply bg-[#fdfeff] dark:bg-gray-900 text-slate-900 dark:text-white transition-colors duration-200;
     overflow-x: hidden;
   }
@@ -67,50 +67,40 @@
 }
 
 /* All the components seperate css */
-@layer components{
-  .input-box{
+@layer components {
+  .input-box {
     @apply w-full text-sm bg-cyan-600/5 dark:bg-cyan-900/10 rounded px-5 py-3 mb-4 outline-none dark:text-white;
   }
 
   .btn-primary {
-    @apply w-full text-sm font-medium text-white 
-           bg-cyan-500 shadow-lg shadow-cyan-200/5 
-           p-[10px] rounded-full my-1 
-           hover:bg-cyan-600 hover:text-white 
-           dark:bg-cyan-600 dark:hover:bg-cyan-500 
-           dark:shadow-cyan-900/40;
+    @apply w-full text-sm font-medium text-white bg-cyan-500 shadow-lg shadow-cyan-200/5 p-[10px] rounded-full my-1 hover:bg-cyan-600 hover:text-white dark:bg-cyan-600 dark:hover:bg-cyan-500 dark:shadow-cyan-900/40;
   }
 
   .btn-light {
-    @apply bg-cyan-50 text-primary 
-           border border-cyan-100 
-           hover:bg-primary hover:text-white
-           dark:bg-gray-700 dark:text-cyan-300 
-           dark:border-gray-600 
-           dark:hover:bg-cyan-600 dark:hover:text-white;
+    @apply bg-cyan-50 text-primary border border-cyan-100 hover:bg-primary hover:text-white dark:bg-gray-700 dark:text-cyan-300 dark:border-gray-600 dark:hover:bg-cyan-600 dark:hover:text-white;
   }
 
-  .login-ui-box{
+  .login-ui-box {
     @apply w-80 h-[450px] rounded-full bg-primary absolute rotate-45;
   }
 
-  .icon-btn{
+  .icon-btn {
     @apply text-[22px] text-slate-300 cursor-pointer hover:text-red-500 dark:text-slate-400 dark:hover:text-red-400;
   }
 
-  .model-box{
-    @apply w-[80vw] md:w-[40%] h-[80vh] bg-white dark:bg-gray-800 rounded-lg mx-auto mt-14 p-5 overflow-y-scroll scrollbar z-50 dark:text-white border dark:border-gray-700;
+  .model-box {
+    @apply w-[95vw] md:w-[90%] h-[90vh] bg-white dark:bg-gray-800 rounded-lg mx-auto mt-4 md:mt-14 p-3 md:p-5 overflow-y-scroll scrollbar z-50 dark:text-white border dark:border-gray-700;
   }
 
-  .btn-small{
+  .btn-small {
     @apply flex items-center gap-1 text-xs font-medium bg-cyan-50 text-primary shadow-cyan-100/0 border border-cyan-100 hover:bg-primary hover:text-white rounded px-3 py-[3px] dark:bg-cyan-900/30 dark:border-cyan-800 dark:text-cyan-400 dark:hover:bg-cyan-700;
   }
 
-  .btn-delete{
+  .btn-delete {
     @apply bg-rose-50 text-red-500 shadow-rose-100/0 border border-rose-100 hover:bg-rose-500 hover:text-white dark:bg-rose-900/20 dark:border-rose-900/60 dark:text-rose-400 dark:hover:bg-rose-700;
   }
 
-  .input-label{
+  .input-label {
     @apply text-xs text-slate-400 dark:text-slate-300;
   }
 }

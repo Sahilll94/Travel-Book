@@ -2,7 +2,7 @@
 import logo from "../../assets/images/logo.png";
 
 import { Globe } from "lucide-react";
-import { TbBrandTwitter } from "react-icons/tb";
+import { FaXTwitter } from "react-icons/fa6";
 import { LuLinkedin, LuGithub } from "react-icons/lu";
 
 const Footer = () => {
@@ -15,7 +15,7 @@ const Footer = () => {
           <div className="lg:col-span-4">
             <div className="flex items-center mb-0">
               <a href="/">
-                <img className="w-20 h-20" src={logo} alt="" />
+                <img className="w-20 h-20" src={logo} loading="lazy" alt="Travel Book Logo" />
               </a>
             </div>
 
@@ -47,7 +47,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="flex items-center justify-center w-9 h-9 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full transition-all duration-300 hover:bg-blue-600 hover:text-white hover:scale-110 hover:-translate-y-1 focus:bg-blue-600 focus:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               >
-                <TbBrandTwitter className="w-4 h-4" />
+                <FaXTwitter className="w-4 h-4" />
               </a>
 
               <a

@@ -10,6 +10,7 @@ const ChatBot = () => {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
   const messagesEndRef = useRef(null);
   const chatContainerRef = useRef(null);
 
@@ -109,6 +110,14 @@ const ChatBot = () => {
         {!isOpen ? (
           <button
             onClick={() => setIsOpen(true)}
+            onMouseEnter={() => setShowTooltip(true)}
+            onMouseLeave={() => setShowTooltip(false)}
+            onFocus={() => setShowTooltip(true)}
+            onBlur={() => setShowTooltip(false)}
+            onFocus={() => setShowTooltip(true)}
+            onBlur={() => setShowTooltip(false)}
+            onFocus={() => setShowTooltip(true)}
+            onBlur={() => setShowTooltip(false)}
             className="relative"
             aria-label="Open chatbot"
           >
@@ -117,11 +126,11 @@ const ChatBot = () => {
               <FiMessageCircle className="w-7 h-7 text-white" />
             </div>
 
-            {/* Welcome message bubble - shows when closed */}
-            {!isOpen && (
-              <div className="absolute bottom-20 left-0 max-w-xs mb-2 animate-in fade-in slide-in-from-bottom-2 duration-500">
+            {/* Welcome message bubble - shows only on hover */}
+            {showTooltip && (
+              <div className="absolute bottom-20 left-0 max-w-xs mb-2 animate-in fade-in slide-in-from-bottom-2 duration-300">
                 {/* Compact Welcome Bubble */}
-                <div className="bg-gray-800 dark:bg-gray-700 text-white rounded-lg shadow-lg px-3 py-2 text-xs">
+                <div className="bg-gray-800 dark:bg-gray-700 text-white rounded-lg shadow-lg px-3 py-2 text-xs pointer-events-none">
                   <p className="font-semibold">What's up Traveller? 👋</p>
                   <p className="text-gray-200 text-xs mt-0.5">Got questions?</p>
                 </div>
