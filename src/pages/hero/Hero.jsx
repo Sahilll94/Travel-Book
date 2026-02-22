@@ -62,7 +62,6 @@ const Hero = () => {
                                     className="w-auto h-12 cursor-pointer"
                                     src={logo}
                                     alt="logo"
-                                    loading="eager"
                                     onClick={() => navigate("/")}
                                 />
                             </Link>
@@ -121,7 +120,7 @@ const Hero = () => {
                             </a>
                            <div className="relative group ml-3">
                         <a
-                            href="https://stats.uptimerobot.com/4klrGTjcP6"
+                            href="https://stats.uptimerobot.com/0eGwDPbBFE"
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="Check Service Status"
@@ -350,7 +349,6 @@ const Hero = () => {
                             <img
                                 className="w-4/4 mx-auto no-drag"
                                 src={heroimg}
-                                loading="eager"
                                 alt="Preview of the Travel-Book"
                                 draggable="false"
                             />
@@ -399,7 +397,6 @@ const Hero = () => {
                             <article className="overflow-hidden rounded-lg shadow transition hover:shadow-lg">
                                 <img
                                     alt="Travel Logging"
-                                    loading="lazy"
                                     src="https://images.pexels.com/photos/2108813/pexels-photo-2108813.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                                     className="w-full h-72 object-cover"
                                 />
@@ -416,7 +413,6 @@ const Hero = () => {
                             <article className="overflow-hidden rounded-lg shadow transition hover:shadow-lg">
                                 <img
                                     alt="Travel Sharing"
-                                    loading="lazy"
                                     src="https://images.pexels.com/photos/1194233/pexels-photo-1194233.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                                     className="w-full h-72 object-cover"
                                 />
@@ -433,7 +429,6 @@ const Hero = () => {
                             <article className="overflow-hidden rounded-lg shadow transition hover:shadow-lg">
                                 <img
                                     alt="Travel Collaboration"
-                                    loading="lazy"
                                     src="https://images.pexels.com/photos/1255062/pexels-photo-1255062.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                                     className="w-full h-72 object-cover"
                                 />
