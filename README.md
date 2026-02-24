@@ -127,22 +127,20 @@ This project requires the following environment variables to run properly.
 
 ### 🌐 Frontend (.env)
 
-Create a `.env` file in the root directory and configure the following variables:
+Copy the `.env.example` file to a new file named `.env` in the root directory and configure the following variables with your own credentials.
 
 | Variable | Description |
 |----------|------------|
-| VITE_BACKEND_URL | Backend API base URL (local or hosted backend) |
-| VITE_GOOGLE_MAPS_API_KEY | Google Maps API key (optional) |
-| VITE_FIREBASE_API_KEY | Firebase API key |
-| VITE_FIREBASE_AUTH_DOMAIN | Firebase auth domain |
-| VITE_FIREBASE_PROJECT_ID | Firebase project ID |
-| VITE_FIREBASE_STORAGE_BUCKET | Firebase storage bucket |
-| VITE_FIREBASE_MESSAGING_SENDER_ID | Firebase messaging sender ID |
-| VITE_FIREBASE_APP_ID | Firebase app ID |
+| VITE_BACKEND_URL | Backend API base URL (e.g., `http://localhost:3000`). |
+| VITE_GOOGLE_MAPS_API_KEY | Google Maps API key for location features (optional). |
+| VITE_FIREBASE_API_KEY | Firebase API key, required for authentication. |
+| VITE_FIREBASE_AUTH_DOMAIN | Firebase auth domain, required for authentication. |
+| VITE_FIREBASE_PROJECT_ID | Your Firebase project's unique identifier. |
+| VITE_FIREBASE_STORAGE_BUCKET | Firebase storage bucket for file uploads. |
+| VITE_FIREBASE_MESSAGING_SENDER_ID | Firebase messaging sender ID for push notifications. |
+| VITE_FIREBASE_APP_ID | Your Firebase application's unique identifier. |
 
-⚠️ Copy `.env.example` to `.env` and replace placeholder values with your own configuration.
-Never commit your `.env` file to GitHub.
-
+⚠️ **Important:** Never commit your `.env` file to version control.
 
 ## Project Overview
 
