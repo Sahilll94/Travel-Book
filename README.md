@@ -119,6 +119,31 @@ Before you begin, ensure you have the following installed:
 
 **[Read the full contributor guide →](CONTRIBUTING.md)**
 
+---
+
+## 🔐 Environment Variables Summary
+
+This project requires the following environment variables to run properly.
+
+### 🌐 Frontend (.env)
+
+Create a `.env` file in the root directory and configure the following variables:
+
+| Variable | Description |
+|----------|------------|
+| VITE_BACKEND_URL | Backend API base URL (local or hosted backend) |
+| VITE_GOOGLE_MAPS_API_KEY | Google Maps API key (optional) |
+| VITE_FIREBASE_API_KEY | Firebase API key |
+| VITE_FIREBASE_AUTH_DOMAIN | Firebase auth domain |
+| VITE_FIREBASE_PROJECT_ID | Firebase project ID |
+| VITE_FIREBASE_STORAGE_BUCKET | Firebase storage bucket |
+| VITE_FIREBASE_MESSAGING_SENDER_ID | Firebase messaging sender ID |
+| VITE_FIREBASE_APP_ID | Firebase app ID |
+
+⚠️ Copy `.env.example` to `.env` and replace placeholder values with your own configuration.
+Never commit your `.env` file to GitHub.
+
+
 ## Project Overview
 
 Travel Book is a modern web application designed to help users document, organize, and share their travel experiences. It serves as a digital travel journal where users can record memories, photos, and details about places they've visited. The platform provides a user-friendly interface for travelers to create a personal collection of travel stories, organize them by location and date, and optionally share them with others.
