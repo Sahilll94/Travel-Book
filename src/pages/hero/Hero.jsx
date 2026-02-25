@@ -61,7 +61,7 @@ const Hero = () => {
                                 <img
                                     className="w-auto h-12 cursor-pointer"
                                     src={logo}
-                                    alt="logo"
+                                    alt="TravelBook logo"
                                     onClick={() => navigate("/")}
                                 />
                             </Link>
