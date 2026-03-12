@@ -101,7 +101,7 @@ const Hero = () => {
 
                             <a
                                 href="/contributors"
-                                className="btn-contributors"
+                                className="px-4 py-2 text-sm font-semibold text-white bg-cyan-500 hover:bg-cyan-600 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2"
                             >
                                 Contributors
                             </a>
